@@ -46,7 +46,7 @@ body {
     font-family: var(--fonte-destaque);
     font-size: 3.5em; 
     line-height: 1.1;
-    margin-bottom: 25px;
+    margin-bottom: 0px;
 }
 
 .subtitle {
@@ -128,7 +128,7 @@ body {
 }
 
 .section-bloco {
-padding: 30px;
+padding: 0px;
     background-color: #f0f0f0; 
     border-radius: 5px;
     text-align: center;
