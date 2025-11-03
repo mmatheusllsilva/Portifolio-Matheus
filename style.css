@@ -248,7 +248,7 @@ footer {
     margin: 0 auto;
     padding: 20px 0;
     
-    text-align: left; 
+    text-align: center; 
     
 }
 
@@ -257,6 +257,7 @@ footer {
     font-family: var(--fonte-destaque);
     color: var(--cor-principal); 
     text-decoration: none;
+    display: inline-block;
 }
 /* REMOVIDOS os seletores .main-nav e .nav-link */
 
