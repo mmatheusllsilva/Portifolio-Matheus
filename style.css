@@ -130,7 +130,7 @@ body {
 .section-bloco {
 padding: 0px;
     background-color: #f0f0f0; 
-    border-radius: 5px;
+    border-radius: 0px;
     text-align: center;
     display: flex; 
     flex-direction: column;
@@ -198,4 +198,42 @@ footer {
     color: #777;
     background-color: white; 
     margin-top: 15px;
+}
+
+/* --- 7. Responsividade (Mobile Layout) --- */
+@media (max-width: 768px) {
+    
+    /* 1. Mudar o GRID PRINCIPAL para empilhar: uma única coluna */
+    .container-grid {
+        grid-template-columns: 1fr; /* Coluna única (100% da largura) */
+        grid-template-rows: auto auto auto auto auto; /* Mais linhas, se necessário */
+        margin: 20px auto; /* Reduz a margem geral */
+    }
+
+    /* 2. Todos os blocos principais devem se estender por toda a largura */
+    .hero-left, .hero-right, .section-bottom-blocks, footer {
+        grid-column: 1 / -1; /* Ocupa a única coluna */
+    }
+
+    /* 3. Ajustar o bloco de texto para ter padding menor */
+    .hero-left {
+        padding: 30px; 
+    }
+
+    /* 4. Ajustar os blocos inferiores (CD e Pendrive) para empilhamento */
+    .section-bottom-blocks {
+        grid-template-columns: 1fr; /* Mudar de 2 colunas para 1 coluna */
+        gap: 0; /* Manter sem gap */
+    }
+    
+    /* 5. Ajustar o Mac */
+    .hero-right {
+        min-height: 350px; /* Reduz a altura do bloco do Mac em mobile */
+    }
+    
+    /* 6. Ajustar o botão */
+    .btn-primary {
+        width: 100%; /* Botão 100% da largura do bloco */
+        text-align: center;
+    }
 }
