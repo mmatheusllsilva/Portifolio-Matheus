@@ -23,9 +23,7 @@ body {
 
 .container-grid {
     display: grid;
-    /* Define as colunas: 60% para o texto, 40% para a imagem */
     grid-template-columns: 60% 40%; 
-    /* Três linhas agora: hero-left/hero-right, blocos inferiores, rodapé */
     grid-template-rows: auto auto auto; 
     max-width: 1400px;
     margin: 0 auto 40px auto;
@@ -153,7 +151,7 @@ padding: 0px;
 .bloco-03 {
     background-image: url('pendrive.jpeg'); /* Use a imagem do Pendrive */
     background-size: cover; 
-    background-position: center -10%; 
+    background-position: center; 
 }
 
 /* Ajuste para o texto nos blocos, para aparecer sobre as imagens */
@@ -246,18 +244,18 @@ footer {
     max-width: 1400px;
     width: 95%;
     margin: 0 auto;
-    padding: 10px 0;
+    padding: 0px;
     
     text-align: center; 
-    
 }
 
 .logo a {
     font-size: 1.5em;
+    padding: 15px 0;
     font-family: var(--fonte-destaque);
     color: var(--cor-principal); 
     text-decoration: none;
     display: inline-block;
 }
-/* REMOVIDOS os seletores .main-nav e .nav-link */
+
 
