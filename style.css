@@ -248,34 +248,15 @@ footer {
     margin: 0 auto;
     padding: 20px 0;
     
-    /* Configuração Flex para alinhar o Logo e o Menu */
-    display: flex;
-    justify-content: space-between; /* Coloca logo e menu em lados opostos */
-    align-items: center;
-    background-color: transparent; 
+    text-align: left; 
+    
 }
 
 .logo a {
     font-size: 1.5em;
     font-family: var(--fonte-destaque);
-    color: var(--cor-principal); /* Preto */
+    color: var(--cor-principal); 
     text-decoration: none;
 }
-
-.main-nav {
-    display: flex;
-}
-
-.nav-link {
-    text-decoration: none;
-    color: var(--cor-principal); /* Preto */
-    margin-left: 20px;
-    font-weight: bold;
-    transition: color 0.3s;
-}
-
-.nav-link:hover {
-    color: var(--cor-secundaria); /* Roxo */
-}
-
+/* REMOVIDOS os seletores .main-nav e .nav-link */
 
