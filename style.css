@@ -258,4 +258,54 @@ footer {
     display: inline-block;
 }
 
+/* --- NOVO: 8. Seção de Tecnologias (Tech Stack) --- */
 
+.tech-stack {
+    /* Centraliza o bloco principal na tela */
+    max-width: 1400px;
+    width: 95%;
+    margin: 40px auto; /* Espaçamento acima e abaixo do bloco principal */
+    padding: 20px 0;
+    text-align: center; /* Centraliza o título */
+    /* Adicionando uma cor de fundo sutil para destaque, se desejar */
+    /* background-color: white; */ 
+}
+
+.tech-title {
+    font-size: 1.8em;
+    font-family: var(--fonte-destaque);
+    color: var(--cor-principal);
+    margin-bottom: 30px;
+}
+
+/* Flexbox para as logos: alinha horizontalmente */
+.tech-logos {
+    display: flex;
+    justify-content: center; /* CENTRALIZA as logos horizontalmente no container */
+    align-items: center;
+    flex-wrap: wrap; /* Permite quebrar a linha em telas menores */
+    gap: 40px; /* Aumenta o espaçamento entre as logos */
+}
+
+.logo-item {
+    text-align: center;
+    padding: 10px;
+}
+
+.tech-logo {
+    width: 70px; /* Tamanho ligeiramente maior para as logos */
+    height: 70px;
+    object-fit: contain;
+    margin-bottom: 5px;
+    transition: transform 0.3s;
+}
+
+.tech-logo:hover {
+    transform: scale(1.1); /* Efeito de destaque ao passar o mouse */
+}
+
+.logo-item p {
+    font-size: 0.9em;
+    font-weight: bold;
+    color: var(--cor-principal);
+}
