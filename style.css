@@ -1,0 +1,15 @@
+/* Configurações Globais */
+:root {
+    --cor-principal: #8c52ff; /* Roxo/Azul do exemplo */
+    --cor-secundaria: #e0e7ff; /* Fundo mais claro para contraste */
+    --cor-texto: #333;
+    --cor-fundo-dark: #f9f9f9; 
+    --fonte-principal: 'Arial', sans-serif;
+}
+
+body {
+    font-family: var(--fonte-principal);
+    margin: 0;
+    padding: 0;
+    /* ... (e o restante do código que define o fundo, headers, etc.) ... */
+}
