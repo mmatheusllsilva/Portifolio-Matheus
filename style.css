@@ -28,7 +28,7 @@ body {
     /* Três linhas agora: hero-left/hero-right, blocos inferiores, rodapé */
     grid-template-rows: auto auto auto; 
     max-width: 1400px;
-    margin: 40px auto;
+    margin: 10px auto;
     width: 95%;
     gap: 0px;
 }
@@ -153,7 +153,7 @@ padding: 0px;
 .bloco-03 {
     background-image: url('pendrive.jpeg'); /* Use a imagem do Pendrive */
     background-size: cover; 
-    background-position: center -25%; 
+    background-position: center -10%; 
 }
 
 /* Ajuste para o texto nos blocos, para aparecer sobre as imagens */
