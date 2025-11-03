@@ -1,15 +1,106 @@
-/* Configurações Globais */
+/* --- 1. Variáveis e Reset --- */
 :root {
-    --cor-principal: #8c52ff; /* Roxo/Azul do exemplo */
-    --cor-secundaria: #e0e7ff; /* Fundo mais claro para contraste */
-    --cor-texto: #333;
-    --cor-fundo-dark: #f9f9f9; 
-    --fonte-principal: 'Arial', sans-serif;
+    --cor-principal: #333; /* Preto para o texto de impacto */
+    --cor-fundo: #e0e0e0; /* Cinza claro/Quase branco (Fundo do exemplo) */
+    --cor-secundaria: #8c52ff; /* Roxo (para destaque de links) */
+    --fonte-destaque: 'Arial Black', sans-serif; /* Para o estilo ousado */
+    --fonte-corpo: 'Helvetica', sans-serif; 
 }
 
-body {
-    font-family: var(--fonte-principal);
+* {
     margin: 0;
     padding: 0;
-    /* ... (e o restante do código que define o fundo, headers, etc.) ... */
+    box-sizing: border-box;
+}
+
+/* --- 2. Configuração do GRID (O Coração do Layout) --- */
+body {
+    font-family: var(--fonte-corpo);
+    background-color: var(--cor-fundo);
+    color: var(--cor-principal);
+    min-height: 100vh;
+}
+
+.container-grid {
+    display: grid;
+    /* Define as colunas: 60% para o texto, 40% para a imagem */
+    grid-template-columns: 60% 40%; 
+    grid-template-rows: auto auto; /* Duas linhas */
+    max-width: 1400px;
+    margin: 40px auto;
+    width: 95%;
+    gap: 15px;
+}
+
+/* --- 3. Header de Destaque (Coluna Esquerda Superior) --- */
+.hero-left {
+    background-color: var(--cor-principal); /* Fundo preto/cinza escuro */
+    color: white;
+    padding: 60px;
+    /* Faz a coluna ocupar 100% da primeira linha */
+    grid-row: 1 / 2; 
+}
+
+.main-title {
+    font-family: var(--fonte-destaque);
+    font-size: 3.5em; 
+    line-height: 1.1;
+    margin-bottom: 25px;
+}
+
+.subtitle {
+    font-size: 1.1em;
+    line-height: 1.5;
+    margin-bottom: 30px;
+    color: #ccc;
+}
+
+.btn-primary {
+    display: inline-block;
+    background-color: white;
+    color: var(--cor-principal);
+    padding: 12px 25px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+/* --- 4. Imagem de Destaque (Coluna Direita Superior) --- */
+.hero-right {
+    background-color: white; /* Fundo branco/claro para contrastar */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    /* Faz a coluna ocupar 100% da primeira linha e da segunda (visual do exemplo) */
+    grid-row: 1 / 3; 
+    overflow: hidden;
+}
+
+/* --- 5. Blocos 02 e 03 (Parte Inferior Esquerda) --- */
+.section-bloco {
+    padding: 30px;
+    background-color: #f0f0f0; 
+    border-radius: 5px;
+    text-align: center;
+    /* Divide o espaço restante da primeira coluna */
+    grid-row: 2 / 3; 
+}
+
+.bloco-02 {
+    grid-column: 1 / 1; /* Primeira Coluna, Segunda Linha */
+    background-color: #e5e5e5;
+}
+
+.bloco-03 {
+    grid-column: 1 / 1; /* Ocupa a mesma célula do 02, ajuste em um layout responsivo é necessário */
+    background-color: #d8d8d8;
+    /* Para o layout desktop: você precisaria de mais blocos no HTML para fazer a grade. */
+}
+
+.numero-destaque {
+    font-size: 2.5em;
+    font-weight: 900;
+    color: var(--cor-secundaria);
 }
