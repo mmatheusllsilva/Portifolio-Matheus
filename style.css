@@ -40,6 +40,7 @@ body {
     padding: 60px;
     /* Faz a coluna ocupar 100% da primeira linha */
     grid-row: 1 / 2; 
+    border-radius: 0px;
 }
 
 .main-title {
@@ -77,6 +78,7 @@ body {
     position: relative; 
     grid-row: 1 / 3; 
     overflow: hidden; 
+    border-radius: 0px
     
     /* CORREÇÃO: Removido o padding para permitir que a imagem preencha 100% */
     padding: 0; 
