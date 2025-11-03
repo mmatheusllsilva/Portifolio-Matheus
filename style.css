@@ -69,15 +69,19 @@ body {
 
 /* --- 4. Imagem de Destaque (Coluna Direita Superior e Inferior) --- */
 .hero-right {
-background-color: white;
+    background-color: white;
     display: flex;
     flex-direction: column; 
     justify-content: center;
     align-items: center;
-    position: relative; /* Essencial para posicionar os números/texto */
+    position: relative; 
     grid-row: 1 / 3; 
     overflow: hidden; 
-    padding: 20px;
+    
+    /* CORREÇÃO: Removido o padding para permitir que a imagem preencha 100% */
+    padding: 0; 
+    /* Adicionamos uma altura mínima para o bloco ter dimensão, já que o conteúdo interno é absoluto */
+    min-height: 500px; 
 }
 
 /* NOVO: Posicionamento do texto/número 01 */
