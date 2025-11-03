@@ -246,6 +246,7 @@ footer {
     margin: 0 auto;
     padding: 0px;
     text-align: left; 
+    padding-left: 10px;
 }
 
 .logo a {
