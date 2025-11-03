@@ -239,3 +239,43 @@ footer {
         text-align: center;
     }
 }
+
+/* --- NOVO: 2.5. Cabeçalho do Site e Navegação --- */
+.site-header {
+    /* Define a largura máxima, alinhado com o container-grid */
+    max-width: 1400px;
+    width: 95%;
+    margin: 0 auto;
+    padding: 20px 0;
+    
+    /* Configuração Flex para alinhar o Logo e o Menu */
+    display: flex;
+    justify-content: space-between; /* Coloca logo e menu em lados opostos */
+    align-items: center;
+    background-color: transparent; 
+}
+
+.logo a {
+    font-size: 1.5em;
+    font-family: var(--fonte-destaque);
+    color: var(--cor-principal); /* Preto */
+    text-decoration: none;
+}
+
+.main-nav {
+    display: flex;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--cor-principal); /* Preto */
+    margin-left: 20px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: var(--cor-secundaria); /* Roxo */
+}
+
+
