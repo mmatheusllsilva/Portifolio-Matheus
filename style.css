@@ -69,16 +69,16 @@ body {
 
 /* --- 4. Imagem de Destaque (Coluna Direita Superior e Inferior) --- */
 .hero-right {
-    background-color: white; 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    /* Ocupa as duas primeiras linhas na coluna 2 */
+    /* ... (resto do estilo) ... */
     grid-row: 1 / 3; 
-    overflow: hidden;
+    overflow: hidden; /* Importante para não deixar a imagem vazar */
     padding: 20px; 
+}
+
+.main-image {
+    max-width: 90%; /* ESTA LINHA AJUSTA O TAMANHO DO MAC! */
+    height: auto;
+    margin-bottom: 15px;
 }
 
 .main-image {
@@ -108,7 +108,7 @@ body {
 }
 
 .small-image {
-    max-width: 70%; 
+    max-width: 70%; /* ESTA LINHA AJUSTA O TAMANHO DAS IMAGENS PEQUENAS! */
     height: auto;
     margin-bottom: 15px;
 }
