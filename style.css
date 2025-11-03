@@ -69,23 +69,43 @@ body {
 
 /* --- 4. Imagem de Destaque (Coluna Direita Superior e Inferior) --- */
 .hero-right {
-    background-color: white;
-    /* ADICIONE ESTAS TRÊS PROPRIEDADES PARA CENTRALIZAÇÃO: */
+background-color: white;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; 
     justify-content: center;
     align-items: center;
+    position: relative; /* Essencial para posicionar os números/texto */
+    grid-row: 1 / 3; 
+    overflow: hidden; 
+    padding: 20px;
+}
 
-    position: relative;
-    grid-row: 1 / 3; 
-    overflow: hidden; /* Importante para não deixar a imagem vazar */
-    padding: 20px; 
+/* NOVO: Posicionamento do texto/número 01 */
+.hero-right .numero-destaque {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2.5em;
+    color: #666; /* Cor cinza mais suave para o número */
+    z-index: 2;
+}
+
+.hero-right .numero-descricao {
+    position: absolute;
+    top: 70px; /* Ajuste para ficar abaixo do número */
+    right: 20px;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    color: #888;
+    z-index: 2;
 }
 
 .main-image {
     max-width: 90%; /* ESTA LINHA AJUSTA O TAMANHO DO MAC! */
     height: auto;
     margin-bottom: 15px;
+    position: relative; /* Adicione estas 3 linhas */
+    z-index: 1;         /* para garantir a sobreposição */
 }
 
 /* --- 5. Blocos Inferiores (Ajuste para Grid Aninhado) --- */
@@ -98,26 +118,64 @@ body {
 }
 
 .section-bloco {
-    padding: 30px;
+padding: 30px;
     background-color: #f0f0f0; 
     border-radius: 5px;
     text-align: center;
     display: flex; 
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-end; /* Alinha o conteúdo para baixo */
+    align-items: flex-start; /* Alinha o conteúdo para a esquerda */
+    position: relative; /* Essencial para posicionar o texto absolutamente */
+    overflow: hidden; /* Garante que a imagem de fundo não vaze */
+    color: white;
 }
 
-.small-image {
-    max-width: 70%; /* ESTA LINHA AJUSTA O TAMANHO DAS IMAGENS PEQUENAS! */
-    height: auto;
-    margin-bottom: 15px;
+/* NOVO: Estilos para as imagens de fundo dos blocos 02 e 03 */
+.bloco-02 {
+    background-image: url('cd.jpeg'); /* Use a imagem do CD */
+    background-size: cover; /* Faz a imagem cobrir todo o bloco */
+    background-position: center; /* Centraliza a imagem */
 }
 
-.numero-destaque {
-    font-size: 2.5em;
-    font-weight: 900;
-    color: #aaa(--cor-secundaria);
+.bloco-03 {
+    background-image: url('pendrive.jpeg'); /* Use a imagem do Pendrive */
+    background-size: cover; 
+    background-position: center; 
+}
+
+/* Ajuste para o texto nos blocos, para aparecer sobre as imagens */
+.section-bloco .numero-destaque,
+.section-bloco .numero-descricao {
+    position: relative; /* Garante que fiquem acima da imagem de fundo */
+    z-index: 2; /* Coloca o texto acima da imagem */
+    color: white; /* Cor do texto branco sobre a imagem escura */
+    text-shadow: 0 0 5px rgba(0,0,0,0.5); /* Sombra para melhor legibilidade */
+    margin-bottom: 5px; /* Espaçamento entre o número e a descrição */
+}
+
+.section-bloco .numero-destaque {
+    font-size: 2em; /* Tamanho do número */
+    margin-left: 10px; /* Margem para alinhar à esquerda */
+}
+
+.section-bloco .numero-descricao {
+    font-size: 0.8em;
+    text-transform: uppercase;
+    margin-left: 10px; /* Margem para alinhar à esquerda */
+    margin-bottom: 10px; /* Espaçamento da base do bloco */
+}
+
+/* NOVO: Efeito de escurecimento sobre a imagem de fundo (opcional, para legibilidade) */
+.section-bloco::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Escurece a imagem para o texto aparecer */
+    z-index: 1;
 }
 
 /* --- 6. Rodapé --- */
