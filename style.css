@@ -346,8 +346,8 @@ display: flex;
 
 /* --- ESTILO PARA A IMAGEM PNG DO LINKEDIN --- */
 .linkedin-img-icon { /* Use esta classe para a tag <img> */
-    width: 20px; /* Tamanho final do ícone. Ajuste conforme desejar. */
-    height: 20px; 
+    width: 10px; /* Tamanho final do ícone. Ajuste conforme desejar. */
+    height: 10px; 
     object-fit: contain;
     /* Certifique-se de que não há borda ou background-color aqui */
 }
