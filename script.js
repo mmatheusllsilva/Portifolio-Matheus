@@ -2,6 +2,17 @@
 const themeToggle = document.getElementById('theme-toggle'); 
 const body = document.body;
 
+// NOVO: Função para ATUALIZAR o ícone com base no tema atual
+function updateThemeToggleIcon() {
+    if (body.classList.contains('dark-mode')) {
+        // Se estiver no Dark Mode (Fundo Escuro), mostre o Sol (para alternar para o Claro)
+        themeToggle.innerHTML = '☀️'; 
+    } else {
+        // Se estiver no Light Mode (Fundo Claro), mostre a Lua (para alternar para o Escuro)
+        themeToggle.innerHTML = '🌙';
+    }
+}
+
 // 1. Função para aplicar o tema salvo (mantém a escolha do usuário)
 function applyTheme() {
     const savedTheme = localStorage.getItem('theme');
@@ -9,6 +20,11 @@ function applyTheme() {
         body.classList.add('dark-mode');
     } else {
         body.classList.remove('dark-mode');
+    }
+    
+    // NOVO: Atualiza o ícone ao carregar a página
+    if (themeToggle) {
+        updateThemeToggleIcon();
     }
 }
 
@@ -27,5 +43,8 @@ if (themeToggle) {
         } else {
             localStorage.setItem('theme', 'light');
         }
+
+        // NOVO: Atualiza o ícone APÓS a troca de tema
+        updateThemeToggleIcon();
     });
 }
