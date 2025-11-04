@@ -412,3 +412,75 @@ body.dark-mode .btn-primary {
 
 
 
+
+
+
+
+
+
+
+/* --- NOVO: Estilos para a Seção de Projetos --- */
+
+.projetos-main {
+    max-width: 1400px;
+    width: 95%;
+    margin: 40px auto;
+}
+
+.projeto-bloco {
+    /* Usa Grid para dividir o conteúdo e a imagem */
+    display: grid;
+    grid-template-columns: 60% 40%; /* Conteúdo (60%) | Visual (40%) */
+    gap: 40px; /* Espaço entre as colunas */
+    align-items: center; /* Centraliza o conteúdo verticalmente */
+    
+    /* Espaçamento entre os projetos */
+    margin-bottom: 80px;
+    padding: 40px; /* Padding interno */
+    background-color: white; /* Cor de fundo para o bloco do projeto */
+    border-radius: 5px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Sombra suave */
+}
+
+/* Estilo do Conteúdo */
+.projeto-titulo {
+    font-family: var(--fonte-destaque);
+    font-size: 2.5em;
+    color: var(--cor-principal);
+    margin-bottom: 15px;
+}
+
+.projeto-descricao {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* Estilo da Imagem (Mock-up) */
+.mockup-img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Destaque o mock-up */
+}
+
+/* Responsividade: Empilhar em Mobile */
+@media (max-width: 768px) {
+    .projeto-bloco {
+        grid-template-columns: 1fr; /* Coluna única: 100% */
+        gap: 25px;
+        padding: 30px 20px;
+    }
+    
+    /* Em mobile, a imagem do celular pode vir antes ou depois do texto, dependendo de como você organizou */
+    .projeto-visual {
+        order: -1; /* Força o visual a ir para o topo em telas menores */
+    }
+}
+
+/* DARK MODE para a página de projetos */
+body.dark-mode .projeto-bloco {
+    background-color: var(--cor-fundo-bloco); 
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.05);
+}
