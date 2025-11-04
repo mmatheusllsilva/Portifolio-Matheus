@@ -421,10 +421,26 @@ body.dark-mode .btn-primary {
 
 /* --- NOVO: Estilos para a Seção de Projetos --- */
 
+/* --- Estilos do Cabeçalho --- */
+.site-header {
+    width: 100%;
+    /* CORREÇÃO: Diminuindo o padding vertical */
+    padding: 10px 5%; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    /* 
+      NOVA CORREÇÃO: 
+      Forçando a margem inferior do cabeçalho a ser zero.
+    */
+    margin-bottom: 0; 
+}
+
 .projetos-main {
     max-width: 1400px;
     width: 95%;
-    margin: 15px auto;
+    margin: 0 auto 40px auto;
 }
 
 .projeto-bloco {
