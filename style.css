@@ -442,6 +442,14 @@ body.dark-mode .btn-primary {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Sombra suave */
 }
 
+/* NOVO: Estilo para alinhar a imagem à direita e criar um respiro */
+.projeto-visual {
+    /* O margin: auto à esquerda garante o espaçamento na direita */
+    margin-left: auto;
+    /* Adicionando um padding para evitar que a sombra do celular toque a borda */
+    padding: 10px; 
+}
+
 /* Estilo do Conteúdo */
 .projeto-titulo {
     font-family: var(--fonte-destaque);
@@ -476,6 +484,7 @@ body.dark-mode .btn-primary {
     /* Em mobile, a imagem do celular pode vir antes ou depois do texto, dependendo de como você organizou */
     .projeto-visual {
         order: -1; /* Força o visual a ir para o topo em telas menores */
+        margin-left: initial;
     }
 }
 
