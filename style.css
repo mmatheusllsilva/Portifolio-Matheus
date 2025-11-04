@@ -403,3 +403,12 @@ body.dark-mode .btn-primary {
     padding: 5px;
     color: var(--cor-principal); /* Usa a cor principal definida */
 }
+
+.header-actions-group {
+    display: flex; /* Coloca os itens (LinkedIn e Lua) lado a lado */
+    align-items: center; /* Alinha ambos verticalmente ao centro (RESOLVE O DESALINHAMENTO) */
+    gap: 15px; /* Espaçamento entre os dois itens */
+}
+
+
+
