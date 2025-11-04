@@ -351,3 +351,55 @@ display: flex;
     object-fit: contain; /* ESSENCIAL: Evita o esticamento! */
 }
 
+/* --- 9. Dark Mode --- */
+
+/* 1. NOVAS VARIÁVEIS DE COR PARA O TEMA ESCURO (Dark Mode) */
+body.dark-mode {
+    --cor-principal: #ffffff;      /* Texto principal: Branco */
+    --cor-fundo: #121212;          /* Fundo da página: Preto/Muito Escuro */
+    --cor-secundaria: #8c52ff;     /* Roxo (mantém o destaque) */
+    --cor-fundo-bloco: #1e1e1e;    /* Fundo de blocos/cards: Cinza Escuro */
+}
+
+/* 2. APLICAÇÃO GERAL */
+body.dark-mode {
+    background-color: var(--cor-fundo);
+    color: var(--cor-principal);
+}
+
+/* 3. INVERSÃO DOS BLOCOS (ajuste de cada seção, se necessário) */
+
+/* Seção Hero (Bloco Preto atual) */
+body.dark-mode .hero-left {
+    background-color: var(--cor-fundo-bloco);
+    color: var(--cor-principal);
+}
+
+/* Rodapé (Bloco Branco atual) */
+body.dark-mode footer {
+    background-color: var(--cor-fundo-bloco);
+    color: #aaaaaa; 
+}
+
+/* Blocos de Logos/Cards (Blocos Brancos atuais, como o .logo-item) */
+body.dark-mode .logo-item {
+    background-color: #2c2c2c; /* Um cinza um pouco mais claro */
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* Sombra clara */
+}
+
+/* Botão Primário (se for branco, inverte) */
+body.dark-mode .btn-primary {
+    background-color: var(--cor-fundo);
+    color: var(--cor-principal);
+    border: 1px solid var(--cor-principal);
+}
+
+/* Estilo do Botão Dark Mode */
+.btn-theme-toggle {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+    color: var(--cor-principal); /* Usa a cor principal definida */
+}
