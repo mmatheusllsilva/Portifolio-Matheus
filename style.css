@@ -334,6 +334,7 @@ display: inline-flex;
     border-radius: 5px; 
     text-decoration: none;
     transition: background-color 0.3s, transform 0.3s;
+    margin-top: 5px;
 }
 
 /* Efeito hover para o contêiner (opcional, pode ser um leve fundo) */
@@ -346,7 +347,6 @@ display: inline-flex;
 .linkedin-img-icon { /* Use esta classe para a tag <img> */
     width: 600px; /* Ajuste para o tamanho desejado (próximo das logos de 60px) */
     height: 60px; 
-    object-fit: contain;
 }
 
 
