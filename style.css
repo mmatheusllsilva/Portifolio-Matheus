@@ -447,7 +447,7 @@ body.dark-mode .btn-primary {
     /* O margin: auto à esquerda garante o espaçamento na direita */
     margin-left: auto;
     /* Adicionando um padding para evitar que a sombra do celular toque a borda */
-    padding: 10px; 
+    padding: 25px; 
 }
 
 /* Estilo do Conteúdo */
