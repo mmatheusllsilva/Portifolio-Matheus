@@ -319,35 +319,37 @@ display: flex;
 
 /* --- ESTILOS PARA AGRUPAR BOTÕES NA HERO SECTION --- */
 .hero-actions {
-    display: flex; /* ESSENCIAL para alinhar o botão e o ícone lado a lado */
+    display: flex; 
     align-items: center;
     gap: 15px; 
     margin-top: 30px; 
 }
 
-/* --- ESTILO PARA O ÍCONE DO LINKEDIN --- */
-.linkedin-icon {
+/* --- ESTILO PARA O CONTÊINER DO ÍCONE (o link <a...>) --- */
+.linkedin-btn { /* Use esta classe para o link externo */
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding: 8px 10px;
-    background-color: #0077b5; /* Cor oficial do LinkedIn */
-    color: white;
+    padding: 5px; /* Reduza o padding para que o ícone pareça mais compacto */
+    /* REMOVEMOS background-color AQUI. O fundo da imagem já será o da imagem PNG. */
+    /* REMOVEMOS color: white; se a imagem já tiver a cor desejada. */
     border-radius: 5px; 
     text-decoration: none;
-    font-size: 1.5rem; 
     transition: background-color 0.3s, transform 0.3s;
 }
 
-.linkedin-icon img {
-    width: 25px; /* Define o tamanho do ícone */
-    height: 25px; 
-    object-fit: contain;
+/* Efeito hover para o contêiner (opcional, pode ser um leve fundo) */
+.linkedin-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Um leve fundo cinza no hover */
+    transform: translateY(-2px);
 }
 
-.linkedin-icon:hover {
-    background-color: #005582;
-    transform: translateY(-2px);
+/* --- ESTILO PARA A IMAGEM PNG DO LINKEDIN --- */
+.linkedin-img-icon { /* Use esta classe para a tag <img> */
+    width: 35px; /* Tamanho final do ícone. Ajuste conforme desejar. */
+    height: 35px; 
+    object-fit: contain;
+    /* Certifique-se de que não há borda ou background-color aqui */
 }
 
 
