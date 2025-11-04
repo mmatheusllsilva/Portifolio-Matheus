@@ -316,3 +316,32 @@ display: flex;
     font-weight: bold;
     color: var(--cor-principal);
 }
+
+/* --- ESTILOS PARA AGRUPAR BOTÕES NA HERO SECTION --- */
+.hero-actions {
+    display: flex; /* ESSENCIAL para alinhar o botão e o ícone lado a lado */
+    align-items: center;
+    gap: 15px; 
+    margin-top: 30px; 
+}
+
+/* --- ESTILO PARA O ÍCONE DO LINKEDIN --- */
+.linkedin-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 10px;
+    background-color: #0077b5; /* Cor oficial do LinkedIn */
+    color: white;
+    border-radius: 5px; 
+    text-decoration: none;
+    font-size: 1.5rem; 
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.linkedin-icon:hover {
+    background-color: #005582;
+    transform: translateY(-2px);
+}
+
+
