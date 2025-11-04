@@ -424,7 +424,7 @@ body.dark-mode .btn-primary {
 .projetos-main {
     max-width: 1400px;
     width: 95%;
-    margin: 40px auto;
+    margin: 20px auto 40px auto;
 }
 
 .projeto-bloco {
@@ -432,7 +432,13 @@ body.dark-mode .btn-primary {
     display: grid;
     grid-template-columns: 60% 40%; /* Conteúdo (60%) | Visual (40%) */
     gap: 40px; /* Espaço entre as colunas */
-    align-items: center; /* Centraliza o conteúdo verticalmente */
+    
+    /* 
+      CORREÇÃO AQUI: 
+      Mudando o alinhamento vertical de 'center' para 'start'
+      para que o texto suba para o topo do bloco.
+    */
+    align-items: start; /* <-- Mude de 'center' para 'start' */
     
     /* Espaçamento entre os projetos */
     margin-bottom: 80px;
@@ -447,7 +453,7 @@ body.dark-mode .btn-primary {
     /* O margin: auto à esquerda garante o espaçamento na direita */
     margin-left: auto;
     /* Adicionando um padding para evitar que a sombra do celular toque a borda */
-    padding: 25px; 
+    padding: 30px; 
 }
 
 /* Estilo do Conteúdo */
