@@ -317,16 +317,17 @@ display: flex;
 
 /* --- NOVO: 2.5. Cabeçalho do Site e Navegação --- */
 .site-header {
-    /* ... (Mantenha o max-width e width existentes) ... */
-    
+    max-width: 1400px;
+    width: 95%;
+    margin: 0 auto;
+
     /* ESSENCIAL: Alinha o logo e o ícone lado a lado e os distribui */
     display: flex;
     justify-content: space-between; /* Move o ícone para a direita */
     align-items: center;
-    padding: 10px 2.5%; /* Padding ajustado para o site-header */
-    
-    /* Garante que o cabeçalho não se quebre em telas pequenas */
-    flex-wrap: nowrap; 
+
+    /* Padding original do cabeçalho */
+    padding: 15px 10px;
 }
 
 /* --- ESTILO DO ÍCONE NO HEADER --- */
