@@ -424,16 +424,19 @@ body.dark-mode .btn-primary {
 /* --- Estilos do Cabeçalho --- */
 .site-header {
     width: 100%;
-    /* CORREÇÃO: Diminuindo o padding vertical */
-    padding: 10px 5%; 
+    
+    /* CORREÇÃO: 
+      Aumentando o padding vertical para 15px (tinha 10px) 
+      para dar um respiro maior e centralizar visualmente.
+    */
+    padding: 15px 5%; 
+    
+    /* Garante que os itens (nome, ícones) fiquem centralizados verticalmente */
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: center; 
 
-    /* 
-      NOVA CORREÇÃO: 
-      Forçando a margem inferior do cabeçalho a ser zero.
-    */
+    /* Mantemos margin-bottom: 0 para não afastar do bloco branco */
     margin-bottom: 0; 
 }
 
