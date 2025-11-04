@@ -278,36 +278,33 @@ footer {
 /* Flexbox para as logos: alinha horizontalmente */
 .tech-logos {
 display: flex;
-    justify-content: center; /* ESSENCIAL PARA CENTRALIZAR O BLOCO DE LOGOS */
+    justify-content: center; /* CENTRALIZA o bloco de logos */
     align-items: center;
     flex-wrap: wrap; 
     gap: 40px;
+    /* REMOVEMOS: width: 60px; height: 60px; etc. daqui */
 }
 
 .logo-item {
     text-align: center;
     padding: 10px;
     background-color: white;
-    border-radius: 0px; /* Bordas arredondadas para o quadrado branco */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave (opcional) */
-    width: 120px; /* Largura fixa para o card do logo */
-    height: 120px; /* Altura fixa para o card do logo */
-    display: flex; /* Para centralizar a imagem e o texto dentro do card */
+    border-radius: 0px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    width: 120px; 
+    height: 120px; 
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
 .tech-logo {
-    .tech-logos {
-    display: flex;
-    justify-content: center; /* Mantém essa linha */
-    align-items: center;
-    flex-wrap: wrap; 
-    gap: 40px;
-    
-    /* NOVO: Garante que o container ocupe 100% da largura do pai */
-    width: 100%;
+    width: 60px; /* TAMANHO DA LOGO */
+    height: 60px; /* TAMANHO DA LOGO */
+    object-fit: contain;
+    margin-bottom: 5px;
+    transition: transform 0.3s;
 }
 
 .tech-logo:hover {
