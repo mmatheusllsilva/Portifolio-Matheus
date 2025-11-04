@@ -346,8 +346,8 @@ display: flex;
 
 /* Garante o tamanho e a proporção correta */
 .header-linkedin-img {
-    width: 35px; /* Tamanho discreto para o cabeçalho */
-    height: 35px; 
+    width: 45px; /* Tamanho discreto para o cabeçalho */
+    height: 45px; 
     object-fit: contain; /* ESSENCIAL: Evita o esticamento! */
 }
 
