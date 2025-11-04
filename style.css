@@ -339,6 +339,12 @@ display: flex;
     transition: background-color 0.3s, transform 0.3s;
 }
 
+.linkedin-icon img {
+    width: 25px; /* Define o tamanho do ícone */
+    height: 25px; 
+    object-fit: contain;
+}
+
 .linkedin-icon:hover {
     background-color: #005582;
     transform: translateY(-2px);
