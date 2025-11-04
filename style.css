@@ -327,14 +327,16 @@ display: flex;
 
 /* --- ESTILO PARA O CONTÊINER DO ÍCONE (o link <a...>) --- */
 .linkedin-btn { /* Use esta classe para o link externo */
-display: inline-flex;
+    display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding: 12px; /* Aumenta o padding para que o ícone de 50px caiba com folga */
+    padding: 12px; /* Mantém o padding para o ícone de 60px */
     border-radius: 5px; 
     text-decoration: none;
     transition: background-color 0.3s, transform 0.3s;
-    margin-top: 5px;
+    /* Adicione uma altura mínima para o botão se ele estiver encolhendo */
+    min-height: 84px; /* (12px padding superior + 60px imagem + 12px padding inferior) */
+    width: 84px; /* (12px padding esquerdo + 60px imagem + 12px padding direito) */
 }
 
 /* Efeito hover para o contêiner (opcional, pode ser um leve fundo) */
@@ -347,6 +349,7 @@ display: inline-flex;
 .linkedin-img-icon { /* Use esta classe para a tag <img> */
     width: 600px; /* Ajuste para o tamanho desejado (próximo das logos de 60px) */
     height: 60px; 
+    object-fit: contain;
 }
 
 
