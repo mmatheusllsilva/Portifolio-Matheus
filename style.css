@@ -261,14 +261,11 @@ footer {
 /* --- NOVO: 8. Seção de Tecnologias (Tech Stack) --- */
 
 .tech-stack {
-    /* Centraliza o bloco principal na tela */
     max-width: 1400px;
     width: 95%;
-    margin: 40px auto; /* Espaçamento acima e abaixo do bloco principal */
+    margin: 40px auto; /* Garante que o bloco .tech-stack esteja centralizado na tela */
     padding: 20px 0;
-    text-align: center; /* Centraliza o título */
-    /* Adicionando uma cor de fundo sutil para destaque, se desejar */
-    /* background-color: white; */ 
+    text-align: center;
 }
 
 .tech-title {
@@ -302,11 +299,15 @@ display: flex;
 }
 
 .tech-logo {
-    width: 60px; /* Tamanho da logo dentro do card */
-    height: 60px;
-    object-fit: contain;
-    margin-bottom: 5px;
-    transition: transform 0.3s;
+    .tech-logos {
+    display: flex;
+    justify-content: center; /* Mantém essa linha */
+    align-items: center;
+    flex-wrap: wrap; 
+    gap: 40px;
+    
+    /* NOVO: Garante que o container ocupe 100% da largura do pai */
+    width: 100%;
 }
 
 .tech-logo:hover {
