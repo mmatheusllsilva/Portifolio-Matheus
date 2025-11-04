@@ -330,7 +330,7 @@ display: flex;
 display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding: 10px; /* Aumenta o padding para que o ícone de 50px caiba com folga */
+    padding: 12px; /* Aumenta o padding para que o ícone de 50px caiba com folga */
     border-radius: 5px; 
     text-decoration: none;
     transition: background-color 0.3s, transform 0.3s;
@@ -344,8 +344,8 @@ display: inline-flex;
 
 /* --- ESTILO PARA A IMAGEM PNG DO LINKEDIN --- */
 .linkedin-img-icon { /* Use esta classe para a tag <img> */
-    width: 50px; /* Ajuste para o tamanho desejado (próximo das logos de 60px) */
-    height: 50px; 
+    width: 600px; /* Ajuste para o tamanho desejado (próximo das logos de 60px) */
+    height: 60px; 
     object-fit: contain;
 }
 
