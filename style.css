@@ -280,21 +280,30 @@ footer {
 
 /* Flexbox para as logos: alinha horizontalmente */
 .tech-logos {
-    display: flex;
-    justify-content: center; /* CENTRALIZA as logos horizontalmente no container */
+display: flex;
+    justify-content: center; /* ESSENCIAL PARA CENTRALIZAR O BLOCO DE LOGOS */
     align-items: center;
-    flex-wrap: wrap; /* Permite quebrar a linha em telas menores */
-    gap: 40px; /* Aumenta o espaçamento entre as logos */
+    flex-wrap: wrap; 
+    gap: 40px;
 }
 
 .logo-item {
     text-align: center;
     padding: 10px;
+    background-color: white;
+    border-radius: 0px; /* Bordas arredondadas para o quadrado branco */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave (opcional) */
+    width: 120px; /* Largura fixa para o card do logo */
+    height: 120px; /* Altura fixa para o card do logo */
+    display: flex; /* Para centralizar a imagem e o texto dentro do card */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .tech-logo {
-    width: 70px; /* Tamanho ligeiramente maior para as logos */
-    height: 70px;
+    width: 60px; /* Tamanho da logo dentro do card */
+    height: 60px;
     object-fit: contain;
     margin-bottom: 5px;
     transition: transform 0.3s;
