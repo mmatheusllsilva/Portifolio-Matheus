@@ -239,16 +239,6 @@ footer {
 }
 
 /* --- NOVO: 2.5. Cabeçalho do Site e Navegação --- */
-.site-header {
-    /* Define a largura máxima, alinhado com o container-grid */
-    max-width: 1400px;
-    width: 95%;
-    margin: 0 auto;
-    padding: 0px;
-    text-align: left; 
-    padding-left: 10px;
-}
-
 .logo a {
     font-size: 1.5em;
     padding: 15px 0;
@@ -325,31 +315,38 @@ display: flex;
     margin-top: 30px; 
 }
 
-/* --- ESTILO PARA O CONTÊINER DO ÍCONE (o link <a...>) --- */
-.linkedin-btn { /* Use esta classe para o link externo */
+/* --- NOVO: 2.5. Cabeçalho do Site e Navegação --- */
+.site-header {
+    /* ... (Mantenha o max-width e width existentes) ... */
+    
+    /* ESSENCIAL: Alinha o logo e o ícone lado a lado e os distribui */
+    display: flex;
+    justify-content: space-between; /* Move o ícone para a direita */
+    align-items: center;
+    padding: 10px 2.5%; /* Padding ajustado para o site-header */
+    
+    /* Garante que o cabeçalho não se quebre em telas pequenas */
+    flex-wrap: nowrap; 
+}
+
+/* --- ESTILO DO ÍCONE NO HEADER --- */
+.header-linkedin-btn {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding: 12px; /* Mantém o padding para o ícone de 60px */
+    padding: 5px; /* Padding menor */
     border-radius: 5px; 
-    text-decoration: none;
-    transition: background-color 0.3s, transform 0.3s;
-    /* Adicione uma altura mínima para o botão se ele estiver encolhendo */
-    min-height: 84px; /* (12px padding superior + 60px imagem + 12px padding inferior) */
-    width: 84px; /* (12px padding esquerdo + 60px imagem + 12px padding direito) */
+    transition: background-color 0.3s;
 }
 
-/* Efeito hover para o contêiner (opcional, pode ser um leve fundo) */
-.linkedin-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* Um leve fundo cinza no hover */
-    transform: translateY(-2px);
+.header-linkedin-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1); 
 }
 
-/* --- ESTILO PARA A IMAGEM PNG DO LINKEDIN --- */
-.linkedin-img-icon { /* Use esta classe para a tag <img> */
-    width: 600px; /* Ajuste para o tamanho desejado (próximo das logos de 60px) */
-    height: 60px; 
-    object-fit: contain;
+/* Garante o tamanho e a proporção correta */
+.header-linkedin-img {
+    width: 35px; /* Tamanho discreto para o cabeçalho */
+    height: 35px; 
+    object-fit: contain; /* ESSENCIAL: Evita o esticamento! */
 }
-
 
