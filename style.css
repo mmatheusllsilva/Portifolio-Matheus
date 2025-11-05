@@ -542,10 +542,12 @@ body.dark-mode .projeto-bloco {
     display: flex;
     flex-direction: column;
     
-    /* CORREÇÃO PARA PROPORÇÃO DE CELULAR: */
-    max-width: 300px; /* Limita a largura do editor para ser estreito */
-    width: 100%; /* Garante que ele ocupe o máximo de 300px ou 100% do pai */
-    aspect-ratio: 9 / 16; /* Força o editor a ser alto e estreito (proporção de celular) */
+    /* AJUSTE PARA COBRIR TODA A ÁREA (REMOVENDO CONSTRANTES DE TAMANHO MÓVEL): */
+    /* Removendo a limitação de 300px e a proporção de celular */
+    /* max-width: 300px; foi removido */
+    /* aspect-ratio: 9 / 16; foi removido */
+    width: 100%; /* Garante que ele ocupe 100% da largura do pai */
+    flex: 1; /* Permite que ocupe o espaço disponível na coluna/grid do projeto */
     
     /* IMPORTANTE: Removendo height/width fixos que estavam competindo */
     height: auto; 
@@ -595,14 +597,15 @@ body.dark-mode .projeto-bloco {
     font-size: 0.9em;
     /* REMOVIDO: padding: 15px; -> O padding lateral foi para .linha-codigo */
     padding: 0; /* AJUSTE: Garanta que não há padding no container principal de código */
-    
+    flex: 1;
     /* PROPRIEDADES DE ROLAGEM E ALTURA (REMOVIDAS DAQUI): */
     /* overflow-y: scroll; */
     /* overflow-x: auto;   */
     /* height: 380px; */ 
     
     border-radius: 0 0 15px 15px; 
-
+ height: auto; /* Remove qualquer altura fixa que possa ter sido definida anteriormente */
+    overflow-y: auto; /* Garante a rolagem vertical, se o conteúdo for grande */
     user-select: text; 
     cursor: default; 
 }
