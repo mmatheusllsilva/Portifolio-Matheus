@@ -541,10 +541,17 @@ body.dark-mode .projeto-bloco {
     /* Define o layout vertical: Abas em cima, Área de Código embaixo */
     display: flex;
     flex-direction: column;
-    width: 100%; 
+    
+    /* CORREÇÃO PARA PROPORÇÃO DE CELULAR: */
+    max-width: 300px; /* Limita a largura do editor para ser estreito */
+    width: 100%; /* Garante que ele ocupe o máximo de 300px ou 100% do pai */
+    aspect-ratio: 9 / 16; /* Força o editor a ser alto e estreito (proporção de celular) */
+    
+    /* IMPORTANTE: Removendo height/width fixos que estavam competindo */
+    height: auto; 
     
     /* REMOVIDO: margin: 0 0 0 20px; <--- ISSO CAUSAVA O DESLOCAMENTO */
-    margin: 0; /* GARANTE QUE NÃO HÁ MARGEM EXTERNA */
+    margin: 0 auto; /* Centraliza o bloco dentro do seu container pai */
     
     /* Aumenta o arredondamento (de 10px para 15px) */
     border-radius: 15px; 
