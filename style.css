@@ -588,10 +588,16 @@ body.dark-mode .projeto-bloco {
     font-family: monospace;
     font-size: 0.9em;
     padding: 15px;
+    
+    /* PROPRIEDADES CRUCIAIS PARA A ROLAGEM: */
     overflow-y: scroll; /* ATENÇÃO: Habilita a barra de rolagem vertical */
     overflow-x: auto;   /* Habilita a barra de rolagem horizontal se necessário */
-    height: 350px; /* Define uma altura fixa para que a barra de rolagem apareça */
-    border-radius: 0 0 5px 5px; /* Bordas arredondadas apenas embaixo */
+    height: 380px; /* DEFINA UMA ALTURA FIXA para que a barra de rolagem apareça */
+    
+    border-radius: 0 0 15px 15px; /* Bordas arredondadas apenas embaixo (deve ser 15px agora) */
+
+    user-select: text; 
+    cursor: default; 
 }
 
 /* 3. Estilo das Linhas de Código (Sintaxe Highlighting) */
