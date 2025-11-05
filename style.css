@@ -577,16 +577,17 @@ body.dark-mode .projeto-bloco {
     background-color: #2e3440; /* Fundo escuro para a barra de abas */
     /* REMOVIDO: border-radius: 5px 5px 0 0;  Agora quem controla é o .visual-codigo */
     overflow: hidden;
+    padding: 0;
 }
 
 .aba-item {
-    padding: 8px 15px;
-    font-size: 0.9em;
-    font-family: monospace;
-    color: #d8dee9; /* Texto cinza claro */
-    cursor: pointer;
-    border-right: 1px solid #3b4252; /* Separador entre abas */
-    transition: background-color 0.2s;
+ padding: 8px 15px 8px 10px; /* 10px de padding na esquerda e 15px na direita */
+    font-size: 0.9em;
+    font-family: monospace;
+    color: #d8dee9; /* Texto cinza claro */
+    cursor: pointer;
+    border-right: 1px solid #3b4252; /* Separador entre abas */
+    transition: background-color 0.2s;
 }
 
 .aba-item.active {
