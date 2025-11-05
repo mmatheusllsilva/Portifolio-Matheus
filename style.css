@@ -531,16 +531,25 @@ body.dark-mode .projeto-bloco {
     /* Define o layout vertical: Abas em cima, Área de Código embaixo */
     display: flex;
     flex-direction: column;
-    /* Aumenta a largura total na coluna direita (projeto-visual) */
     width: 100%; 
-    padding: 0; /* Remove o padding do .projeto-visual que interfere aqui */
+    
+    /* REMOVIDO: padding: 0; 
+       Agora vamos controlar o espaçamento interno com uma nova div wrapper */
+    
+    /* ADICIONADO: Borda arredondada no container principal */
+    border-radius: 10px; 
+    overflow: hidden; /* Garante que os filhos respeitem o border-radius */
+    
+    /* ADICIONADO: Espaçamento para afastar das laterais do bloco branco */
+    margin: 0 0 0 20px; /* Top, Right, Bottom, Left. Ajuste o '20px' se precisar de mais/menos */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Adiciona uma sombra para destaque */
 }
 
 /* 1. Área das Abas */
 .abas-codigo {
     display: flex;
     background-color: #2e3440; /* Fundo escuro para a barra de abas */
-    border-radius: 5px 5px 0 0; /* Bordas arredondadas apenas no topo */
+    /* REMOVIDO: border-radius: 5px 5px 0 0;  Agora quem controla é o .visual-codigo */
     overflow: hidden;
 }
 
