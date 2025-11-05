@@ -68,8 +68,10 @@
                 <img src="caminho/para/imagem_projeto2.jpg" alt="Mock-up do segundo projeto" class="mockup-img">
             </div>
             
-        </section>
-        <section class="projeto-bloco">
+ </section>
+       
+ 
+ <section class="projeto-bloco">
             
             <div class="projeto-conteudo">
                 <h2 class="projeto-titulo">Portfólio DEV Front-End e Automação de IA</h2>
@@ -87,14 +89,23 @@
                 <a href="#" target="_blank" class="btn-primary">Link Opcional (se tiver)</a>
             </div>
             
-            <div class="projeto-visual visual-codigo"> 
-                <div class="abas-codigo">
-                    <span class="aba-item active">html</span>
-                    <span class="aba-item">css</span>
-                    <span class="aba-item">java</span>
-                </div>
+           <div class="projeto-visual visual-codigo"> 
+                <div class="abas-codigo">
+                    <!-- ABA HTML (ATIVA) - Linkada para codigo-html-3 -->
+                    <span class="aba-item active" data-tab="codigo-html-3">html</span>
+                    <!-- ABA CSS - Linkada para codigo-css-3 -->
+                    <span class="aba-item" data-tab="codigo-css-3">css</span>
+                    <!-- ABA JAVA - Linkada para codigo-java-3 -->
+                    <span class="aba-item" data-tab="codigo-java-3">java</span>
+                </div>
+
+
                 <div class="area-codigo">
-                    <div class="codigo-conteudo active" id="html-code">
+
+
+                    <div class="codigo-conteudo active" id="codigo-html-3">
+
+
                 <!-- SEU CÓDIGO HTML COMPLETO COM SINTAXE DESTACADA -->
                 <pre class="linha-codigo">1 <span class="tag">&lt;!DOCTYPE html&gt;</span></pre>
                 <pre class="linha-codigo">2 <span class="tag">&lt;html lang=</span><span class="string">"pt-br"</span><span class="tag">&gt;</span></pre>
@@ -197,16 +208,72 @@
                 <pre class="linha-codigo">99 </pre>
                 <pre class="linha-codigo">100 <span class="tag">&lt;/body&gt;</span></pre>
                 <pre class="linha-codigo">101 <span class="tag">&lt;/html&gt;</span></pre>
-                </div>
-    
-    <div class="codigo-conteudo" id="css-code">
-        </div>
-    <div class="codigo-conteudo" id="java-code">
-            </div>
-            </div>
+                 </div>
+
+            <!-- CONTEÚDO CSS - ID (INATIVO por padrão) -->
+
+
+                    <div class="codigo-conteudo" id="codigo-css-3">
+
+
+                        <!-- COLOQUE SEU CÓDIGO CSS AQUI (COM SINTAXE DESTACADA) -->
+                        <pre class="linha-codigo">1 <span class="selector">body</span> { <span class="propriedade">background-color:</span> <span class="valor">var(--cor-fundo);</span> <span class="propriedade">color:</span> <span class="valor">var(--cor-texto);</span> }</pre>
+                        <pre class="linha-codigo">2 <span class="selector">.site-header</span> { <span class="propriedade">display:</span> <span class="valor">flex;</span> <span class="propriedade">justify-content:</span> <span class="valor">space-between;</span> <span class="propriedade">padding:</span> <span class="valor">20px;</span> }</pre>
+                        <pre class="linha-codigo">3 <span class="selector">.projetos-main</span> { <span class="propriedade">max-width:</span> <span class="valor">1200px;</span> <span class="propriedade">margin:</span> <span class="valor">0 auto;</span> }</pre>
+                        <pre class="linha-codigo">4 <span class="selector">.projeto-bloco</span> { <span class="propriedade">display:</span> <span class="valor">grid;</span> <span class="propriedade">grid-template-columns:</span> <span class="valor">1fr 1fr;</span> <span class="propriedade">gap:</span> <span class="valor">40px;</span> <span class="propriedade">margin-bottom:</span> <span class="valor">60px;</span> }</pre>
+                        <pre class="linha-codigo">5 <span class="selector">.visual-codigo</span> { <span class="propriedade">background:</span> <span class="valor">var(--cor-fundo-codigo);</span> <span class="propriedade">border-radius:</span> <span class="valor">10px;</span> <span class="propriedade">overflow:</span> <span class="valor">hidden;</span> }</pre>
+                        <pre class="linha-codigo">6 <span class="selector">.abas-codigo</span> { <span class="propriedade">display:</span> <span class="valor">flex;</span> <span class="propriedade">border-bottom:</span> <span class="valor">1px solid var(--cor-borda);</span> }</pre>
+                        <pre class="linha-codigo">7 <span class="selector">.aba-item</span> { <span class="propriedade">padding:</span> <span class="valor">10px 15px;</span> <span class="propriedade">cursor:</span> <span class="valor">pointer;</span> <span class="propriedade">color:</span> <span class="valor">var(--cor-texto-secundario);</span> }</pre>
+                        <pre class="linha-codigo">8 <span class="selector">.aba-item.active</span> { <span class="propriedade">color:</span> <span class="valor">var(--cor-principal);</span> <span class="propriedade">border-bottom:</span> <span class="valor">2px solid var(--cor-principal);</span> }</pre>
+                        <pre class="linha-codigo">9 <span class="selector">.codigo-conteudo</span> { <span class="propriedade">display:</span> <span class="valor">none;</span> }</pre>
+                        <pre class="linha-codigo">10 <span class="selector">.codigo-conteudo.active</span> { <span class="propriedade">display:</span> <span class="valor">block;</span> }</pre>
+                        <pre class="linha-codigo">11 <span class="selector">.linha-codigo</span> { <span class="propriedade">padding-left:</span> <span class="valor">10px;</span> }</pre>
+                        <pre class="linha-codigo">12 <span class="selector">.tag</span> { <span class="propriedade">color:</span> <span class="valor">#569cd6;</span> /* Azul-claro */ }</pre>
+                        <pre class="linha-codigo">13 <span class="selector">.string</span> { <span class="propriedade">color:</span> <span class="valor">#ce9178;</span> /* Laranja/Vermelho */ }</pre>
+                        <pre class="linha-codigo">14 <span class="selector">.propriedade</span> { <span class="propriedade">color:</span> <span class="valor">#9cd656;</span> /* Verde */ }</pre>
+                        <pre class="linha-codigo">15 /* ... e o restante do seu CSS ... */</pre>
+                    </div>
+
+<!-- CONTEÚDO JAVA/JS - ID (INATIVO por padrão) -->
+                    <div class="codigo-conteudo" id="codigo-java-3">
+                        <pre class="linha-codigo">1 <span class="chave">function</span> <span class="funcao">toggleTheme</span>() {</pre>
+                        <pre class="linha-codigo">2 <span class="chave">   </span> <span class="chave">const</span> isDark = document.<span class="funcao">body</span>.<span class="funcao">classList</span>.<span class="funcao">toggle</span>(<span class="string">'dark-theme'</span>);</pre>
+                        <pre class="linha-codigo">3 <span class="chave">   </span> <span class="funcao">localStorage</span>.<span class="funcao">setItem</span>(<span class="string">'theme'</span>, isDark ? <span class="string">'dark'</span> : <span class="string">'light'</span>);</pre>
+                        <pre class="linha-codigo">4 <span class="chave">}</span></pre>
+                        <pre class="linha-codigo">5 </pre>
+                        <pre class="linha-codigo">6 <span class="chave">function</span> <span class="funcao">configurarTrocaDeAbas</span>() {</pre>
+                        <pre class="linha-codigo">7 <span class="chave">   </span> <span class="chave">const</span> abas = document.<span class="funcao">querySelectorAll</span>(<span class="string">'.aba-item'</span>);</pre>
+                        <pre class="linha-codigo">8 <span class="chave">   </span> abas.<span class="funcao">forEach</span>(<span class="funcao">aba</span> => {</pre>
+                        <pre class="linha-codigo">9 <span class="chave">       </span> aba.<span class="funcao">addEventListener</span>(<span class="string">'click'</span>, <span class="funcao">function</span>() {</pre>
+                        <pre class="linha-codigo">10 <span class="chave">           </span> <span class="chave">const</span> targetId = <span class="chave">this</span>.<span class="funcao">getAttribute</span>(<span class="string">'data-tab'</span>);</pre>
+                        <pre class="linha-codigo">11 <span class="chave">           </span> <span class="chave">const</span> containerPai = <span class="chave">this</span>.<span class="funcao">closest</span>(<span class="string">'.projeto-visual'</span>);</pre>
+                        <pre class="linha-codigo">12 <span class="chave">           </span> <span class="funcao">if</span> (!containerPai) <span class="funcao">return</span>;</pre>
+                        <pre class="linha-codigo">13 </pre>
+                        <pre class="linha-codigo">14 <span class="chave">           </span> containerPai.<span class="funcao">querySelectorAll</span>(<span class="string">'.aba-item'</span>).<span class="funcao">forEach</span>(item => {</pre>
+                        <pre class="linha-codigo">15 <span class="chave">               </span> item.<span class="funcao">classList</span>.<span class="funcao">remove</span>(<span class="string">'active'</span>);</pre>
+                        <pre class="linha-codigo">16 <span class="chave">           </span> });</pre>
+                        <pre class="linha-codigo">17 </pre>
+                        <pre class="linha-codigo">18 <span class="chave">           </span> containerPai.<span class="funcao">querySelectorAll</span>(<span class="string">'.codigo-conteudo'</span>).<span class="funcao">forEach</span>(content => {</pre>
+                        <pre class="linha-codigo">19 <span class="chave">               </span> content.<span class="funcao">classList</span>.<span class="funcao">remove</span>(<span class="string">'active'</span>);</pre>
+                        <pre class="linha-codigo">20 <span class="chave">           </span> });</pre>
+                        <pre class="linha-codigo">21 </pre>
+                        <pre class="linha-codigo">22 <span class="chave">           </span> <span class="chave">this</span>.<span class="funcao">classList</span>.<span class="funcao">add</span>(<span class="string">'active'</span>);</pre>
+                        <pre class="linha-codigo">23 <span class="chave">           </span> <span class="chave">const</span> targetContent = document.<span class="funcao">getElementById</span>(targetId);</pre>
+                        <pre class="linha-codigo">24 <span class="chave">           </span> <span class="funcao">if</span> (targetContent) {</pre>
+                        <pre class="linha-codigo">25 <span class="chave">               </span> targetContent.<span class="funcao">classList</span>.<span class="funcao">add</span>(<span class="string">'active'</span>);</pre>
+                        <pre class="linha-codigo">26 <span class="chave">           </span> }</pre>
+                        <pre class="linha-codigo">27 <span class="chave">       </span> });</pre>
+                        <pre class="linha-codigo">28 <span class="chave">   </span> });</pre>
+                        <pre class="linha-codigo">29 <span class="chave">}</span></pre>
+                        <pre class="linha-codigo">30 </pre>
+                        <pre class="linha-codigo">31 document.<span class="funcao">addEventListener</span>(<span class="string">'DOMContentLoaded'</span>, configurarTrocaDeAbas);</pre>
+                      </div>
+                </div>
+            </div>
+            
             </section>
-            
-        </section>
+               <!-- FIM: PROJETO PORTFÓLIO (CORRIGIDO) -->
+        
         </main>
 
     <footer>
