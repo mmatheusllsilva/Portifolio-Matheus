@@ -518,3 +518,85 @@ body.dark-mode .projeto-bloco {
     background-color: var(--cor-fundo-bloco); 
     box-shadow: 0 4px 10px rgba(255, 255, 255, 0.05);
 }
+
+
+
+
+
+/* -------------------------------------------------------------------------------------------------- */
+/* NOVO: Estilos para o Editor de Código (Visual-Codigo) */
+/* -------------------------------------------------------------------------------------------------- */
+
+.visual-codigo {
+    /* Define o layout vertical: Abas em cima, Área de Código embaixo */
+    display: flex;
+    flex-direction: column;
+    /* Aumenta a largura total na coluna direita (projeto-visual) */
+    width: 100%; 
+    padding: 0; /* Remove o padding do .projeto-visual que interfere aqui */
+}
+
+/* 1. Área das Abas */
+.abas-codigo {
+    display: flex;
+    background-color: #2e3440; /* Fundo escuro para a barra de abas */
+    border-radius: 5px 5px 0 0; /* Bordas arredondadas apenas no topo */
+    overflow: hidden;
+}
+
+.aba-item {
+    padding: 8px 15px;
+    font-size: 0.9em;
+    font-family: monospace;
+    color: #d8dee9; /* Texto cinza claro */
+    cursor: pointer;
+    border-right: 1px solid #3b4252; /* Separador entre abas */
+    transition: background-color 0.2s;
+}
+
+.aba-item.active {
+    background-color: #3b4252; /* Fundo mais escuro para a aba ativa */
+    color: #a3be8c; /* Cor de destaque para a aba ativa */
+    font-weight: bold;
+}
+
+/* 2. Área do Código */
+.area-codigo {
+    background-color: #282c34; /* Fundo bem escuro (cor de editor) */
+    color: #abb2bf; /* Cor do texto padrão */
+    font-family: monospace;
+    font-size: 0.9em;
+    padding: 15px;
+    overflow-y: scroll; /* ATENÇÃO: Habilita a barra de rolagem vertical */
+    overflow-x: auto;   /* Habilita a barra de rolagem horizontal se necessário */
+    height: 350px; /* Define uma altura fixa para que a barra de rolagem apareça */
+    border-radius: 0 0 5px 5px; /* Bordas arredondadas apenas embaixo */
+}
+
+/* 3. Estilo das Linhas de Código (Sintaxe Highlighting) */
+.linha-codigo {
+    margin: 0;
+    padding: 2px 0;
+    white-space: pre; /* Garante que o texto se comporte como código */
+}
+
+/* Cores de Sintaxe (Baseado no Nord Theme) */
+.tag { color: #81a1c1; } /* Ex: <html>, <div> */
+.string { color: #a3be8c; } /* Ex: "texto" */
+.comentario { color: #4c566a; } /* Ex: */
+.funcao { color: #88c0d0; }
+.metodo { color: #5e81ac; }
+.variavel { color: #bf616a; }
+.ponto { color: white; }
+.parenteses { color: white; }
+.chaves { color: white; }
+
+/* Adicionado novamente o estilo para o dark mode garantir a cor correta */
+body.dark-mode .visual-codigo .abas-codigo {
+    background-color: #3b4252;
+}
+body.dark-mode .visual-codigo .area-codigo {
+    background-color: #2e3440;
+    color: #d8dee9;
+}
+
