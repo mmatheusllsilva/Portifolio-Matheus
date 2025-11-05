@@ -542,18 +542,24 @@ body.dark-mode .projeto-bloco {
     display: flex;
     flex-direction: column;
     
-    /* AJUSTE PARA COBRIR TODA A ÁREA (REMOVENDO CONSTRANTES DE TAMANHO MÓVEL): */
-    /* Removendo a limitação de 300px e a proporção de celular */
-    /* max-width: 300px; foi removido */
-    /* aspect-ratio: 9 / 16; foi removido */
-    width: 100%; /* Garante que ele ocupe 100% da largura do pai */
-    flex: 1; /* Permite que ocupe o espaço disponível na coluna/grid do projeto */
+    /* REAJUSTE PARA MANTER A PROPORÇÃO VERTICAL, MAS COM TAMANHO MAIOR */
     
-    /* IMPORTANTE: Removendo height/width fixos que estavam competindo */
+    /* 1. Limita a largura máxima para parecer um mockup, não a tela inteira */
+    max-width: 400px; 
+    
+    /* 2. Garante que a altura seja proporcional à largura (proporção de celular/vertical) */
+    aspect-ratio: 9 / 16;
+    
+    /* Remover flex: 1 e width: 100% que causavam a expansão total */
+    /* width: 100%; foi removido */
+    /* flex: 1; foi removido */
+    
+    /* Permite que ele se ajuste dentro do seu container até o limite de max-width */
+    width: 100%; 
     height: auto; 
     
-    /* REMOVIDO: margin: 0 0 0 20px; <--- ISSO CAUSAVA O DESLOCAMENTO */
-    margin: 0 auto; /* Centraliza o bloco dentro do seu container pai */
+    /* Centraliza o bloco dentro do seu container pai */
+    margin: 0 auto; 
     
     /* Aumenta o arredondamento (de 10px para 15px) */
     border-radius: 15px; 
@@ -563,8 +569,7 @@ body.dark-mode .projeto-bloco {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); 
     
     /* Adicionando um pequeno padding interno para dar "ar" entre o código e a borda do projeto visual, se necessário */
-    padding: 0; 
-}
+    padd
 
 /* 1. Área das Abas */
 .abas-codigo {
