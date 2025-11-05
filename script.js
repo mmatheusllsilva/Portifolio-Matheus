@@ -49,3 +49,44 @@ if (themeToggle) {
         updateThemeToggleIcon();
     });
 }
+
+/**
+ * Função para alternar entre as abas de código (HTML, CSS, Java).
+ */
+function configurarTrocaDeAbas() {
+    // 1. Seleciona todos os botões de aba (HTML, CSS, Java)
+    const abas = document.querySelectorAll('.aba-item');
+
+    abas.forEach(aba => {
+        aba.addEventListener('click', function() {
+            // Pega o ID do painel de código que esta aba deve mostrar (ex: 'codigo-css-1')
+            const targetId = this.getAttribute('data-tab'); 
+
+            // 2. Encontra o contêiner PAI (o 'projeto-visual' específico)
+            // Isso garante que o clique na aba CSS do Projeto 1 só afete os códigos do Projeto 1.
+            const containerPai = this.closest('.projeto-visual');
+            if (!containerPai) return; // Sai se não encontrar o pai (segurança)
+
+            // 3. Remove a classe 'active' de TODAS as abas e CONTEÚDOS do projeto atual
+            containerPai.querySelectorAll('.aba-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            containerPai.querySelectorAll('.codigo-conteudo').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // 4. Adiciona a classe 'active' à aba clicada (para estilização)
+            this.classList.add('active');
+
+            // 5. Adiciona a classe 'active' ao contêiner de código alvo (para visibilidade)
+            const targetContent = document.getElementById(targetId);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+        });
+    });
+}
+
+// 6. Chama a função assim que a página for totalmente carregada
+document.addEventListener('DOMContentLoaded', configurarTrocaDeAbas);
