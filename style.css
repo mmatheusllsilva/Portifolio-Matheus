@@ -639,7 +639,7 @@ body.dark-mode .visual-codigo .area-codigo {
     
     background-color: #282c34; /* Fundo escuro */
     border-radius: 0 0 15px 15px;
-    padding: 0; /* GARANTIR QUE NÃO HÁ PADDING AQUI */
+    padding: 0 5px 0 0; /* GARANTIR QUE NÃO HÁ PADDING AQUI */
 }
 
 /* Mostra a aba ativa */
@@ -649,9 +649,15 @@ body.dark-mode .visual-codigo .area-codigo {
 
 /* IMPORTANTE: Dê um padding esquerdo e direito nas linhas, não no container */
 .linha-codigo {
-    /* ... (mantenha os estilos existentes) ... */
-    padding: 0 15px; /* Adiciona padding LATERAl */
-    /* ... */
+    color: #abb2bf;
+    font-family: monospace;
+    font-size: 0.9em;
+    /* CORREÇÃO DE PADDING */
+    padding: 2px 10px 2px 15px; /* Top/Bottom=2px, Left=15px, Right=10px */
+    margin: 0; 
+    line-height: 1.5; 
+    white-space: pre; 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 /* O primeiro e último elemento podem ter a borda ajustada se necessário */
