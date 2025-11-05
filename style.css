@@ -473,6 +473,14 @@ body.dark-mode .btn-primary {
     margin-left: auto;
     /* Adicionando um padding para evitar que a sombra do celular toque a borda */
     padding: 30px; 
+    flex: 1;
+    min-width: 300px; /* Garante que a imagem ou visual tenha um tamanho mínimo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* AQUI É O AJUSTE PRINCIPAL: AUMENTAR O ESPAÇAMENTO INTERNO */
+    padding: 20px; 
+
 }
 
 /* Estilo do Conteúdo */
@@ -523,6 +531,8 @@ body.dark-mode .projeto-bloco {
 
 
 
+
+
 /* -------------------------------------------------------------------------------------------------- */
 /* NOVO: Estilos para o Editor de Código (Visual-Codigo) */
 /* -------------------------------------------------------------------------------------------------- */
@@ -533,16 +543,18 @@ body.dark-mode .projeto-bloco {
     flex-direction: column;
     width: 100%; 
     
-    /* REMOVIDO: padding: 0; 
-       Agora vamos controlar o espaçamento interno com uma nova div wrapper */
+    /* REMOVIDO: margin: 0 0 0 20px; <--- ISSO CAUSAVA O DESLOCAMENTO */
+    margin: 0; /* GARANTE QUE NÃO HÁ MARGEM EXTERNA */
     
-    /* ADICIONADO: Borda arredondada no container principal */
-    border-radius: 10px; 
-    overflow: hidden; /* Garante que os filhos respeitem o border-radius */
+    /* Aumenta o arredondamento (de 10px para 15px) */
+    border-radius: 15px; 
+    overflow: hidden; 
     
-    /* ADICIONADO: Espaçamento para afastar das laterais do bloco branco */
-    margin: 0 0 0 20px; /* Top, Right, Bottom, Left. Ajuste o '20px' se precisar de mais/menos */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Adiciona uma sombra para destaque */
+    /* AUMENTADO: Sombra para dar o efeito de profundidade (o quadro translúcido) */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); 
+    
+    /* Adicionando um pequeno padding interno para dar "ar" entre o código e a borda do projeto visual, se necessário */
+    padding: 0; 
 }
 
 /* 1. Área das Abas */
