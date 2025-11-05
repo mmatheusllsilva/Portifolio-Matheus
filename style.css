@@ -581,20 +581,20 @@ body.dark-mode .projeto-bloco {
     font-weight: bold;
 }
 
-/* 2. Área do Código */
 .area-codigo {
     background-color: #282c34; /* Fundo bem escuro (cor de editor) */
     color: #abb2bf; /* Cor do texto padrão */
     font-family: monospace;
     font-size: 0.9em;
-    padding: 15px;
+    /* REMOVIDO: padding: 15px; -> O padding lateral foi para .linha-codigo */
+    padding: 0; /* AJUSTE: Garanta que não há padding no container principal de código */
     
-    /* PROPRIEDADES CRUCIAIS PARA A ROLAGEM: */
-    overflow-y: scroll; /* ATENÇÃO: Habilita a barra de rolagem vertical */
-    overflow-x: auto;   /* Habilita a barra de rolagem horizontal se necessário */
-    height: 380px; /* DEFINA UMA ALTURA FIXA para que a barra de rolagem apareça */
+    /* PROPRIEDADES DE ROLAGEM E ALTURA (REMOVIDAS DAQUI): */
+    /* overflow-y: scroll; */
+    /* overflow-x: auto;   */
+    /* height: 380px; */ 
     
-    border-radius: 0 0 15px 15px; /* Bordas arredondadas apenas embaixo (deve ser 15px agora) */
+    border-radius: 0 0 15px 15px; 
 
     user-select: text; 
     cursor: default; 
@@ -626,4 +626,35 @@ body.dark-mode .visual-codigo .area-codigo {
     background-color: #2e3440;
     color: #d8dee9;
 }
+/* Esconde as abas inativas (vamos implementar o JS depois) */
+.codigo-conteudo {
+    /* Mantenha o display: none para as abas inativas */
+    display: none; 
+    width: 100%;
+    
+    /* PROPRIEDADES CRUCIAIS PARA A ROLAGEM E VISIBILIDADE: */
+    height: 380px; /* ALTURA FIXA é obrigatória para a rolagem */
+    overflow-y: scroll; /* ATIVA A BARRA DE ROLAGEM VERTICAL */
+    overflow-x: auto;   /* Permite rolagem horizontal para linhas longas */
+    
+    background-color: #282c34; /* Fundo escuro */
+    border-radius: 0 0 15px 15px;
+    padding: 0; /* GARANTIR QUE NÃO HÁ PADDING AQUI */
+}
 
+/* Mostra a aba ativa */
+.codigo-conteudo.active {
+    display: block;
+}
+
+/* IMPORTANTE: Dê um padding esquerdo e direito nas linhas, não no container */
+.linha-codigo {
+    /* ... (mantenha os estilos existentes) ... */
+    padding: 0 15px; /* Adiciona padding LATERAl */
+    /* ... */
+}
+
+/* O primeiro e último elemento podem ter a borda ajustada se necessário */
+.codigo-conteudo:last-child .linha-codigo:last-child {
+    border-bottom: none;
+}
