@@ -566,11 +566,15 @@ body.dark-mode .projeto-bloco {
     gap: 10px; 
     align-items: center; 
 
-    /* ALTERADO: Define um padding interno para o espaçamento do topo branco */
-    padding: 15px 15px 10px 15px; 
+    /* ALTERAÇÃO CRUCIAL:
+       - O primeiro valor (5px) é o padding superior. 
+       - O segundo valor (15px) é o padding lateral. 
+       - O terceiro valor (5px) é o padding inferior.
+       Isso reduz o espaço em cima e embaixo, centralizando verticalmente os botões
+       e deixando-os mais próximos do topo. */
+    padding: 5px 15px 5px 15px; 
     
-    /* REMOVIDO: Nenhuma cor de fundo aqui, usa o branco do .visual-codigo */
-    background-color: transparent; 
+    background-color: transparent; /* Usa o branco do .visual-codigo */
 }
 
 /* Garanta que cada item da aba se comporte como um bloco inline */
