@@ -566,20 +566,19 @@ body.dark-mode .projeto-bloco {
     gap: 10px; 
     align-items: center; 
 
-    /* ALTERAÇÃO CRUCIAL:
-       - O primeiro valor (5px) é o padding superior. 
-       - O segundo valor (15px) é o padding lateral. 
-       - O terceiro valor (5px) é o padding inferior.
-       Isso reduz o espaço em cima e embaixo, centralizando verticalmente os botões
-       e deixando-os mais próximos do topo. */
-    padding: 5px 15px 5px 15px; 
+    /* ALTERAÇÃO CRUCIAL: Padding zero no topo e na base (0px) */
+    /* Mantém 15px nas laterais para respirar */
+    padding: 0 15px; 
     
-    background-color: transparent; /* Usa o branco do .visual-codigo */
+    background-color: transparent; 
 }
 
 /* Garanta que cada item da aba se comporte como um bloco inline */
 .aba-item {
     display: inline-block; 
+    /* Adicionamos uma margem vertical mínima (5px) para dar um pequeno respiro em cima e embaixo,
+       já que removemos o padding do container pai. */
+    margin: 5px 0; 
     padding: 8px 15px;
     cursor: pointer;
     font-size: 0.9em;
@@ -588,17 +587,25 @@ body.dark-mode .projeto-bloco {
     background-color: var(--cor-fundo-aba-inativa);
     border-radius: 5px; 
     transition: all 0.2s ease-in-out; 
+    /* AJUSTE: Garante que os botões (inativos) não empurrem a área de código */
+    line-height: 1; 
 }
 
 .aba-item.active {
     color: var(--cor-texto-aba-ativa);
     background-color: var(--cor-fundo-aba-ativa); 
-    /* Removemos o margin-bottom negativo que usamos antes, pois não é mais necessário com o fundo branco */
-    margin-bottom: 0; 
-    border-bottom: none; 
-    /* Ajuste para que a aba ativa não tenha o arredondamento inferior */
+
+    /* Garante que o botão ativo fique alinhado perfeitamente */
+    margin-top: 5px; /* Mantém a margem do item */
+    margin-bottom: 0; /* REMOVE QUALQUER MARGEM INFERIOR */
+    
+    /* Remove arredondamentos inferiores para 'conectar' com a área de código */
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    
+    /* Adiciona uma borda na parte inferior do botão para sobrepor a linha do .area-codigo,
+       criando o visual de aba conectada */
+    border-bottom: 2px solid var(--cor-fundo-aba-ativa);
 }
 
 .aba-item:hover {
