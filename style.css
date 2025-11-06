@@ -542,50 +542,59 @@ body.dark-mode .projeto-bloco {
     /* Define o layout vertical: Abas em cima, Área de Código embaixo */
     display: flex;
     flex-direction: column;
-    /* REAJUSTE PARA MANTER A PROPORÇÃO VERTICAL, MAS COM TAMANHO MAIOR */
+    
+    /* ALTERADO: Fundo agora é BRANCO para o efeito de cabeçalho */
+    background-color: white; 
+    
     max-width: 400px; 
     aspect-ratio: 9 / 16;
     width: 100%; 
     height: auto; 
     margin: 0 auto; 
+    
+    /* Mantém o arredondamento na borda externa */
     border-radius: 15px; 
     overflow: hidden; 
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); 
-    /* ATENÇÃO: Se o 'padd' for um erro de digitação, remova-o. Mantenho o que você enviou. */
     /* padd */ 
 }
 /* 1. Área das Abas */
 /* NOVO: Estilo para as abas de seleção (HTML, CSS, Java) */
 .abas-codigo {
-    /* ESTE É O BLOCO CHAVE PARA ALINHAR OS ITENS */
     display: flex;
     justify-content: flex-start;
     gap: 10px; 
     align-items: center; 
 
-    padding: 10px 15px 5px 15px;
-    background-color: var(--cor-fundo-codigo-editor-tabs); 
+    /* ALTERADO: Define um padding interno para o espaçamento do topo branco */
+    padding: 15px 15px 10px 15px; 
+    
+    /* REMOVIDO: Nenhuma cor de fundo aqui, usa o branco do .visual-codigo */
+    background-color: transparent; 
 }
 
 /* Garanta que cada item da aba se comporte como um bloco inline */
 .aba-item {
-    /* GARANTE QUE O SPAN SE COMPORTE COMO UM BOTÃO AJUSTÁVEL NA LINHA */
     display: inline-block; 
-    
     padding: 8px 15px;
     cursor: pointer;
     font-size: 0.9em;
     font-weight: bold;
     color: var(--cor-texto-secundario);
-    background-color: var(--cor-fundo-aba-inativa); /* Cor de fundo para abas não selecionadas */
-    border-radius: 5px; /* Bordas arredondadas para os botões */
-    transition: all 0.2s ease-in-out; /* Transição suave para efeitos de hover e active */
+    background-color: var(--cor-fundo-aba-inativa);
+    border-radius: 5px; 
+    transition: all 0.2s ease-in-out; 
 }
 
 .aba-item.active {
-    color: var(--cor-texto-aba-ativa); /* Cor do texto da aba ativa */
-    background-color: var(--cor-fundo-aba-ativa); /* Seu verde escuro para a aba ativa */
+    color: var(--cor-texto-aba-ativa);
+    background-color: var(--cor-fundo-aba-ativa); 
+    /* Removemos o margin-bottom negativo que usamos antes, pois não é mais necessário com o fundo branco */
+    margin-bottom: 0; 
     border-bottom: none; 
+    /* Ajuste para que a aba ativa não tenha o arredondamento inferior */
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .aba-item:hover {
@@ -595,8 +604,8 @@ body.dark-mode .projeto-bloco {
 /* Defina as variáveis de cor no seu :root ou onde estiver definindo as cores do seu tema */
 :root {
     --cor-fundo-codigo-abas: #333; /* Exemplo de cor para o fundo das abas */
-    --cor-fundo-aba-inativa: #444; /* Exemplo de cor para a aba inativa */
-    --cor-fundo-aba-ativa: #28a745; /* Seu verde escuro para a aba ativa */
+    --cor-fundo-aba-inativa: #444; 
+    --cor-fundo-aba-ativa: #28a745; 
     --cor-texto-aba-ativa: #fff; /* Texto branco na aba ativa */
     --cor-fundo-aba-hover: #555; /* Cor para hover */
     --cor-borda: #555; /* Cor para a borda divisória */
@@ -612,13 +621,17 @@ body.dark-mode .projeto-bloco {
 }
 
 .area-codigo {
-    background-color: #282c34;
+    /* MANTIDO: Fundo bem escuro (cor de editor) */
+    background-color: #282c34; 
     color: #abb2bf;
     font-family: monospace;
     font-size: 0.9em;
     padding: 0; 
     flex: 1;
+    
+    /* ALTERADO: Garante que os cantos arredondados sejam apenas os inferiores do container pai */
     border-radius: 0 0 15px 15px; 
+    
     height: auto; 
     overflow-y: auto; 
     user-select: text; 
