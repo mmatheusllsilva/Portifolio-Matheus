@@ -537,51 +537,41 @@ body.dark-mode .projeto-bloco {
 /* NOVO: Estilos para o Editor de Código (Visual-Codigo) */
 /* -------------------------------------------------------------------------------------------------- */
 
+/* CONTEINER DE CÓDIGO (Visualização de celular) */
 .visual-codigo {
     /* Define o layout vertical: Abas em cima, Área de Código embaixo */
     display: flex;
     flex-direction: column;
-    
     /* REAJUSTE PARA MANTER A PROPORÇÃO VERTICAL, MAS COM TAMANHO MAIOR */
-    
-    /* 1. Limita a largura máxima para parecer um mockup, não a tela inteira */
     max-width: 400px; 
-    
-    /* 2. Garante que a altura seja proporcional à largura (proporção de celular/vertical) */
     aspect-ratio: 9 / 16;
-    
-    /* Remover flex: 1 e width: 100% que causavam a expansão total */
-    /* width: 100%; foi removido */
-    /* flex: 1; foi removido */
-    
-    /* Permite que ele se ajuste dentro do seu container até o limite de max-width */
     width: 100%; 
     height: auto; 
-    
-    /* Centraliza o bloco dentro do seu container pai */
     margin: 0 auto; 
-    
-    /* Aumenta o arredondamento (de 10px para 15px) */
     border-radius: 15px; 
     overflow: hidden; 
-    
-    /* AUMENTADO: Sombra para dar o efeito de profundidade (o quadro translúcido) */
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); 
-    
-    /* Adicionando um pequeno padding interno para dar "ar" entre o código e a borda do projeto visual, se necessário */
-    padd
-
+    /* ATENÇÃO: Se o 'padd' for um erro de digitação, remova-o. Mantenho o que você enviou. */
+    /* padd */ 
+}
 /* 1. Área das Abas */
+/* NOVO: Estilo para as abas de seleção (HTML, CSS, Java) */
 .abas-codigo {
-    display: flex; /* Isso faz com que os itens dentro se alinhem em uma linha */
-    justify-content: flex-start; /* Alinha os itens ao início do contêiner */
-    gap: 10px; /* Adiciona um pequeno espaço entre os botões */
-    padding: 10px; /* Adiciona um preenchimento interno para não colar nas bordas */
-    background-color: var(--cor-fundo-codigo-abas); /* Se você tiver uma cor específica para as abas */
-    border-bottom: 1px solid var(--cor-borda); /* Para a linha divisória inferior */
+    /* ESTE É O BLOCO CHAVE PARA ALINHAR OS ITENS */
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px; 
+    align-items: center; 
+
+    padding: 10px 15px 5px 15px;
+    background-color: var(--cor-fundo-codigo-editor-tabs); 
 }
 
+/* Garanta que cada item da aba se comporte como um bloco inline */
 .aba-item {
+    /* GARANTE QUE O SPAN SE COMPORTE COMO UM BOTÃO AJUSTÁVEL NA LINHA */
+    display: inline-block; 
+    
     padding: 8px 15px;
     cursor: pointer;
     font-size: 0.9em;
@@ -594,12 +584,12 @@ body.dark-mode .projeto-bloco {
 
 .aba-item.active {
     color: var(--cor-texto-aba-ativa); /* Cor do texto da aba ativa */
-    background-color: var(--cor-fundo-aba-ativa); /* Cor de fundo da aba ativa (como você já tem o verde escuro) */
-    border-bottom: none; /* Remove a borda inferior se a aba ativa já tem um fundo diferente */
+    background-color: var(--cor-fundo-aba-ativa); /* Seu verde escuro para a aba ativa */
+    border-bottom: none; 
 }
 
 .aba-item:hover {
-    background-color: var(--cor-fundo-aba-hover); /* Um pouco mais escuro ao passar o mouse */
+    background-color: var(--cor-fundo-aba-hover);
 }
 
 /* Defina as variáveis de cor no seu :root ou onde estiver definindo as cores do seu tema */
@@ -618,24 +608,19 @@ body.dark-mode .projeto-bloco {
     --cor-fundo-aba-inativa: #333;
     --cor-fundo-aba-hover: #444;
     --cor-borda: #444;
+    --cor-fundo-codigo-editor-tabs: #222; /* Use esta variável para o fundo da aba */
 }
 
 .area-codigo {
-    background-color: #282c34; /* Fundo bem escuro (cor de editor) */
-    color: #abb2bf; /* Cor do texto padrão */
+    background-color: #282c34;
+    color: #abb2bf;
     font-family: monospace;
     font-size: 0.9em;
-    /* REMOVIDO: padding: 15px; -> O padding lateral foi para .linha-codigo */
-    padding: 0; /* AJUSTE: Garanta que não há padding no container principal de código */
+    padding: 0; 
     flex: 1;
-    /* PROPRIEDADES DE ROLAGEM E ALTURA (REMOVIDAS DAQUI): */
-    /* overflow-y: scroll; */
-    /* overflow-x: auto;   */
-    /* height: 380px; */ 
-    
     border-radius: 0 0 15px 15px; 
- height: auto; /* Remove qualquer altura fixa que possa ter sido definida anteriormente */
-    overflow-y: auto; /* Garante a rolagem vertical, se o conteúdo for grande */
+    height: auto; 
+    overflow-y: auto; 
     user-select: text; 
     cursor: default; 
 }
@@ -658,10 +643,17 @@ body.dark-mode .projeto-bloco {
 .parenteses { color: white; }
 .chaves { color: white; }
 
-/* Adicionado novamente o estilo para o dark mode garantir a cor correta */
-body.dark-mode .visual-codigo .abas-codigo {
-    background-color: #3b4252;
+:root {
+    --cor-fundo-codigo-abas: #333; /* Exemplo de cor para o fundo das abas */
+    --cor-fundo-aba-inativa: #444; /* Exemplo de cor para a aba inativa */
+    --cor-fundo-aba-ativa: #28a745; /* Seu verde escuro para a aba ativa */
+    --cor-texto-aba-ativa: #fff; /* Texto branco na aba ativa */
+    --cor-fundo-aba-hover: #555; /* Cor para hover */
+    --cor-borda: #555; /* Cor para a borda divisória */
+    --cor-fundo-codigo-editor-tabs: #333; /* Use esta variável para o fundo da aba */
+    /* ... outras variáveis de cor ... */
 }
+
 body.dark-mode .visual-codigo .area-codigo {
     background-color: #2e3440;
     color: #d8dee9;
