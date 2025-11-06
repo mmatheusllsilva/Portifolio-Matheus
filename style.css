@@ -573,27 +573,51 @@ body.dark-mode .projeto-bloco {
 
 /* 1. Área das Abas */
 .abas-codigo {
-    display: flex;
-    background-color: #2e3440; /* Fundo escuro para a barra de abas */
-    /* REMOVIDO: border-radius: 5px 5px 0 0;  Agora quem controla é o .visual-codigo */
-    overflow: hidden;
-    padding: 0;
+    display: flex; /* Isso faz com que os itens dentro se alinhem em uma linha */
+    justify-content: flex-start; /* Alinha os itens ao início do contêiner */
+    gap: 10px; /* Adiciona um pequeno espaço entre os botões */
+    padding: 10px; /* Adiciona um preenchimento interno para não colar nas bordas */
+    background-color: var(--cor-fundo-codigo-abas); /* Se você tiver uma cor específica para as abas */
+    border-bottom: 1px solid var(--cor-borda); /* Para a linha divisória inferior */
 }
 
 .aba-item {
- padding: 8px 15px 8px 10px; /* 10px de padding na esquerda e 15px na direita */
-    font-size: 0.9em;
-    font-family: monospace;
-    color: #d8dee9; /* Texto cinza claro */
-    cursor: pointer;
-    border-right: 1px solid #3b4252; /* Separador entre abas */
-    transition: background-color 0.2s;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: var(--cor-texto-secundario);
+    background-color: var(--cor-fundo-aba-inativa); /* Cor de fundo para abas não selecionadas */
+    border-radius: 5px; /* Bordas arredondadas para os botões */
+    transition: all 0.2s ease-in-out; /* Transição suave para efeitos de hover e active */
 }
 
 .aba-item.active {
-    background-color: #3b4252; /* Fundo mais escuro para a aba ativa */
-    color: #a3be8c; /* Cor de destaque para a aba ativa */
-    font-weight: bold;
+    color: var(--cor-texto-aba-ativa); /* Cor do texto da aba ativa */
+    background-color: var(--cor-fundo-aba-ativa); /* Cor de fundo da aba ativa (como você já tem o verde escuro) */
+    border-bottom: none; /* Remove a borda inferior se a aba ativa já tem um fundo diferente */
+}
+
+.aba-item:hover {
+    background-color: var(--cor-fundo-aba-hover); /* Um pouco mais escuro ao passar o mouse */
+}
+
+/* Defina as variáveis de cor no seu :root ou onde estiver definindo as cores do seu tema */
+:root {
+    --cor-fundo-codigo-abas: #333; /* Exemplo de cor para o fundo das abas */
+    --cor-fundo-aba-inativa: #444; /* Exemplo de cor para a aba inativa */
+    --cor-fundo-aba-ativa: #28a745; /* Seu verde escuro para a aba ativa */
+    --cor-texto-aba-ativa: #fff; /* Texto branco na aba ativa */
+    --cor-fundo-aba-hover: #555; /* Cor para hover */
+    --cor-borda: #555; /* Cor para a borda divisória */
+    /* ... outras variáveis de cor ... */
+}
+/* Para o tema escuro */
+.dark-theme {
+    --cor-fundo-codigo-abas: #222;
+    --cor-fundo-aba-inativa: #333;
+    --cor-fundo-aba-hover: #444;
+    --cor-borda: #444;
 }
 
 .area-codigo {
