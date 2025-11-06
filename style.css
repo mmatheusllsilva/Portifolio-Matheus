@@ -441,30 +441,36 @@ body.dark-mode .btn-primary {
 }
 
 .projetos-main {
-    max-width: 1400px;
-    width: 95%;
-    margin: 0 auto 40px auto;
+    padding: 60px 0;
 }
 
 .projeto-bloco {
-    /* Usa Grid para dividir o conteúdo e a imagem */
     display: grid;
-    grid-template-columns: 60% 40%; /* Conteúdo (60%) | Visual (40%) */
-    gap: 40px; /* Espaço entre as colunas */
+    /* Duas colunas - Conteúdo (60%) | Visual (40%) */
+    grid-template-columns: 60% 40%;
+    gap: 40px; 
     
-    /* 
-      CORREÇÃO AQUI: 
-      Mudando o alinhamento vertical de 'center' para 'start'
-      para que o texto suba para o topo do bloco.
-    */
-    align-items: start; /* <-- Mude de 'center' para 'start' */
+    /* ALTERAÇÃO CRUCIAL: Alinha os itens ao topo para tirar o espaço em branco vertical */
+    align-items: start; 
     
-    /* Espaçamento entre os projetos */
     margin-bottom: 80px;
-    padding: 40px; /* Padding interno */
-    background-color: white; /* Cor de fundo para o bloco do projeto */
+    padding: 40px; 
+    background-color: white; 
     border-radius: 0px; 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Sombra suave */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); 
+}
+
+/* Inverte a ordem das colunas para blocos alternados */
+.projeto-bloco.reverse {
+    grid-template-areas: "visual conteudo"; /* Define áreas para desktop */
+}
+
+/* Para o bloco reverso, trocamos a ordem (visual à direita, conteúdo à esquerda) */
+.projeto-bloco.reverse .projeto-visual {
+    grid-area: visual;
+}
+.projeto-bloco.reverse .projeto-conteudo {
+    grid-area: conteudo;
 }
 
 /* NOVO: Estilo para alinhar a imagem à direita e criar um respiro */
