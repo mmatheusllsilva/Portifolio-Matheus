@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matheus Silva | Efeito Rastro</title>
+    <title>Matheus Silva | Rastro de Revelação</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html { height: 100%; width: 100%; overflow: hidden; background-color: #000; }
@@ -12,7 +12,7 @@
             position: relative;
             width: 100vw;
             height: 100vh;
-            cursor: crosshair; /* Cursor estiloso para o tema viking */
+            cursor: none; /* Esconde o mouse padrão para imersão */
         }
 
         /* CAMADA 1: VIKING (FUNDO FIXO) */
@@ -23,10 +23,10 @@
             background-image: url('viking.png'); 
             background-size: cover;
             background-position: center;
-            z-index: 1;
+            z-index: 1; /* Fica por baixo */
         }
 
-        /* CAMADA 2: ROBÔ (COM O EFEITO DE RASTRO) */
+        /* CAMADA 2: ROBÔ (A REVELADA) */
         .robo-layer {
             position: absolute;
             top: 0; left: 0;
@@ -34,38 +34,56 @@
             background-image: url('robo2.png'); 
             background-size: cover;
             background-position: center;
-            z-index: 2;
-            pointer-events: none; /* Deixa o mouse passar através para o container */
+            z-index: 2; /* Fica por cima */
             
-            /* Máscara inicial */
-            -webkit-mask-image: radial-gradient(circle 200px at -500px -500px, black 0%, transparent 80%);
-            mask-image: radial-gradient(circle 200px at -500px -500px, black 0%, transparent 80%);
-            -webkit-mask-repeat: no-repeat;
-            mask-repeat: no-repeat;
+            /* Esta camada ficará mascarada pelo Canvas */
+            -webkit-mask-image: url(#canvasMask);
+            mask-image: url(#canvasMask);
+            -webkit-mask-size: cover;
+            mask-size: cover;
         }
+
+        /* O CANVAS (ONDE DESENHAMOS O RASTRO) */
+        #rastroCanvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 3; /* Canvas por cima para capturar o mouse */
+            pointer-events: auto; /* Permite interações do mouse */
+            opacity: 0; /* Esconde o canvas visualmente */
+        }
+
     </style>
 </head>
 <body>
 
     <div class="container" id="container">
         <div class="viking-layer"></div>
+        
         <div class="robo-layer" id="roboLayer"></div>
+        
+        <canvas id="rastroCanvas"></canvas>
     </div>
 
     <script>
+        const canvas = document.getElementById('rastroCanvas');
+        const ctx = canvas.getContext('2d');
         const roboLayer = document.getElementById('roboLayer');
-        
-        // Posição real do mouse
+
+        // Configura o tamanho do canvas para tela cheia
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            // Preenche o canvas com preto (transparente na máscara)
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Posição do mouse
         let mouseX = -500;
         let mouseY = -500;
-        
-        // Posição da "máscara" (que vai perseguir o mouse)
-        let maskX = -500;
-        let maskY = -500;
-
-        // Fator de lentidão (Quanto menor o número, mais parece uma "lesma")
-        // 0.05 é bem lento e fluido. 0.1 é um pouco mais rápido.
-        const speed = 0.05; 
 
         window.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
@@ -73,21 +91,31 @@
         });
 
         function animate() {
-            // Cálculo de Interpolação Linear (Lerp)
-            // A posição da máscara caminha uma fração da distância até o mouse em cada frame
-            maskX += (mouseX - maskX) * speed;
-            maskY += (mouseY - maskY) * speed;
+            // 1. Cria o efeito de "desaparecer devagar" (Lesma)
+            // Desenhamos um retângulo preto quase transparente sobre todo o canvas
+            // Isso faz as "marcas" do rastro ficarem mais escuras a cada frame
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // Controla a duração do rastro (menor número = rastro mais longo)
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            const mask = `radial-gradient(circle 200px at ${maskX}px ${maskY}px, black 0%, transparent 80%)`;
-            
-            roboLayer.style.webkitMaskImage = mask;
-            roboLayer.style.maskImage = mask;
+            // 2. Desenha o novo rastro na posição do mouse
+            // Usamos 'destination-out' para criar um buraco transparente (revelando o robô)
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.arc(mouseX, mouseY, 150, 0, Math.PI * 2); // Tamanho da circunferência
+            ctx.fillStyle = 'rgba(0, 0, 0, 1)'; // Opacidade total para o buraco
+            ctx.fill();
 
-            // Executa a função novamente no próximo frame (60fps)
+            // 3. Aplica o canvas como máscara na camada do Robô
+            // O navegador lê o canvas: onde é transparente, o robô aparece.
+            // Onde é preto, o viking aparece.
+            const canvasData = canvas.toDataURL();
+            roboLayer.style.maskImage = `url(${canvasData})`;
+            roboLayer.style.webkitMaskImage = `url(${canvasData})`;
+
             requestAnimationFrame(animate);
         }
 
-        // Inicia a animação
         animate();
     </script>
 </body>
