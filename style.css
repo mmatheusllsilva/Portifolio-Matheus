@@ -1,0 +1,728 @@
+/* --- 1. Variáveis e Reset (Completo) --- */
+:root {
+    --cor-principal: #333; /* Preto para o texto de impacto */
+    --cor-fundo: #e0e0e0; /* Cinza claro/Quase branco (Fundo do exemplo) */
+    --cor-secundaria: #8c52ff; /* Roxo (para destaque de links) */
+    --fonte-destaque: 'Arial Black', sans-serif; /* Para o estilo ousado */
+    --fonte-corpo: 'Helvetica', sans-serif; 
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* --- 2. Configuração do GRID (O Coração do Layout) --- */
+body {
+    font-family: var(--fonte-corpo);
+    background-color: var(--cor-fundo);
+    color: var(--cor-principal);
+    min-height: 100vh;
+}
+
+.container-grid {
+    display: grid;
+    grid-template-columns: 60% 40%; 
+    grid-template-rows: auto auto auto; 
+    max-width: 1400px;
+    margin: 0 auto 40px auto;
+    width: 95%;
+    gap: 0px;
+}
+
+/* --- 3. Header de Destaque (Coluna Esquerda Superior) --- */
+.hero-left {
+    background-color: var(--cor-principal); /* Fundo preto/cinza escuro */
+    color: white;
+    padding: 60px;
+    /* Faz a coluna ocupar 100% da primeira linha */
+    grid-row: 1 / 2; 
+    border-radius: 0px;
+}
+
+.main-title {
+    font-family: var(--fonte-destaque);
+    font-size: 3.0em; 
+    line-height: 1.1;
+    margin-bottom: 0px;
+}
+
+.subtitle {
+    font-size: 1.1em;
+    line-height: 1.5;
+    margin-bottom: 30px;
+    color: #ccc;
+}
+
+.btn-primary {
+    display: inline-block;
+    background-color: white;
+    color: var(--cor-principal);
+    padding: 12px 25px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+/* --- 4. Imagem de Destaque (Coluna Direita Superior e Inferior) --- */
+.hero-right {
+    background-color: white;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+    position: relative; 
+    grid-row: 1 / 3; 
+    overflow: hidden; 
+    border-radius: 0px
+    
+    /* CORREÇÃO: Removido o padding para permitir que a imagem preencha 100% */
+    padding: 0; 
+    /* Adicionamos uma altura mínima para o bloco ter dimensão, já que o conteúdo interno é absoluto */
+    min-height: 500px; 
+}
+
+/* NOVO: Posicionamento do texto/número 01 */
+.hero-right .numero-destaque {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2.5em;
+    color: white; /* AJUSTADO PARA BRANCO */
+    text-shadow: 0 0 5px rgba(0,0,0,0.5); /* Sombra para legibilidade */
+    z-index: 2;
+}
+
+.hero-right .numero-descricao {
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    color: white; /* AJUSTADO PARA BRANCO */
+    text-shadow: 0 0 5px rgba(0,0,0,0.5); /* Sombra para legibilidade */
+    z-index: 2;
+}
+
+.main-image {
+    max-width: 100%; /* Ajustado para 100% */
+    width: 100%; /* Garante que a largura seja 100% */
+    height: 100%; /* Ajustado para 100% */
+    object-fit: cover; /* Essencial para cobrir o espaço sem distorcer */
+    margin-bottom: 0; /* Remove a margem inferior */
+    position: absolute; /* Para que ela cubra o bloco inteiro */
+    top: 0;
+    left: 0;
+    z-index: 1; /* Coloca a imagem no fundo */
+}
+
+/* --- 5. Blocos Inferiores (Ajuste para Grid Aninhado) --- */
+.section-bottom-blocks {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Duas colunas para os blocos 02 e 03 */
+    gap: 0px;
+    grid-column: 1 / 2; /* Ocupa a primeira coluna principal */
+    grid-row: 2 / 3; /* Ocupa a segunda linha principal */
+}
+
+.section-bloco {
+padding: 0px;
+    background-color: #f0f0f0; 
+    border-radius: 0px;
+    text-align: center;
+    display: flex; 
+    flex-direction: column;
+    justify-content: flex-end; /* Alinha o conteúdo para baixo */
+    align-items: flex-start; /* Alinha o conteúdo para a esquerda */
+    position: relative; /* Essencial para posicionar o texto absolutamente */
+    overflow: hidden; /* Garante que a imagem de fundo não vaze */
+    color: white;
+}
+
+/* NOVO: Estilos para as imagens de fundo dos blocos 02 e 03 */
+.bloco-02 {
+    background-image: url('cd.jpeg'); /* Use a imagem do CD */
+    background-size: cover; /* Faz a imagem cobrir todo o bloco */
+    background-position: center; /* Centraliza a imagem */
+}
+
+.bloco-03 {
+    background-image: url('pendrive.jpeg'); /* Use a imagem do Pendrive */
+    background-size: cover; 
+    background-position: center; 
+}
+
+/* Ajuste para o texto nos blocos, para aparecer sobre as imagens */
+.section-bloco .numero-destaque,
+.section-bloco .numero-descricao {
+    position: relative; /* Garante que fiquem acima da imagem de fundo */
+    z-index: 2; /* Coloca o texto acima da imagem */
+    color: white; /* Cor do texto branco sobre a imagem escura */
+    text-shadow: 0 0 5px rgba(0,0,0,0.5); /* Sombra para melhor legibilidade */
+    margin-bottom: 5px; /* Espaçamento entre o número e a descrição */
+}
+
+.section-bloco .numero-destaque {
+    font-size: 2em; /* Tamanho do número */
+    margin-left: 10px; /* Margem para alinhar à esquerda */
+}
+
+.section-bloco .numero-descricao {
+    font-size: 0.8em;
+    text-transform: uppercase;
+    margin-left: 10px; /* Margem para alinhar à esquerda */
+    margin-bottom: 10px; /* Espaçamento da base do bloco */
+}
+
+/* NOVO: Efeito de escurecimento sobre a imagem de fundo (opcional, para legibilidade) */
+.section-bloco::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Escurece a imagem para o texto aparecer */
+    z-index: 1;
+}
+
+/* --- 6. Rodapé --- */
+footer {
+    grid-column: 1 / 3; 
+    grid-row: 3 / 4; 
+    text-align: center;
+    padding: 30px 0;
+    font-size: 0.9em;
+    color: #777;
+    background-color: white; 
+    margin-top: 15px;
+}
+
+/* --- 7. Responsividade (Mobile Layout) --- */
+@media (max-width: 768px) {
+    
+    /* 1. Mudar o GRID PRINCIPAL para empilhar: uma única coluna */
+    .container-grid {
+        grid-template-columns: 1fr; /* Coluna única (100% da largura) */
+        grid-template-rows: auto auto auto auto auto; /* Mais linhas, se necessário */
+        margin: 20px auto; /* Reduz a margem geral */
+    }
+
+    /* 2. Todos os blocos principais devem se estender por toda a largura */
+    .hero-left, .hero-right, .section-bottom-blocks, footer {
+        grid-column: 1 / -1; /* Ocupa a única coluna */
+    }
+
+    /* 3. Ajustar o bloco de texto para ter padding menor */
+    .hero-left {
+        padding: 30px; 
+    }
+
+    /* 4. Ajustar os blocos inferiores (CD e Pendrive) para empilhamento */
+    .section-bottom-blocks {
+        grid-template-columns: 1fr; /* Mudar de 2 colunas para 1 coluna */
+        gap: 0; /* Manter sem gap */
+    }
+    
+    /* 5. Ajustar o Mac */
+    .hero-right {
+        min-height: 350px; /* Reduz a altura do bloco do Mac em mobile */
+    }
+    
+    /* 6. Ajustar o botão */
+    .btn-primary {
+        width: 100%; /* Botão 100% da largura do bloco */
+        text-align: center;
+    }
+}
+
+/* --- NOVO: 2.5. Cabeçalho do Site e Navegação --- */
+.logo a {
+    font-size: 1.5em;
+    padding: 15px 0;
+    font-family: var(--fonte-destaque);
+    color: var(--cor-principal); 
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* --- NOVO: 8. Seção de Tecnologias (Tech Stack) --- */
+
+.tech-stack {
+    max-width: 1400px;
+    width: 95%;
+    margin: 40px auto; /* Garante que o bloco .tech-stack esteja centralizado na tela */
+    padding: 20px 0;
+    text-align: center;
+}
+
+.tech-title {
+    font-size: 1.8em;
+    font-family: var(--fonte-destaque);
+    color: var(--cor-principal);
+    margin-bottom: 30px;
+}
+
+/* Flexbox para as logos: alinha horizontalmente */
+.tech-logos {
+display: flex;
+    justify-content: center; /* CENTRALIZA o bloco de logos */
+    align-items: center;
+    flex-wrap: wrap; 
+    gap: 40px;
+    /* REMOVEMOS: width: 60px; height: 60px; etc. daqui */
+}
+
+.logo-item {
+    text-align: center;
+    padding: 10px;
+    background-color: white;
+    border-radius: 0px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    width: 120px; 
+    height: 120px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.tech-logo {
+    width: 60px; /* TAMANHO DA LOGO */
+    height: 60px; /* TAMANHO DA LOGO */
+    object-fit: contain;
+    margin-bottom: 5px;
+    transition: transform 0.3s;
+}
+
+.tech-logo:hover {
+    transform: scale(1.1); /* Efeito de destaque ao passar o mouse */
+}
+
+.logo-item p {
+    font-size: 0.9em;
+    font-weight: bold;
+    color: var(--cor-principal);
+}
+
+/* --- ESTILOS PARA AGRUPAR BOTÕES NA HERO SECTION --- */
+.hero-actions {
+    display: flex; 
+    align-items: center;
+    gap: 15px; 
+    margin-top: 30px; 
+}
+
+/* --- NOVO: 2.5. Cabeçalho do Site e Navegação --- */
+.site-header {
+    max-width: 1400px;
+    width: 95%;
+    margin: 0 auto;
+
+    /* ESSENCIAL: Alinha o logo e o ícone lado a lado e os distribui */
+    display: flex;
+    justify-content: space-between; /* Move o ícone para a direita */
+    align-items: center;
+
+    /* Padding original do cabeçalho */
+    padding: 15px 10px;
+}
+
+/* --- ESTILO DO ÍCONE NO HEADER --- */
+.header-linkedin-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px; /* Padding menor */
+    border-radius: 5px; 
+    transition: background-color 0.3s;
+}
+
+.header-linkedin-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1); 
+}
+
+/* Garante o tamanho e a proporção correta */
+.header-linkedin-img {
+    width: 60px; /* Tamanho discreto para o cabeçalho */
+    height: 60px; 
+    object-fit: contain; /* ESSENCIAL: Evita o esticamento! */
+}
+
+/* --- 9. Dark Mode --- */
+
+/* 1. NOVAS VARIÁVEIS DE COR PARA O TEMA ESCURO (Dark Mode) */
+body.dark-mode {
+    --cor-principal: #ffffff;      /* Texto principal: Branco */
+    --cor-fundo: #121212;          /* Fundo da página: Preto/Muito Escuro */
+    --cor-secundaria: #8c52ff;     /* Roxo (mantém o destaque) */
+    --cor-fundo-bloco: #1e1e1e;    /* Fundo de blocos/cards: Cinza Escuro */
+}
+
+/* 2. APLICAÇÃO GERAL */
+body.dark-mode {
+    background-color: var(--cor-fundo);
+    color: var(--cor-principal);
+}
+
+/* 3. INVERSÃO DOS BLOCOS (ajuste de cada seção, se necessário) */
+
+/* Seção Hero (Bloco Preto atual) */
+body.dark-mode .hero-left {
+    background-color: var(--cor-fundo-bloco);
+    color: var(--cor-principal);
+}
+
+/* Rodapé (Bloco Branco atual) */
+body.dark-mode footer {
+    background-color: var(--cor-fundo-bloco);
+    color: #aaaaaa; 
+}
+
+/* Blocos de Logos/Cards (Blocos Brancos atuais, como o .logo-item) */
+body.dark-mode .logo-item {
+    background-color: #2c2c2c; /* Um cinza um pouco mais claro */
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* Sombra clara */
+}
+
+/* Botão Primário (se for branco, inverte) */
+body.dark-mode .btn-primary {
+    background-color: var(--cor-fundo);
+    color: var(--cor-principal);
+    border: 1px solid var(--cor-principal);
+}
+
+/* Estilo do Botão Dark Mode */
+.btn-theme-toggle {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+    color: var(--cor-principal); /* Usa a cor principal definida */
+}
+
+.header-actions-group {
+    display: flex; /* Coloca os itens (LinkedIn e Lua) lado a lado */
+    align-items: center; /* Alinha ambos verticalmente ao centro (RESOLVE O DESALINHAMENTO) */
+    gap: 15px; /* Espaçamento entre os dois itens */
+}
+
+
+
+
+
+
+
+
+
+
+/* --- NOVO: Estilos para a Seção de Projetos --- */
+
+/* --- Estilos do Cabeçalho --- */
+.site-header {
+    width: 100%;
+    
+    /* CORREÇÃO: 
+      Aumentando o padding vertical para 15px (tinha 10px) 
+      para dar um respiro maior e centralizar visualmente.
+    */
+    padding: 15px 5%; 
+    
+    /* Garante que os itens (nome, ícones) fiquem centralizados verticalmente */
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+
+    /* Mantemos margin-bottom: 0 para não afastar do bloco branco */
+    margin-bottom: 0; 
+}
+
+.projetos-main {
+    padding: 60px 0;
+}
+
+.projeto-bloco {
+    display: grid;
+    /* Duas colunas - Conteúdo (60%) | Visual (40%) */
+    grid-template-columns: 60% 40%;
+    gap: 40px; 
+    
+    /* ALTERAÇÃO CRUCIAL: Alinha os itens ao topo para tirar o espaço em branco vertical */
+    align-items: start; 
+    
+    margin-bottom: 80px;
+    padding: 40px; 
+    background-color: white; 
+    border-radius: 0px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); 
+}
+
+/* Inverte a ordem das colunas para blocos alternados */
+.projeto-bloco.reverse {
+    grid-template-areas: "visual conteudo"; /* Define áreas para desktop */
+}
+
+/* Para o bloco reverso, trocamos a ordem (visual à direita, conteúdo à esquerda) */
+.projeto-bloco.reverse .projeto-visual {
+    grid-area: visual;
+}
+.projeto-bloco.reverse .projeto-conteudo {
+    grid-area: conteudo;
+}
+
+/* NOVO: Estilo para alinhar a imagem à direita e criar um respiro */
+.projeto-visual {
+    /* O margin: auto à esquerda garante o espaçamento na direita */
+    margin-left: auto;
+    /* Adicionando um padding para evitar que a sombra do celular toque a borda */
+    padding: 30px; 
+    flex: 1;
+    min-width: 300px; /* Garante que a imagem ou visual tenha um tamanho mínimo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* AQUI É O AJUSTE PRINCIPAL: AUMENTAR O ESPAÇAMENTO INTERNO */
+    padding: 20px; 
+
+}
+
+/* Estilo do Conteúdo */
+.projeto-titulo {
+    font-family: var(--fonte-destaque);
+    font-size: 2.5em;
+    color: var(--cor-principal);
+    margin-bottom: 15px;
+}
+
+.projeto-descricao {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* Estilo da Imagem (Mock-up) */
+.mockup-img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Destaque o mock-up */
+}
+
+/* Responsividade: Empilhar em Mobile */
+@media (max-width: 768px) {
+    .projeto-bloco {
+        grid-template-columns: 1fr; /* Coluna única: 100% */
+        gap: 25px;
+        padding: 30px 20px;
+    }
+    
+    /* Em mobile, a imagem do celular pode vir antes ou depois do texto, dependendo de como você organizou */
+    .projeto-visual {
+        order: -1; /* Força o visual a ir para o topo em telas menores */
+        margin-left: initial;
+    }
+}
+
+/* DARK MODE para a página de projetos */
+body.dark-mode .projeto-bloco {
+    background-color: var(--cor-fundo-bloco); 
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.05);
+}
+
+
+
+
+
+
+
+/* -------------------------------------------------------------------------------------------------- */
+/* NOVO: Estilos para o Editor de Código (Visual-Codigo) */
+/* -------------------------------------------------------------------------------------------------- */
+
+/* CONTEINER DE CÓDIGO (Visualização de celular) */
+.visual-codigo {
+    /* Define o layout vertical: Abas em cima, Área de Código embaixo */
+    display: flex;
+    flex-direction: column;
+    
+    /* ALTERADO: Fundo agora é BRANCO para o efeito de cabeçalho */
+    background-color: white; 
+    
+    max-width: 400px; 
+    aspect-ratio: 9 / 16;
+    width: 100%; 
+    height: auto; 
+    margin: 0 auto; 
+    
+    /* Mantém o arredondamento na borda externa */
+    border-radius: 15px; 
+    overflow: hidden; 
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); 
+    /* padd */ 
+}
+/* 1. Área das Abas */
+/* NOVO: Estilo para as abas de seleção (HTML, CSS, Java) */
+.abas-codigo {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px; 
+    align-items: center; 
+
+    /* ALTERAÇÃO CRUCIAL: Padding zero no topo e na base (0px) */
+    /* Mantém 15px nas laterais para respirar */
+    padding: 0 15px; 
+    
+    background-color: transparent; 
+}
+
+/* Garanta que cada item da aba se comporte como um bloco inline */
+.aba-item {
+    display: inline-block; 
+    /* Adicionamos uma margem vertical mínima (5px) para dar um pequeno respiro em cima e embaixo,
+       já que removemos o padding do container pai. */
+    margin: 5px 0; 
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: var(--cor-texto-secundario);
+    background-color: var(--cor-fundo-aba-inativa);
+    border-radius: 5px; 
+    transition: all 0.2s ease-in-out; 
+    /* AJUSTE: Garante que os botões (inativos) não empurrem a área de código */
+    line-height: 1; 
+}
+
+.aba-item.active {
+    color: var(--cor-texto-aba-ativa);
+    background-color: var(--cor-fundo-aba-ativa); 
+
+    /* Garante que o botão ativo fique alinhado perfeitamente */
+    margin-top: 5px; /* Mantém a margem do item */
+    margin-bottom: 0; /* REMOVE QUALQUER MARGEM INFERIOR */
+    
+    /* Remove arredondamentos inferiores para 'conectar' com a área de código */
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    
+    /* Adiciona uma borda na parte inferior do botão para sobrepor a linha do .area-codigo,
+       criando o visual de aba conectada */
+    border-bottom: 2px solid var(--cor-fundo-aba-ativa);
+}
+
+.aba-item:hover {
+    background-color: var(--cor-fundo-aba-hover);
+}
+
+/* Defina as variáveis de cor no seu :root ou onde estiver definindo as cores do seu tema */
+:root {
+    --cor-fundo-codigo-abas: #333; /* Exemplo de cor para o fundo das abas */
+    --cor-fundo-aba-inativa: #444; 
+    --cor-fundo-aba-ativa: #28a745; 
+    --cor-texto-aba-ativa: #fff; /* Texto branco na aba ativa */
+    --cor-fundo-aba-hover: #555; /* Cor para hover */
+    --cor-borda: #555; /* Cor para a borda divisória */
+    /* ... outras variáveis de cor ... */
+}
+/* Para o tema escuro */
+.dark-theme {
+    --cor-fundo-codigo-abas: #222;
+    --cor-fundo-aba-inativa: #333;
+    --cor-fundo-aba-hover: #444;
+    --cor-borda: #444;
+    --cor-fundo-codigo-editor-tabs: #222; /* Use esta variável para o fundo da aba */
+}
+
+.area-codigo {
+    /* MANTIDO: Fundo bem escuro (cor de editor) */
+    background-color: #282c34; 
+    color: #abb2bf;
+    font-family: monospace;
+    font-size: 0.9em;
+    padding: 0; 
+    flex: 1;
+    
+    /* ALTERADO: Garante que os cantos arredondados sejam apenas os inferiores do container pai */
+    border-radius: 0 0 15px 15px; 
+    
+    height: auto; 
+    overflow-y: auto; 
+    user-select: text; 
+    cursor: default; 
+}
+
+/* 3. Estilo das Linhas de Código (Sintaxe Highlighting) */
+.linha-codigo {
+    margin: 0;
+    padding: 2px 0;
+    white-space: pre; /* Garante que o texto se comporte como código */
+}
+
+/* Cores de Sintaxe (Baseado no Nord Theme) */
+.tag { color: #81a1c1; } /* Ex: <html>, <div> */
+.string { color: #a3be8c; } /* Ex: "texto" */
+.comentario { color: #4c566a; } /* Ex: */
+.funcao { color: #88c0d0; }
+.metodo { color: #5e81ac; }
+.variavel { color: #bf616a; }
+.ponto { color: white; }
+.parenteses { color: white; }
+.chaves { color: white; }
+
+:root {
+    --cor-fundo-codigo-abas: #333; /* Exemplo de cor para o fundo das abas */
+    --cor-fundo-aba-inativa: #444; /* Exemplo de cor para a aba inativa */
+    --cor-fundo-aba-ativa: #28a745; /* Seu verde escuro para a aba ativa */
+    --cor-texto-aba-ativa: #fff; /* Texto branco na aba ativa */
+    --cor-fundo-aba-hover: #555; /* Cor para hover */
+    --cor-borda: #555; /* Cor para a borda divisória */
+    --cor-fundo-codigo-editor-tabs: #333; /* Use esta variável para o fundo da aba */
+    /* ... outras variáveis de cor ... */
+}
+
+body.dark-mode .visual-codigo .area-codigo {
+    background-color: #2e3440;
+    color: #d8dee9;
+}
+/* Esconde as abas inativas (vamos implementar o JS depois) */
+.codigo-conteudo {
+    /* Mantenha o display: none para as abas inativas */
+    display: none; 
+    width: 100%;
+    
+    /* PROPRIEDADES CRUCIAIS PARA A ROLAGEM E VISIBILIDADE: */
+    height: 380px; /* ALTURA FIXA é obrigatória para a rolagem */
+    overflow-y: scroll; /* ATIVA A BARRA DE ROLAGEM VERTICAL */
+    overflow-x: auto;   /* Permite rolagem horizontal para linhas longas */
+    
+    background-color: #282c34; /* Fundo escuro */
+    border-radius: 0 0 15px 15px;
+    padding: 0 5px 0 0; /* GARANTIR QUE NÃO HÁ PADDING AQUI */
+}
+
+/* Mostra a aba ativa */
+.codigo-conteudo.active {
+    display: block;
+}
+
+/* IMPORTANTE: Dê um padding esquerdo e direito nas linhas, não no container */
+.linha-codigo {
+    color: #abb2bf;
+    font-family: monospace;
+    font-size: 0.9em;
+    /* CORREÇÃO DE PADDING */
+    padding: 2px 10px 2px 15px; /* Top/Bottom=2px, Left=15px, Right=10px */
+    margin: 0; 
+    line-height: 1.5; 
+    white-space: pre; 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* O primeiro e último elemento podem ter a borda ajustada se necessário */
+.codigo-conteudo:last-child .linha-codigo:last-child {
+    border-bottom: none;
+}
