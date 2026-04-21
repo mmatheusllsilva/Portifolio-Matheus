@@ -3,91 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matheus Silva | Viking & Robô (IA Mask)</title>
+    <title>Matheus Silva | Reveal Mask</title>
     <style>
-        /* RESETS E BASE */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body, html { height: 100%; width: 100%; overflow: hidden; background-color: #0d1117; }
+        body, html { height: 100%; width: 100%; overflow: hidden; background-color: #000; }
 
-        /* CONTAINER PRINCIPAL (TELA CHEIA) */
-        .mask-wrapper {
+        .container {
             position: relative;
             width: 100vw;
             height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: none; /* Esconde o cursor padrão para melhor imersão */
         }
 
-        /* 1. IMAGEM DO ROBÔ (A REVELADA - FUNDO REAL) */
-        .reveal-bg {
+        /* CAMADA 1: VIKING (FICA FIXA NO FUNDO) */
+        .viking-layer {
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background-image: url('robo.png'); /* Sua imagem do robô */
+            background-image: url('vikin.png'); 
             background-size: cover;
             background-position: center;
-            z-index: 1; /* Fica no fundo */
+            z-index: 1;
         }
 
-        /* 2. IMAGEM DO VIKING (A DE CIMA COM A MÁSCARA) */
-        .masked-image {
+        /* CAMADA 2: ROBÔ (FICA POR CIMA COM A MÁSCARA) */
+        .robo-layer {
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background-image: url('vikin.png'); /* Sua imagem do viking */
+            background-image: url('robo.png'); 
             background-size: cover;
             background-position: center;
-            z-index: 2; /* Fica no topo */
+            z-index: 2;
             
-            /* A MÁSCARA INICIAL (Oculta tudo) */
-            mask-image: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 0%);
-            -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 0%);
-            mask-size: 100% 100%;
-            -webkit-mask-size: 100% 100%;
-            mask-repeat: no-repeat;
+            /* Máscara invisível por padrão */
+            -webkit-mask-image: radial-gradient(circle 150px at center, black 100%, transparent 100%);
+            mask-image: radial-gradient(circle 150px at center, black 100%, transparent 100%);
             -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            
+            /* Esconde a camada do robô fora do círculo */
+            -webkit-mask-composite: destination-in;
+            mask-composite: intersect;
+            
+            display: none; /* Só aparece quando o mouse entra */
         }
-
     </style>
 </head>
 <body>
 
-    <div class="mask-wrapper" id="maskWrapper">
-        <div class="reveal-bg"></div>
-        <div class="masked-image" id="maskedImage"></div>
+    <div class="container" id="container">
+        <div class="viking-layer"></div>
+        <div class="robo-layer" id="roboLayer"></div>
     </div>
 
     <script>
-        // SCRIPT PARA A LENTE DE REVELAÇÃO (MASKA)
-        const wrapper = document.getElementById('maskWrapper');
-        const maskedImage = document.getElementById('maskedImage');
+        const container = document.getElementById('container');
+        const roboLayer = document.getElementById('roboLayer');
 
-        wrapper.addEventListener('mousemove', (e) => {
-            // Pega a posição do mouse relativa ao wrapper
-            const rect = wrapper.getBoundingClientRect();
-            const x = ((e.clientX - rect.left) / rect.width) * 100;
-            const y = ((e.clientY - rect.top) / rect.height) * 100;
+        container.addEventListener('mousemove', (e) => {
+            roboLayer.style.display = 'block';
+            const x = e.clientX;
+            const y = e.clientY;
 
-            // Define o tamanho da "lente" (o círculo de revelação)
-            const maskSize = "150px"; // Ajuste o tamanho da lente aqui
-
-            // Atualiza a máscara para mover o círculo com o mouse
-            // Mostra o Viking (opacity 1 no gradiente) apenas no centro
-            const maskGradient = `radial-gradient(circle ${maskSize} at ${x}% ${y}%, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%)`;
+            // Cria o efeito de "lanterna" revelando o robô
+            const mask = `radial-gradient(circle 180px at ${x}px ${y}px, black 0%, transparent 100%)`;
             
-            maskedImage.style.maskImage = maskGradient;
-            maskedImage.style.webkitMaskImage = maskGradient;
+            roboLayer.style.webkitMaskImage = mask;
+            roboLayer.style.maskImage = mask;
         });
 
-        // Opcional: Quando o mouse sai, esconde a lente
-        wrapper.addEventListener('mouseleave', () => {
-             maskedImage.style.maskImage = 'radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 0%)';
-             maskedImage.style.webkitMaskImage = 'radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 0%)';
+        container.addEventListener('mouseleave', () => {
+            roboLayer.style.display = 'none';
         });
-
     </script>
-
 </body>
 </html>
