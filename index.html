@@ -3,233 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matheus Silva | IA & Automação</title>
+    <title>Matheus Silva</title>
     <style>
-        /* RESETS BÁSICOS */
-        * {
-            margin: 0;
-            padding: 0;
-            box-size: border-box;
-            font-family: sans-serif;
+        /* RESETS E BASE */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background-color: #0d1117; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
+
+        /* CONTAINER PRINCIPAL */
+        .reveal-wrapper {
+            position: relative;
+            width: 350px; /* Tamanho da imagem do viking/robô */
+            height: 350px;
+            border-radius: 50%; /* Mantém o formato circular do seu portfólio anterior */
+            overflow: hidden; /* Corta o excesso */
+            cursor: pointer; /* Cursor de mão para indicar interação */
+            box-shadow: 0 0 35px rgba(139, 92, 246, 0.4);
+            transition: box-shadow 0.3s ease;
+            z-index: 10;
         }
 
-        body, html {
-            height: 100%;
-            background-color: #0d1117; /* Cor escura do GitHub */
-            color: #c9d1d9;
-            overflow: hidden; /* Impede scroll */
+        .reveal-wrapper:hover {
+            box-shadow: 0 0 65px rgba(139, 92, 246, 0.8);
         }
 
-        /* O FUNDO DO PORTFÓLIO */
-        #portfolio-scene {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('portfolio-background.png');
+        /* 1. IMAGEM DO ROBÔ (A REVELADA) */
+        .reveal-robo {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: url('robo.png'); /* Sua imagem do robô */
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
-            z-index: 1; /* Fica no fundo */
+            opacity: 0; /* Começa oculta */
+            transition: opacity 0.5s ease-in-out; /* Transição suave */
+            z-index: 1; /* Fica no meio */
         }
 
-        /* EFEITOS DE "VIDA" (LUZES) */
-        
-        /* Neon Piscando nos Billboards */
-        #portfolio-scene::before {
-            content: '';
+        /* 2. IMAGEM DO VIKING (A DE CIMA) */
+        .reveal-viking {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.03); /* Brilho sutil */
-            opacity: 0;
-            animation: flickeringNeon 4s infinite linear;
-            z-index: 2;
-        }
-
-        @keyframes flickeringNeon {
-            0% { opacity: 0; }
-            5% { opacity: 1; }
-            10% { opacity: 0; }
-            15% { opacity: 1; }
-            18% { opacity: 0.8; }
-            20% { opacity: 1; }
-            80% { opacity: 0.9; }
-            85% { opacity: 1; }
-            90% { opacity: 0; }
-            100% { opacity: 0; }
-        }
-
-        /* Brilho pulsante no Spotlight do Carro */
-        .spotlight-glow {
-            position: absolute;
-            bottom: 25%; /* Ajuste conforme a imagem */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 250px;
-            height: 150px;
-            background: rgba(139, 92, 246, 0.15); /* Cor roxa/azul suave */
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: url('viking.png'); /* Sua imagem do viking */
+            background-size: cover;
+            background-position: center;
             border-radius: 50%;
-            filter: blur(25px);
-            z-index: 2;
-            animation: spotlightPulse 3s infinite ease-in-out;
+            opacity: 1; /* Começa visível */
+            transition: opacity 0.5s ease-in-out; /* Transição suave */
+            z-index: 2; /* Fica no topo */
         }
 
-        @keyframes spotlightPulse {
-            0% { transform: translateX(-50%) scale(1); opacity: 0.1; }
-            50% { transform: translateX(-50%) scale(1.1); opacity: 0.3; }
-            100% { transform: translateX(-50%) scale(1); opacity: 0.1; }
+        /* O EFEITO AO PASSAR O MOUSE (HOVER) */
+        .reveal-wrapper:hover .reveal-robo {
+            opacity: 1; /* Revela o robô */
         }
 
-        /* CONTAINER DO CHAT DA IA */
-        #ai-chat-container {
-            position: absolute;
-            top: 35%; /* Posição centralizada no "palco" */
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            height: 350px;
-            background: rgba(18, 18, 18, 0.85); /* Fundo escuro transparente */
-            border: 1px solid rgba(139, 92, 246, 0.5); /* Borda roxa tech */
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            z-index: 10; /* Sempre no topo */
-            backdrop-filter: blur(5px); /* Efeito de vidro */
-        }
-
-        #ai-chat-header {
-            padding: 10px;
-            background: rgba(139, 92, 246, 0.2);
-            border-bottom: 1px solid rgba(139, 92, 246, 0.4);
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        #ai-chat-messages {
-            flex: 1;
-            padding: 15px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .ai-message {
-            align-self: flex-start;
-            background: rgba(139, 92, 246, 0.1);
-            color: #d8b4fe;
-            padding: 8px 12px;
-            border-radius: 8px 8px 8px 0;
-            font-size: 0.9rem;
-        }
-
-        .user-message {
-            align-self: flex-end;
-            background: #d8b4fe;
-            color: #121212;
-            padding: 8px 12px;
-            border-radius: 8px 8px 0 8px;
-            font-size: 0.9rem;
-        }
-
-        #ai-chat-input-area {
-            display: flex;
-            padding: 10px;
-            border-top: 1px solid rgba(139, 92, 246, 0.4);
-            gap: 10px;
-        }
-
-        #ai-chat-input {
-            flex: 1;
-            background: rgba(10, 10, 10, 0.9);
-            border: 1px solid rgba(139, 92, 246, 0.4);
-            color: #c9d1d9;
-            padding: 8px;
-            border-radius: 5px;
-        }
-
-        #ai-chat-input:focus {
-            outline: none;
-            border-color: rgba(139, 92, 246, 1);
-        }
-
-        #ai-chat-send {
-            background: #d8b4fe;
-            color: #121212;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        #ai-chat-send:hover {
-            background: #c084fc;
+        .reveal-wrapper:hover .reveal-viking {
+            opacity: 0.2; /* Quase esconde o viking (mantém uma sombra sutil) */
         }
 
     </style>
 </head>
 <body>
 
-    <div id="portfolio-scene">
-        <div class="spotlight-glow"></div>
+    <div class="reveal-wrapper">
+        <div class="reveal-robo"></div>
+        <div class="reveal-viking"></div>
     </div>
-
-    <div id="ai-chat-container">
-        <div id="ai-chat-header">
-            <span>Matheus.AI - Assistente</span>
-            <span style="font-size: 0.8rem; color: #8b5cf6;">Ativo</span>
-        </div>
-        <div id="ai-chat-messages">
-            <div class="ai-message">Olá! Sou o assistente virtual do Matheus Silva. Como posso ajudar você hoje a conhecer o trabalho dele com IA e Automação?</div>
-        </div>
-        <div id="ai-chat-input-area">
-            <input type="text" id="ai-chat-input" placeholder="Digite sua pergunta...">
-            <button id="ai-chat-send">Enviar</button>
-        </div>
-    </div>
-
-    <script>
-        // SCRIPT SIMPLES PARA O CHAT
-        const input = document.getElementById('ai-chat-input');
-        const sendBtn = document.getElementById('ai-chat-send');
-        const messages = document.getElementById('ai-chat-messages');
-
-        function sendMessage() {
-            const text = input.value.trim();
-            if (text === '') return;
-
-            // Mensagem do usuário
-            const userMsgDiv = document.createElement('div');
-            userMsgDiv.classList.add('user-message');
-            userMsgDiv.textContent = text;
-            messages.appendChild(userMsgDiv);
-            
-            input.value = ''; // Limpa input
-            messages.scrollTop = messages.scrollHeight; // Auto-scroll
-
-            // Resposta simulada (vamos integrar com uma IA de verdade depois)
-            setTimeout(() => {
-                const aiMsgDiv = document.createElement('div');
-                aiMsgDiv.classList.add('ai-message');
-                aiMsgDiv.textContent = `Recebi sua pergunta sobre "${text}". Atualmente estou simulando uma resposta. O Matheus vai me conectar a uma IA real em breve!`;
-                messages.appendChild(aiMsgDiv);
-                messages.scrollTop = messages.scrollHeight;
-            }, 1500);
-        }
-
-        sendBtn.addEventListener('click', sendMessage);
-        input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
-        });
-    </script>
 
 </body>
 </html>
