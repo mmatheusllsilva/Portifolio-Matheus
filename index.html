@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matheus Silva | Rastro de Revelação</title>
+    <title>Matheus Silva | Rastro Suave</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html { height: 100%; width: 100%; overflow: hidden; background-color: #000; }
@@ -12,10 +12,10 @@
             position: relative;
             width: 100vw;
             height: 100vh;
-            cursor: none; /* Esconde o mouse padrão para imersão */
+            cursor: crosshair;
         }
 
-        /* CAMADA 1: VIKING (FUNDO FIXO) */
+        /* CAMADA 1: VIKING (A BASE FIXA) */
         .viking-layer {
             position: absolute;
             top: 0; left: 0;
@@ -23,10 +23,10 @@
             background-image: url('viking.png'); 
             background-size: cover;
             background-position: center;
-            z-index: 1; /* Fica por baixo */
+            z-index: 1;
         }
 
-        /* CAMADA 2: ROBÔ (A REVELADA) */
+        /* CAMADA 2: ROBÔ (A REVELAÇÃO) */
         .robo-layer {
             position: absolute;
             top: 0; left: 0;
@@ -34,89 +34,80 @@
             background-image: url('robo2.png'); 
             background-size: cover;
             background-position: center;
-            z-index: 2; /* Fica por cima */
-            
-            /* Esta camada ficará mascarada pelo Canvas */
-            -webkit-mask-image: url(#canvasMask);
-            mask-image: url(#canvasMask);
-            -webkit-mask-size: cover;
-            mask-size: cover;
+            z-index: 2;
+            /* Usamos o canvas como máscara via CSS */
+            -webkit-mask-image: none; 
+            mask-image: none;
         }
 
-        /* O CANVAS (ONDE DESENHAMOS O RASTRO) */
-        #rastroCanvas {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 3; /* Canvas por cima para capturar o mouse */
-            pointer-events: auto; /* Permite interações do mouse */
-            opacity: 0; /* Esconde o canvas visualmente */
+        /* O CANVAS QUE VAI DEFINIR A OPACIDADE DO ROBÔ */
+        #maskCanvas {
+            display: none; /* Ele trabalha apenas nos bastidores */
         }
-
     </style>
 </head>
 <body>
 
-    <div class="container" id="container">
+    <div class="container">
         <div class="viking-layer"></div>
-        
+        <canvas id="uiCanvas" style="position:absolute; top:0; left:0; z-index:3; width:100%; height:100%; pointer-events:none;"></canvas>
         <div class="robo-layer" id="roboLayer"></div>
-        
-        <canvas id="rastroCanvas"></canvas>
     </div>
 
+    <canvas id="maskCanvas"></canvas>
+
     <script>
-        const canvas = document.getElementById('rastroCanvas');
-        const ctx = canvas.getContext('2d');
+        const maskCanvas = document.getElementById('maskCanvas');
+        const mctx = maskCanvas.getContext('2d');
         const roboLayer = document.getElementById('roboLayer');
 
-        // Configura o tamanho do canvas para tela cheia
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            // Preenche o canvas com preto (transparente na máscara)
-            ctx.fillStyle = 'black';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        // Posição do mouse
         let mouseX = -500;
         let mouseY = -500;
 
+        function resize() {
+            maskCanvas.width = window.innerWidth;
+            maskCanvas.height = window.innerHeight;
+            // Começa tudo preto (Viking visível, Robô escondido)
+            mctx.fillStyle = 'black';
+            mctx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
+        }
+
+        window.addEventListener('resize', resize);
         window.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
         });
 
-        function animate() {
-            // 1. Cria o efeito de "desaparecer devagar" (Lesma)
-            // Desenhamos um retângulo preto quase transparente sobre todo o canvas
-            // Isso faz as "marcas" do rastro ficarem mais escuras a cada frame
-            ctx.globalCompositeOperation = 'source-over';
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // Controla a duração do rastro (menor número = rastro mais longo)
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        resize();
 
-            // 2. Desenha o novo rastro na posição do mouse
-            // Usamos 'destination-out' para criar um buraco transparente (revelando o robô)
-            ctx.globalCompositeOperation = 'destination-out';
-            ctx.beginPath();
-            ctx.arc(mouseX, mouseY, 150, 0, Math.PI * 2); // Tamanho da circunferência
-            ctx.fillStyle = 'rgba(0, 0, 0, 1)'; // Opacidade total para o buraco
-            ctx.fill();
+        function draw() {
+            // 1. O rastro: Pinta um preto bem suave por cima para apagar o branco devagar
+            // 0.03 = rastro bem longo | 0.1 = rastro curto
+            mctx.globalCompositeOperation = 'source-over';
+            mctx.fillStyle = 'rgba(0, 0, 0, 0.03)'; 
+            mctx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
 
-            // 3. Aplica o canvas como máscara na camada do Robô
-            // O navegador lê o canvas: onde é transparente, o robô aparece.
-            // Onde é preto, o viking aparece.
-            const canvasData = canvas.toDataURL();
-            roboLayer.style.maskImage = `url(${canvasData})`;
-            roboLayer.style.webkitMaskImage = `url(${canvasData})`;
+            // 2. A circunferência com DEGRADÊ
+            const gradient = mctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 180);
+            gradient.addColorStop(0, 'rgba(255, 255, 255, 1)'); // Centro totalmente visível
+            gradient.addColorStop(1, 'rgba(255, 255, 255, 0)'); // Borda some suavemente
 
-            requestAnimationFrame(animate);
+            mctx.globalCompositeOperation = 'source-over';
+            mctx.fillStyle = gradient;
+            mctx.beginPath();
+            mctx.arc(mouseX, mouseY, 180, 0, Math.PI * 2);
+            mctx.fill();
+
+            // 3. Aplica o canvas como máscara no Robô
+            // No modo 'mask', o que é BRANCO mostra o Robô, o que é PRETO mostra o Viking
+            const maskData = maskCanvas.toDataURL();
+            roboLayer.style.webkitMaskImage = `url(${maskData})`;
+            roboLayer.style.maskImage = `url(${maskData})`;
+
+            requestAnimationFrame(draw);
         }
 
-        animate();
+        draw();
     </script>
 </body>
 </html>
