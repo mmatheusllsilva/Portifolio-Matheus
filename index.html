@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matheus Silva | Reveal Mask</title>
+    <title>Matheus Silva | Efeito Rastro</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html { height: 100%; width: 100%; overflow: hidden; background-color: #000; }
@@ -12,9 +12,10 @@
             position: relative;
             width: 100vw;
             height: 100vh;
+            cursor: crosshair; /* Cursor estiloso para o tema viking */
         }
 
-        /* CAMADA 1: VIKING (FICA FIXA NO FUNDO) */
+        /* CAMADA 1: VIKING (FUNDO FIXO) */
         .viking-layer {
             position: absolute;
             top: 0; left: 0;
@@ -25,7 +26,7 @@
             z-index: 1;
         }
 
-        /* CAMADA 2: ROBÔ (FICA POR CIMA COM A MÁSCARA) */
+        /* CAMADA 2: ROBÔ (COM O EFEITO DE RASTRO) */
         .robo-layer {
             position: absolute;
             top: 0; left: 0;
@@ -34,18 +35,13 @@
             background-size: cover;
             background-position: center;
             z-index: 2;
+            pointer-events: none; /* Deixa o mouse passar através para o container */
             
-            /* Máscara invisível por padrão */
-            -webkit-mask-image: radial-gradient(circle 150px at center, black 100%, transparent 100%);
-            mask-image: radial-gradient(circle 150px at center, black 100%, transparent 100%);
+            /* Máscara inicial */
+            -webkit-mask-image: radial-gradient(circle 200px at -500px -500px, black 0%, transparent 80%);
+            mask-image: radial-gradient(circle 200px at -500px -500px, black 0%, transparent 80%);
             -webkit-mask-repeat: no-repeat;
             mask-repeat: no-repeat;
-            
-            /* Esconde a camada do robô fora do círculo */
-            -webkit-mask-composite: destination-in;
-            mask-composite: intersect;
-            
-            display: none; /* Só aparece quando o mouse entra */
         }
     </style>
 </head>
@@ -57,24 +53,42 @@
     </div>
 
     <script>
-        const container = document.getElementById('container');
         const roboLayer = document.getElementById('roboLayer');
+        
+        // Posição real do mouse
+        let mouseX = -500;
+        let mouseY = -500;
+        
+        // Posição da "máscara" (que vai perseguir o mouse)
+        let maskX = -500;
+        let maskY = -500;
 
-        container.addEventListener('mousemove', (e) => {
-            roboLayer.style.display = 'block';
-            const x = e.clientX;
-            const y = e.clientY;
+        // Fator de lentidão (Quanto menor o número, mais parece uma "lesma")
+        // 0.05 é bem lento e fluido. 0.1 é um pouco mais rápido.
+        const speed = 0.05; 
 
-            // Cria o efeito de "lanterna" revelando o robô
-            const mask = `radial-gradient(circle 180px at ${x}px ${y}px, black 0%, transparent 100%)`;
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animate() {
+            // Cálculo de Interpolação Linear (Lerp)
+            // A posição da máscara caminha uma fração da distância até o mouse em cada frame
+            maskX += (mouseX - maskX) * speed;
+            maskY += (mouseY - maskY) * speed;
+
+            const mask = `radial-gradient(circle 200px at ${maskX}px ${maskY}px, black 0%, transparent 80%)`;
             
             roboLayer.style.webkitMaskImage = mask;
             roboLayer.style.maskImage = mask;
-        });
 
-        container.addEventListener('mouseleave', () => {
-            roboLayer.style.display = 'none';
-        });
+            // Executa a função novamente no próximo frame (60fps)
+            requestAnimationFrame(animate);
+        }
+
+        // Inicia a animação
+        animate();
     </script>
 </body>
 </html>
