@@ -5,17 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matheus Silva | IA & Automação</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body, html { height: 100%; width: 100%; overflow: hidden; background-color: #000; color: white; }
 
+        /* O cursor agora é padrão (default) para facilitar a navegação */
         .container {
             position: relative;
             width: 100vw;
             height: 100vh;
-            cursor: none;
+            cursor: default; 
         }
 
-        /* CAMADAS DE FUNDO */
+        /* FUNDO FIXO */
         .viking-layer {
             position: absolute;
             top: 0; left: 0;
@@ -26,6 +27,7 @@
             z-index: 1;
         }
 
+        /* CAMADA REVELADA */
         .robo-layer {
             position: absolute;
             top: 0; left: 0;
@@ -40,43 +42,41 @@
             mask-repeat: no-repeat;
         }
 
-        /* UI - MENU SUPERIOR */
+        /* MENU SUPERIOR GLASS */
         nav {
             position: fixed;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
             width: 100%;
             padding: 20px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 100; /* Acima de tudo */
+            z-index: 100;
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        nav .logo { font-size: 1.5rem; font-weight: bold; letter-spacing: 1px; }
+        nav .logo { font-size: 1.4rem; font-weight: bold; }
         nav ul { display: flex; list-style: none; gap: 30px; }
-        nav ul li a { color: white; text-decoration: none; font-size: 0.9rem; transition: 0.3s; opacity: 0.8; }
-        nav ul li a:hover { opacity: 1; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        nav ul li a { color: white; text-decoration: none; font-size: 0.9rem; opacity: 0.7; transition: 0.3s; }
+        nav ul li a:hover { opacity: 1; }
 
-        /* UI - CHAT IA (LADO ESQUERDO) */
+        /* CHAT IA POSICIONADO À DIREITA */
         .chat-ai {
             position: absolute;
             bottom: 40px;
-            left: 40px;
+            right: 40px; /* Mudado para a direita */
             width: 320px;
             height: 400px;
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 15px;
             z-index: 100;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
         }
 
         .chat-header {
@@ -84,16 +84,14 @@
             background: rgba(255, 255, 255, 0.1);
             font-size: 0.85rem;
             font-weight: bold;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 15px 15px 0 0;
         }
 
         .chat-messages {
             flex: 1;
             padding: 15px;
             font-size: 0.85rem;
-            line-height: 1.4;
-            overflow-y: auto;
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255,255,255,0.8);
         }
 
         .chat-input {
@@ -109,7 +107,6 @@
             border-radius: 5px;
             padding: 8px;
             color: white;
-            font-size: 0.8rem;
             outline: none;
         }
 
@@ -117,14 +114,10 @@
             background: rgba(255, 255, 255, 0.2);
             border: none;
             color: white;
-            padding: 0 15px;
+            padding: 0 12px;
             border-radius: 5px;
             cursor: pointer;
-            transition: 0.3s;
         }
-
-        .chat-input button:hover { background: rgba(255, 255, 255, 0.3); }
-
     </style>
 </head>
 <body>
@@ -145,10 +138,10 @@
         <div class="chat-ai">
             <div class="chat-header">Matheus.AI - Assistente</div>
             <div class="chat-messages">
-                Olá! Sou o assistente virtual do Matheus Silva. Como posso ajudar você hoje a conhecer o trabalho dele com IA e Automação?
+                Olá! Como posso ajudar você a explorar meus projetos de automação hoje?
             </div>
             <div class="chat-input">
-                <input type="text" placeholder="Digite sua pergunta...">
+                <input type="text" placeholder="Pergunte algo...">
                 <button>➤</button>
             </div>
         </div>
@@ -158,11 +151,10 @@
         const container = document.getElementById('container');
         const roboLayer = document.getElementById('roboLayer');
 
-        // Impede que o clique no chat ou menu interfira na máscara se desejar, 
-        // mas aqui mantemos o cursor customizado funcionando.
         container.addEventListener('mousemove', (e) => {
             const x = e.clientX;
             const y = e.clientY;
+            // Mantivemos o raio de 200px para o efeito ficar bem visível
             const mask = `radial-gradient(circle 200px at ${x}px ${y}px, black 0%, transparent 100%)`;
             roboLayer.style.webkitMaskImage = mask;
             roboLayer.style.maskImage = mask;
