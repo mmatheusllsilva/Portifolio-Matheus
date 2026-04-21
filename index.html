@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matheus Silva | Rastro Viking</title>
+    <title>Matheus Silva | Reveal Mask Fix</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html { height: 100%; width: 100%; overflow: hidden; background-color: #000; }
@@ -21,7 +21,7 @@
         const imgViking = new Image();
         const imgRobo = new Image();
         
-        // Carregamento das imagens
+        // Nome exato dos seus arquivos no repositório
         imgViking.src = 'viking.png'; 
         imgRobo.src = 'robo2.png';
 
@@ -37,13 +37,14 @@
         imgViking.onload = checkLoaded;
         imgRobo.onload = checkLoaded;
 
-        // Canvas secundário para o rastro (a "máscara de lesma")
+        // Canvas secundário para o rastro (A "máscara de lesma")
         const trailCanvas = document.createElement('canvas');
         const tctx = trailCanvas.getContext('2d');
 
         function resize() {
             canvas.width = trailCanvas.width = window.innerWidth;
             canvas.height = trailCanvas.height = window.innerHeight;
+            // Preenche o canvas com PRETO (Esconde o Robô, Mostra o Viking)
             tctx.fillStyle = 'black';
             tctx.fillRect(0, 0, trailCanvas.width, trailCanvas.height);
         }
@@ -57,48 +58,54 @@
         resize();
 
         function animate() {
-            // 1. Atualiza o rastro no canvas auxiliar
+            // 1. O rastro: Pinta um preto bem suave por cima para "apagar" o rastro devagar
+            // 0.03 = rastro bem longo | 0.1 = rastro curto
             tctx.globalCompositeOperation = 'source-over';
-            tctx.fillStyle = 'rgba(0, 0, 0, 0.03)'; // Velocidade do rastro
+            tctx.fillStyle = 'rgba(0, 0, 0, 0.03)'; 
             tctx.fillRect(0, 0, trailCanvas.width, trailCanvas.height);
 
-            // Desenha a circunferência com degradê no rastro
-            const grad = tctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 200);
-            grad.addColorStop(0, 'white');
-            grad.addColorStop(1, 'transparent');
+            // 2. A circunferência com degradê suave (Lanterna)
+            // Usamos 'source-over' e pintamos em BRANCO para criar o "buraco" de revelação
+            tctx.globalCompositeOperation = 'source-over';
+            const grad = tctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 180);
+            grad.addColorStop(0, 'rgba(255, 255, 255, 1)'); // Centro totalmente visível (Robô puro)
+            grad.addColorStop(1, 'rgba(255, 255, 255, 0)'); // Borda some suavemente (Viking puro)
             
             tctx.fillStyle = grad;
             tctx.beginPath();
-            tctx.arc(mouseX, mouseY, 200, 0, Math.PI * 2);
+            tctx.arc(mouseX, mouseY, 180, 0, Math.PI * 2); // Tamanho da circunferência
             tctx.fill();
 
-            // 2. Renderiza no canvas principal
+            // 3. Renderiza no canvas principal
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Desenha o VIKING primeiro (Fundo)
+            // Desenha o VIKING primeiro (Fundo Fixo)
             ctx.drawImage(imgViking, 0, 0, canvas.width, canvas.height);
 
-            // Desenha o ROBÔ apenas onde o rastro está (Máscara)
-            ctx.globalCompositeOperation = 'destination-in'; 
-            // O comando acima faz com que o que vier depois sirva de máscara para o que já está no canvas
-            // Mas para o seu efeito, vamos usar o modo 'source-over' com a máscara pronta
+            // 4. A MÁGICA: Usa o modo 'destination-in' para mascarar o Robô
+            // Este modo diz ao navegador: "Desenhe o próximo objeto (Robô), 
+            // mas o rastro (trailCanvas) serve de 'recorte de opacidade'."
             
-            // Lógica de Composição:
-            ctx.save();
-            ctx.globalCompositeOperation = 'source-over';
+            ctx.save(); // Salva o estado atual do canvas
             
-            // Criamos um canvas temporário para combinar Robo + Rastro
+            // Cria um canvas temporário para combinar Robo + Rastro
             const tempCanvas = document.createElement('canvas');
             tempCanvas.width = canvas.width;
             tempCanvas.height = canvas.height;
             const tempCtx = tempCanvas.getContext('2d');
             
+            // Desenha o robô inteiro no tempCanvas
             tempCtx.drawImage(imgRobo, 0, 0, canvas.width, canvas.height);
+            
+            // Recorta o robô usando o trailCanvas (onde é branco, o robô fica)
             tempCtx.globalCompositeOperation = 'destination-in';
             tempCtx.drawImage(trailCanvas, 0, 0);
             
+            // Desenha o resultado mascarado por cima do Viking no canvas principal
+            ctx.globalCompositeOperation = 'source-over';
             ctx.drawImage(tempCanvas, 0, 0);
-            ctx.restore();
+            
+            ctx.restore(); // Restaura o estado original do canvas
 
             requestAnimationFrame(animate);
         }
