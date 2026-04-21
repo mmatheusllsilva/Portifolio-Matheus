@@ -3,73 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matheus Silva</title>
+    <title>Matheus Silva | Viking & Robô (IA Mask)</title>
     <style>
         /* RESETS E BASE */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-        body { background-color: #0d1117; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { height: 100%; width: 100%; overflow: hidden; background-color: #0d1117; }
 
-        /* CONTAINER PRINCIPAL */
-        .reveal-wrapper {
+        /* CONTAINER PRINCIPAL (TELA CHEIA) */
+        .mask-wrapper {
             position: relative;
-            width: 350px; /* Tamanho da imagem do viking/robô */
-            height: 350px;
-            border-radius: 50%; /* Mantém o formato circular do seu portfólio anterior */
-            overflow: hidden; /* Corta o excesso */
-            cursor: pointer; /* Cursor de mão para indicar interação */
-            box-shadow: 0 0 35px rgba(139, 92, 246, 0.4);
-            transition: box-shadow 0.3s ease;
-            z-index: 10;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: none; /* Esconde o cursor padrão para melhor imersão */
         }
 
-        .reveal-wrapper:hover {
-            box-shadow: 0 0 65px rgba(139, 92, 246, 0.8);
-        }
-
-        /* 1. IMAGEM DO ROBÔ (A REVELADA) */
-        .reveal-robo {
+        /* 1. IMAGEM DO ROBÔ (A REVELADA - FUNDO REAL) */
+        .reveal-bg {
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
             background-image: url('robo.png'); /* Sua imagem do robô */
             background-size: cover;
             background-position: center;
-            opacity: 0; /* Começa oculta */
-            transition: opacity 0.5s ease-in-out; /* Transição suave */
-            z-index: 1; /* Fica no meio */
+            z-index: 1; /* Fica no fundo */
         }
 
-        /* 2. IMAGEM DO VIKING (A DE CIMA) */
-        .reveal-viking {
+        /* 2. IMAGEM DO VIKING (A DE CIMA COM A MÁSCARA) */
+        .masked-image {
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background-image: url('viking.png'); /* Sua imagem do viking */
+            background-image: url('vikin.png'); /* Sua imagem do viking */
             background-size: cover;
             background-position: center;
-            border-radius: 50%;
-            opacity: 1; /* Começa visível */
-            transition: opacity 0.5s ease-in-out; /* Transição suave */
             z-index: 2; /* Fica no topo */
-        }
-
-        /* O EFEITO AO PASSAR O MOUSE (HOVER) */
-        .reveal-wrapper:hover .reveal-robo {
-            opacity: 1; /* Revela o robô */
-        }
-
-        .reveal-wrapper:hover .reveal-viking {
-            opacity: 0.2; /* Quase esconde o viking (mantém uma sombra sutil) */
+            
+            /* A MÁSCARA INICIAL (Oculta tudo) */
+            mask-image: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 0%);
+            -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 0%);
+            mask-size: 100% 100%;
+            -webkit-mask-size: 100% 100%;
+            mask-repeat: no-repeat;
+            -webkit-mask-repeat: no-repeat;
         }
 
     </style>
 </head>
 <body>
 
-    <div class="reveal-wrapper">
-        <div class="reveal-robo"></div>
-        <div class="reveal-viking"></div>
+    <div class="mask-wrapper" id="maskWrapper">
+        <div class="reveal-bg"></div>
+        <div class="masked-image" id="maskedImage"></div>
     </div>
+
+    <script>
+        // SCRIPT PARA A LENTE DE REVELAÇÃO (MASKA)
+        const wrapper = document.getElementById('maskWrapper');
+        const maskedImage = document.getElementById('maskedImage');
+
+        wrapper.addEventListener('mousemove', (e) => {
+            // Pega a posição do mouse relativa ao wrapper
+            const rect = wrapper.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+            // Define o tamanho da "lente" (o círculo de revelação)
+            const maskSize = "150px"; // Ajuste o tamanho da lente aqui
+
+            // Atualiza a máscara para mover o círculo com o mouse
+            // Mostra o Viking (opacity 1 no gradiente) apenas no centro
+            const maskGradient = `radial-gradient(circle ${maskSize} at ${x}% ${y}%, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%)`;
+            
+            maskedImage.style.maskImage = maskGradient;
+            maskedImage.style.webkitMaskImage = maskGradient;
+        });
+
+        // Opcional: Quando o mouse sai, esconde a lente
+        wrapper.addEventListener('mouseleave', () => {
+             maskedImage.style.maskImage = 'radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 0%)';
+             maskedImage.style.webkitMaskImage = 'radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 0%)';
+        });
+
+    </script>
 
 </body>
 </html>
