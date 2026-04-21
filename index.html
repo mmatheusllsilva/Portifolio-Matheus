@@ -3,112 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matheus Silva | Reveal Mask Fix</title>
+    <title>Matheus Silva | Reveal Mask</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html { height: 100%; width: 100%; overflow: hidden; background-color: #000; }
-        canvas { display: block; width: 100vw; height: 100vh; cursor: crosshair; }
+
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            cursor: none; /* Esconde o mouse para a lanterna ser o guia */
+        }
+
+        /* CAMADA 1: VIKING (FUNDO SEMPRE VISÍVEL) */
+        .viking-layer {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: url('viking.png'); 
+            background-size: cover;
+            background-position: center;
+            z-index: 1; /* Fica por baixo */
+        }
+
+        /* CAMADA 2: ROBÔ (POR CIMA, SENDO REVELADO) */
+        .robo-layer {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: url('robo2.png'); 
+            background-size: cover;
+            background-position: center;
+            z-index: 2; /* Fica por cima */
+            
+            /* A máscara começa escondendo o robô inteiro */
+            -webkit-mask-image: radial-gradient(circle 0px at center, black 100%, transparent 100%);
+            mask-image: radial-gradient(circle 0px at center, black 100%, transparent 100%);
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+        }
     </style>
 </head>
 <body>
 
-    <canvas id="portfolioCanvas"></canvas>
+    <div class="container" id="container">
+        <div class="viking-layer"></div>
+        <div class="robo-layer" id="roboLayer"></div>
+    </div>
 
     <script>
-        const canvas = document.getElementById('portfolioCanvas');
-        const ctx = canvas.getContext('2d');
+        const container = document.getElementById('container');
+        const roboLayer = document.getElementById('roboLayer');
 
-        const imgViking = new Image();
-        const imgRobo = new Image();
-        
-        // Nome exato dos seus arquivos no repositório
-        imgViking.src = 'viking.png'; 
-        imgRobo.src = 'robo2.png';
+        container.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
 
-        let mouseX = -500;
-        let mouseY = -500;
-        let imagesLoaded = 0;
-
-        function checkLoaded() {
-            imagesLoaded++;
-            if (imagesLoaded === 2) animate();
-        }
-
-        imgViking.onload = checkLoaded;
-        imgRobo.onload = checkLoaded;
-
-        // Canvas secundário para o rastro (A "máscara de lesma")
-        const trailCanvas = document.createElement('canvas');
-        const tctx = trailCanvas.getContext('2d');
-
-        function resize() {
-            canvas.width = trailCanvas.width = window.innerWidth;
-            canvas.height = trailCanvas.height = window.innerHeight;
-            // Preenche o canvas com PRETO (Esconde o Robô, Mostra o Viking)
-            tctx.fillStyle = 'black';
-            tctx.fillRect(0, 0, trailCanvas.width, trailCanvas.height);
-        }
-
-        window.addEventListener('resize', resize);
-        window.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
+            // O Robô só aparece onde o círculo "black" da máscara está. 
+            // O resto fica transparente, mostrando o Viking que está atrás.
+            const mask = `radial-gradient(circle 200px at ${x}px ${y}px, black 0%, transparent 100%)`;
+            
+            roboLayer.style.webkitMaskImage = mask;
+            roboLayer.style.maskImage = mask;
         });
 
-        resize();
-
-        function animate() {
-            // 1. O rastro: Pinta um preto bem suave por cima para "apagar" o rastro devagar
-            // 0.03 = rastro bem longo | 0.1 = rastro curto
-            tctx.globalCompositeOperation = 'source-over';
-            tctx.fillStyle = 'rgba(0, 0, 0, 0.03)'; 
-            tctx.fillRect(0, 0, trailCanvas.width, trailCanvas.height);
-
-            // 2. A circunferência com degradê suave (Lanterna)
-            // Usamos 'source-over' e pintamos em BRANCO para criar o "buraco" de revelação
-            tctx.globalCompositeOperation = 'source-over';
-            const grad = tctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 180);
-            grad.addColorStop(0, 'rgba(255, 255, 255, 1)'); // Centro totalmente visível (Robô puro)
-            grad.addColorStop(1, 'rgba(255, 255, 255, 0)'); // Borda some suavemente (Viking puro)
-            
-            tctx.fillStyle = grad;
-            tctx.beginPath();
-            tctx.arc(mouseX, mouseY, 180, 0, Math.PI * 2); // Tamanho da circunferência
-            tctx.fill();
-
-            // 3. Renderiza no canvas principal
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Desenha o VIKING primeiro (Fundo Fixo)
-            ctx.drawImage(imgViking, 0, 0, canvas.width, canvas.height);
-
-            // 4. A MÁGICA: Usa o modo 'destination-in' para mascarar o Robô
-            // Este modo diz ao navegador: "Desenhe o próximo objeto (Robô), 
-            // mas o rastro (trailCanvas) serve de 'recorte de opacidade'."
-            
-            ctx.save(); // Salva o estado atual do canvas
-            
-            // Cria um canvas temporário para combinar Robo + Rastro
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = canvas.width;
-            tempCanvas.height = canvas.height;
-            const tempCtx = tempCanvas.getContext('2d');
-            
-            // Desenha o robô inteiro no tempCanvas
-            tempCtx.drawImage(imgRobo, 0, 0, canvas.width, canvas.height);
-            
-            // Recorta o robô usando o trailCanvas (onde é branco, o robô fica)
-            tempCtx.globalCompositeOperation = 'destination-in';
-            tempCtx.drawImage(trailCanvas, 0, 0);
-            
-            // Desenha o resultado mascarado por cima do Viking no canvas principal
-            ctx.globalCompositeOperation = 'source-over';
-            ctx.drawImage(tempCanvas, 0, 0);
-            
-            ctx.restore(); // Restaura o estado original do canvas
-
-            requestAnimationFrame(animate);
-        }
+        // Quando o mouse sai, o Robô desaparece totalmente
+        container.addEventListener('mouseleave', () => {
+            const hiddenMask = `radial-gradient(circle 0px at center, black 100%, transparent 100%)`;
+            roboLayer.style.webkitMaskImage = hiddenMask;
+            roboLayer.style.maskImage = hiddenMask;
+        });
     </script>
 </body>
 </html>
