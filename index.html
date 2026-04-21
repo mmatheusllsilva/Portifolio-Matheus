@@ -3,104 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matheus Silva | Portfólio</title>
-    <link rel="stylesheet" href="style.css"> 
+    <title>Matheus Silva | IA & Automação</title>
+    <style>
+        /* RESETS BÁSICOS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-size: border-box;
+            font-family: sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+            background-color: #0d1117; /* Cor escura do GitHub */
+            color: #c9d1d9;
+            overflow: hidden; /* Impede scroll */
+        }
+
+        /* O FUNDO DO PORTFÓLIO */
+        #portfolio-scene {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('portfolio-background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 1; /* Fica no fundo */
+        }
+
+        /* EFEITOS DE "VIDA" (LUZES) */
+        
+        /* Neon Piscando nos Billboards */
+        #portfolio-scene::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.03); /* Brilho sutil */
+            opacity: 0;
+            animation: flickeringNeon 4s infinite linear;
+            z-index: 2;
+        }
+
+        @keyframes flickeringNeon {
+            0% { opacity: 0; }
+            5% { opacity: 1; }
+            10% { opacity: 0; }
+            15% { opacity: 1; }
+            18% { opacity: 0.8; }
+            20% { opacity: 1; }
+            80% { opacity: 0.9; }
+            85% { opacity: 1; }
+            90% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        /* Brilho pulsante no Spotlight do Carro */
+        .spotlight-glow {
+            position: absolute;
+            bottom: 25%; /* Ajuste conforme a imagem */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 250px;
+            height: 150px;
+            background: rgba(139, 92, 246, 0.15); /* Cor roxa/azul suave */
+            border-radius: 50%;
+            filter: blur(25px);
+            z-index: 2;
+            animation: spotlightPulse 3s infinite ease-in-out;
+        }
+
+        @keyframes spotlightPulse {
+            0% { transform: translateX(-50%) scale(1); opacity: 0.1; }
+            50% { transform: translateX(-50%) scale(1.1); opacity: 0.3; }
+            100% { transform: translateX(-50%) scale(1); opacity: 0.1; }
+        }
+
+        /* CONTAINER DO CHAT DA IA */
+        #ai-chat-container {
+            position: absolute;
+            top: 35%; /* Posição centralizada no "palco" */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 350px;
+            background: rgba(18, 18, 18, 0.85); /* Fundo escuro transparente */
+            border: 1px solid rgba(139, 92, 246, 0.5); /* Borda roxa tech */
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            z-index: 10; /* Sempre no topo */
+            backdrop-filter: blur(5px); /* Efeito de vidro */
+        }
+
+        #ai-chat-header {
+            padding: 10px;
+            background: rgba(139, 92, 246, 0.2);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.4);
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #ai-chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .ai-message {
+            align-self: flex-start;
+            background: rgba(139, 92, 246, 0.1);
+            color: #d8b4fe;
+            padding: 8px 12px;
+            border-radius: 8px 8px 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background: #d8b4fe;
+            color: #121212;
+            padding: 8px 12px;
+            border-radius: 8px 8px 0 8px;
+            font-size: 0.9rem;
+        }
+
+        #ai-chat-input-area {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid rgba(139, 92, 246, 0.4);
+            gap: 10px;
+        }
+
+        #ai-chat-input {
+            flex: 1;
+            background: rgba(10, 10, 10, 0.9);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            color: #c9d1d9;
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        #ai-chat-input:focus {
+            outline: none;
+            border-color: rgba(139, 92, 246, 1);
+        }
+
+        #ai-chat-send {
+            background: #d8b4fe;
+            color: #121212;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #ai-chat-send:hover {
+            background: #c084fc;
+        }
+
+    </style>
 </head>
 <body>
 
-    
-   <header class="site-header">
-    <div class="logo">
-        <a href="index.html">Matheus Silva</a> 
+    <div id="portfolio-scene">
+        <div class="spotlight-glow"></div>
     </div>
 
-    <div class="header-actions-group">
-        <a href="https://www.linkedin.com/in/matheusluissilva1997/" target="_blank" class="header-linkedin-btn">
-            <img src="logos/linkedinpng.png" alt="LinkedIn Logo" class="header-linkedin-img">
-        </a>
-        <button id="theme-toggle" class="btn-theme-toggle">
-        </button>
+    <div id="ai-chat-container">
+        <div id="ai-chat-header">
+            <span>Matheus.AI - Assistente</span>
+            <span style="font-size: 0.8rem; color: #8b5cf6;">Ativo</span>
+        </div>
+        <div id="ai-chat-messages">
+            <div class="ai-message">Olá! Sou o assistente virtual do Matheus Silva. Como posso ajudar você hoje a conhecer o trabalho dele com IA e Automação?</div>
+        </div>
+        <div id="ai-chat-input-area">
+            <input type="text" id="ai-chat-input" placeholder="Digite sua pergunta...">
+            <button id="ai-chat-send">Enviar</button>
+        </div>
     </div>
-</header>
 
-    <div class="container-grid">
-        <div class="hero-left">
-    <h1 class="main-title">
-        Entre códigos e sistemas, <br> minha meta é otimizar resultados.
-    </h1>
-    <p class="subtitle">
-        Profissional de TI com atuação hibrida em Análise de Sistemas, Automação Inteligente e Governança de TI (ITIL, ITSM). Foco em otimização de processos, eficiência operacional e transformação digital.
-    </p>
+    <script>
+        // SCRIPT SIMPLES PARA O CHAT
+        const input = document.getElementById('ai-chat-input');
+        const sendBtn = document.getElementById('ai-chat-send');
+        const messages = document.getElementById('ai-chat-messages');
 
-    <div class="hero-actions">
-        <a href="projetos.html" target="_blank" class="btn-primary">Projetos</a>
-    </div> </div> ```
+        function sendMessage() {
+            const text = input.value.trim();
+            if (text === '') return;
 
-        
-
-        <div class="hero-right">
-            <img src="mac.jpeg" alt="Computador Retrô" class="main-image">
-        </div>
-
-        <div class="section-bottom-blocks">
+            // Mensagem do usuário
+            const userMsgDiv = document.createElement('div');
+            userMsgDiv.classList.add('user-message');
+            userMsgDiv.textContent = text;
+            messages.appendChild(userMsgDiv);
             
-            <section class="section-bloco bloco-02">
-            </section>
+            input.value = ''; // Limpa input
+            messages.scrollTop = messages.scrollHeight; // Auto-scroll
 
-            <section class="section-bloco bloco-03">
-            </section>
-        </div>
+            // Resposta simulada (vamos integrar com uma IA de verdade depois)
+            setTimeout(() => {
+                const aiMsgDiv = document.createElement('div');
+                aiMsgDiv.classList.add('ai-message');
+                aiMsgDiv.textContent = `Recebi sua pergunta sobre "${text}". Atualmente estou simulando uma resposta. O Matheus vai me conectar a uma IA real em breve!`;
+                messages.appendChild(aiMsgDiv);
+                messages.scrollTop = messages.scrollHeight;
+            }, 1500);
+        }
 
-    </div> <section class="tech-stack"> 
-        <h2 class="tech-title">Desenvolvimento</h2>
-        
-        <div class="tech-logos">
-            
-            <div class="logo-item">
-                <img src="logos/htmlpng.png" alt="Logo HTML5" class="tech-logo"> 
-                <p>HTML 5</p>
-            </div>
-            
-            <div class="logo-item">
-                <img src="logos/csspng.png" alt="Logo CSS3" class="tech-logo">
-                <p>CSS 3</p>
-            </div>
-
-            <div class="logo-item">
-                <img src="logos/jspng.png" alt="Logo JavaScript" class="tech-logo">
-                <p>JavaScript</p>
-            </div>
-            
-            <div class="logo-item">
-                <img src="logos/visualstudiopng.png" alt="Logo Visual Studio Code" class="tech-logo">
-                <p>Visual Studio Code</p>
-            </div>
-            
-            <div class="logo-item">
-                <img src="logos/n8npng.png" alt="Logo n8n" class="tech-logo">
-                <p>n8n</p>
-            </div>
-
-            <div class="logo-item">
-                <img src="logos/githubpng.png" alt="Logo GitHub" class="tech-logo">
-                <p>GitHub</p>
-            </div>
-
-            <div class="logo-item">
-                <img src="logos/base44png.png" alt="Logo Base44" class="tech-logo">
-                <p>Base44</p>
-            </div>
-            
-        </div>
-    </section> <footer>
-        <p>Entre em contato: <a href="mailto:matheus.luis.lopes.silva@outlook.com?subject=Contato%20via%20Portfólio%20TI">matheus.luis.lopes.silva@outlook.com</a></p>
-    </footer>
-
-    
-<script src="script.js"></script>
-
-
-
+        sendBtn.addEventListener('click', sendMessage);
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
 
 </body>
 </html>
