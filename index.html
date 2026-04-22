@@ -150,7 +150,7 @@
     <nav>
         <div class="logo">Matheus Lopes</div>
         <ul>
-            <li><a href="#">Projetos</a></li>
+            <li><a href="#" id="btn-projetos">Projetos</a></li>
             <li><a href="#">Contato</a></li>
             <li><a href="#">Sobre</a></li>
         </ul>
@@ -162,11 +162,9 @@
         <div class="viking-layer" id="viking"></div>
         <div class="robo-layer" id="roboLayer"></div>
         
-        <div class="chat-ai">
+        <div class="chat-ai" id="chatAi">
             <div class="chat-header">Matheus.AI - Assistente</div>
-            <div class="chat-messages">
-                Como posso te ajudar hoje?
-            </div>
+            <div class="chat-messages">Como posso te ajudar hoje?</div>
             <div class="chat-input">
                 <input type="text" placeholder="Digite aqui.">
                 <button>➤</button>
@@ -174,25 +172,70 @@
         </div>
     </div>
 
+    <section class="projects-screen" id="projectsScreen">
+        <h2 style="margin-bottom: 60px; letter-spacing: 8px; font-weight: 200; text-transform: uppercase;">Aplicações & Workflows</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <h3>N8N AUTOMATION</h3>
+                <p>Workflows inteligentes e integrações complexas.</p>
+            </div>
+            <div class="project-card">
+                <h3>AI AGENTS</h3>
+                <p>Ecossistema de personas para suporte e finanças.</p>
+            </div>
+            <div class="project-card">
+                <h3>SAAS EMAIL</h3>
+                <p>Refino de comunicação corporativa com LLMs.</p>
+            </div>
+        </div>
+        <button class="btn-back" onclick="closeProjects()">[ Voltar ao Início ]</button>
+    </section>
+
     <script>
         const roboLayer = document.getElementById('roboLayer');
         const viking = document.getElementById('viking');
+        const projectsScreen = document.getElementById('projectsScreen');
+        const chatAi = document.getElementById('chatAi');
+        const btnProjetos = document.getElementById('btn-projetos');
 
+        // Efeito de Máscara e Parallax
         window.addEventListener('mousemove', (e) => {
             const x = e.clientX;
             const y = e.clientY;
 
-            // Efeito de Máscara
-            const mask = `radial-gradient(circle 220px at ${x}px ${y}px, black 0%, transparent 100%)`;
-            roboLayer.style.webkitMaskImage = mask;
-            roboLayer.style.maskImage = mask;
+            // Só aplica a máscara se o portal não estiver ativo
+            if (!roboLayer.classList.contains('portal-active')) {
+                const mask = `radial-gradient(circle 220px at ${x}px ${y}px, black 0%, transparent 100%)`;
+                roboLayer.style.webkitMaskImage = mask;
+                roboLayer.style.maskImage = mask;
+            }
 
-            // Efeito Parallax Suave
             const moveX = (x - window.innerWidth / 2) / 60;
             const moveY = (y - window.innerHeight / 2) / 60;
-            
             viking.style.transform = `translate(${moveX}px, ${moveY}px)`;
             roboLayer.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+
+        // Lógica do Portal
+        function openProjects() {
+            roboLayer.classList.add('portal-active');
+            chatAi.style.opacity = '0';
+            setTimeout(() => {
+                projectsScreen.classList.add('active');
+            }, 600);
+        }
+
+        function closeProjects() {
+            projectsScreen.classList.remove('active');
+            setTimeout(() => {
+                roboLayer.classList.remove('portal-active');
+                chatAi.style.opacity = '1';
+            }, 300);
+        }
+
+        btnProjetos.addEventListener('click', (e) => {
+            e.preventDefault();
+            openProjects();
         });
     </script>
 </body>
