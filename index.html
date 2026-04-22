@@ -143,7 +143,7 @@
             nav { padding: 20px; }
             nav ul { display: none; } /* Esconde o menu no mobile para focar na imagem */
         }
-  </style>
+ </style>
 </head>
 <body>
 
@@ -203,6 +203,7 @@
             const x = e.clientX;
             const y = e.clientY;
 
+            // Só move a máscara se o portal não estiver expandido
             if (!roboLayer.classList.contains('portal-active')) {
                 const mask = `radial-gradient(circle 220px at ${x}px ${y}px, black 0%, transparent 100%)`;
                 roboLayer.style.webkitMaskImage = mask;
@@ -217,10 +218,14 @@
 
         // Lógica do Portal
         function openProjects() {
+            // Adiciona a classe que faz a máscara crescer via CSS
             roboLayer.classList.add('portal-active');
+            
+            // Some com a caixa de chat
             chatAi.style.opacity = '0';
             chatAi.style.pointerEvents = 'none';
             
+            // Mostra a tela de projetos após o delay da animação
             setTimeout(() => {
                 projectsScreen.classList.add('active');
             }, 600);
@@ -228,6 +233,7 @@
 
         function closeProjects() {
             projectsScreen.classList.remove('active');
+            
             setTimeout(() => {
                 roboLayer.classList.remove('portal-active');
                 chatAi.style.opacity = '1';
@@ -235,6 +241,7 @@
             }, 500);
         }
 
+        // Evento de clique no menu
         btnProjetos.addEventListener('click', (e) => {
             e.preventDefault();
             openProjects();
