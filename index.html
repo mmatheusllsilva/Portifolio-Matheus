@@ -5,36 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matheus Silva | IA & Automação</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        :root {
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --accent: #00d1ff; /* Um azul tecnológico para detalhes */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', sans-serif; }
         body, html { height: 100%; width: 100%; overflow: hidden; background-color: #000; color: white; }
 
-        /* O cursor agora é padrão (default) para facilitar a navegação */
+        /* Animação de entrada da página */
+        @keyframes fadeInPage {
+            from { opacity: 0; filter: blur(10px); }
+            to { opacity: 1; filter: blur(0); }
+        }
+
         .container {
             position: relative;
             width: 100vw;
             height: 100vh;
-            cursor: default; 
+            animation: fadeInPage 1.5s ease-out;
+            perspective: 1000px;
         }
 
-        /* FUNDO FIXO */
-        .viking-layer {
+        /* Camadas com leve efeito Parallax */
+        .viking-layer, .robo-layer {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-image: url('viking.png'); 
+            top: -5%; left: -5%;
+            width: 110%; height: 110%;
             background-size: cover;
             background-position: center;
-            z-index: 1;
+            transition: transform 0.1s ease-out;
         }
 
-        /* CAMADA REVELADA */
+        .viking-layer { background-image: url('viking.png'); z-index: 1; }
         .robo-layer {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
             background-image: url('robo2.png'); 
-            background-size: cover;
-            background-position: center;
             z-index: 2;
             -webkit-mask-image: radial-gradient(circle 0px at center, black 100%, transparent 100%);
             mask-image: radial-gradient(circle 0px at center, black 100%, transparent 100%);
@@ -42,81 +48,81 @@
             mask-repeat: no-repeat;
         }
 
-        /* MENU SUPERIOR GLASS */
+        /* MENU ESTILO COBLI/CIRCUS */
         nav {
             position: fixed;
             top: 0; left: 0;
             width: 100%;
-            padding: 20px 50px;
+            padding: 30px 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
         }
 
-        nav .logo { font-size: 1.4rem; font-weight: bold; }
-        nav ul { display: flex; list-style: none; gap: 30px; }
-        nav ul li a { color: white; text-decoration: none; font-size: 0.9rem; opacity: 0.7; transition: 0.3s; }
-        nav ul li a:hover { opacity: 1; }
+        .logo { font-size: 1.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; }
+        nav ul { display: flex; list-style: none; gap: 40px; }
+        nav ul li a { 
+            color: white; text-decoration: none; font-size: 0.75rem; 
+            text-transform: uppercase; letter-spacing: 2px;
+            opacity: 0.5; transition: 0.4s;
+        }
+        nav ul li a:hover { opacity: 1; color: var(--accent); }
 
-        /* CHAT IA POSICIONADO À DIREITA */
+        /* CHAT IA COM ANIMAÇÃO DE SURGIMENTO */
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
         .chat-ai {
             position: absolute;
-            bottom: 40px;
-            right: 40px; /* Mudado para a direita */
-            width: 320px;
-            height: 400px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            bottom: 50px; right: 50px;
+            width: 340px;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
             z-index: 100;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            animation: slideUp 1s ease-out 0.5s backwards;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
         }
 
         .chat-header {
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            font-size: 0.85rem;
-            font-weight: bold;
-            border-radius: 15px 15px 0 0;
+            padding: 20px;
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
         }
 
-        .chat-messages {
-            flex: 1;
-            padding: 15px;
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.8);
-        }
+        .chat-messages { padding: 20px; font-size: 0.9rem; line-height: 1.6; opacity: 0.8; }
 
-        .chat-input {
-            padding: 15px;
-            display: flex;
-            gap: 10px;
-        }
-
+        .chat-input { padding: 20px; display: flex; gap: 10px; }
         .chat-input input {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
-            padding: 8px;
-            color: white;
-            outline: none;
+            flex: 1; background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px; padding: 12px; color: white; outline: none;
         }
 
         .chat-input button {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            padding: 0 12px;
-            border-radius: 5px;
-            cursor: pointer;
+            background: var(--accent); border: none; padding: 0 15px;
+            border-radius: 10px; cursor: pointer; transition: 0.3s;
+        }
+        .chat-input button:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--accent); }
+
+        /* Overlay para dar o clima sombrio do Circus */
+        .vignette {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.7) 100%);
+            z-index: 5;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -125,23 +131,25 @@
     <nav>
         <div class="logo">Matheus Lopes</div>
         <ul>
-            <li><a href="#sobre">Sobre</a></li>
-            <li><a href="#projetos">Projetos</a></li>
-            <li><a href="#contato">Contato</a></li>
+            <li><a href="#">Showcase</a></li>
+            <li><a href="#">Experiência</a></li>
+            <li><a href="#">Conexão</a></li>
         </ul>
     </nav>
 
+    <div class="vignette"></div>
+
     <div class="container" id="container">
-        <div class="viking-layer"></div>
+        <div class="viking-layer" id="viking"></div>
         <div class="robo-layer" id="roboLayer"></div>
         
         <div class="chat-ai">
-            <div class="chat-header">Matheus.AI - Assistente</div>
+            <div class="chat-header">// Assistente Neural</div>
             <div class="chat-messages">
-                Olá! Como posso ajudar você a explorar meus projetos de automação hoje?
+                O show começou. Explore a fusão entre a força bruta do passado e a inteligência do futuro. Como posso guiar sua jornada?
             </div>
             <div class="chat-input">
-                <input type="text" placeholder="Pergunte algo...">
+                <input type="text" placeholder="Inicie o protocolo...">
                 <button>➤</button>
             </div>
         </div>
@@ -150,14 +158,23 @@
     <script>
         const container = document.getElementById('container');
         const roboLayer = document.getElementById('roboLayer');
+        const viking = document.getElementById('viking');
 
-        container.addEventListener('mousemove', (e) => {
+        window.addEventListener('mousemove', (e) => {
             const x = e.clientX;
             const y = e.clientY;
-            // Mantivemos o raio de 200px para o efeito ficar bem visível
-            const mask = `radial-gradient(circle 200px at ${x}px ${y}px, black 0%, transparent 100%)`;
+
+            // 1. Efeito de Máscara (Revelação)
+            const mask = `radial-gradient(circle 220px at ${x}px ${y}px, black 0%, transparent 100%)`;
             roboLayer.style.webkitMaskImage = mask;
             roboLayer.style.maskImage = mask;
+
+            // 2. Efeito Parallax (Movimento sutil das imagens)
+            const moveX = (x - window.innerWidth / 2) / 50;
+            const moveY = (y - window.innerHeight / 2) / 50;
+            
+            viking.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            roboLayer.style.transform = `translate(${moveX}px, ${moveY}px)`;
         });
 
         container.addEventListener('mouseleave', () => {
