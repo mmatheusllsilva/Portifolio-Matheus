@@ -143,7 +143,7 @@
             nav { padding: 20px; }
             nav ul { display: none; } /* Esconde o menu no mobile para focar na imagem */
         }
-    </style>
+  </style>
 </head>
 <body>
 
@@ -158,7 +158,7 @@
 
     <div class="vignette"></div>
 
-    <div class="container" id="container">
+    <div class="container">
         <div class="viking-layer" id="viking"></div>
         <div class="robo-layer" id="roboLayer"></div>
         
@@ -203,7 +203,6 @@
             const x = e.clientX;
             const y = e.clientY;
 
-            // Só aplica a máscara se o portal não estiver ativo
             if (!roboLayer.classList.contains('portal-active')) {
                 const mask = `radial-gradient(circle 220px at ${x}px ${y}px, black 0%, transparent 100%)`;
                 roboLayer.style.webkitMaskImage = mask;
@@ -220,6 +219,8 @@
         function openProjects() {
             roboLayer.classList.add('portal-active');
             chatAi.style.opacity = '0';
+            chatAi.style.pointerEvents = 'none';
+            
             setTimeout(() => {
                 projectsScreen.classList.add('active');
             }, 600);
@@ -230,7 +231,8 @@
             setTimeout(() => {
                 roboLayer.classList.remove('portal-active');
                 chatAi.style.opacity = '1';
-            }, 300);
+                chatAi.style.pointerEvents = 'auto';
+            }, 500);
         }
 
         btnProjetos.addEventListener('click', (e) => {
