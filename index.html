@@ -25,7 +25,7 @@
             height: 100vh;
             animation: fadeInPage 1.5s ease-out;
             perspective: 1000px;
-            cursor: default; /* Garante que o mouse apareça sempre */
+            cursor: default;
         }
 
         .viking-layer, .robo-layer {
@@ -133,7 +133,7 @@
             background: var(--accent); border: none; padding: 0 15px;
             border-radius: 10px; cursor: pointer; transition: 0.3s;
         }
-        .chat-input button:hover { transform: scale(1.1); box-shadow: 0 0 15px var(--accent); }
+
 
         .vignette {
             position: absolute;
@@ -144,69 +144,126 @@
             pointer-events: none;
         }
 
-        /* --- O QUE FALTAVA: CSS DA TELA DE PROJETOS --- */
+       /* --- TELA DE PROJETOS (ESTILO CARROSSEL) --- */
         .projects-screen {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             z-index: 150;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.8s ease;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(15px);
         }
 
-        .projects-screen.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .projects-screen.active { opacity: 1; pointer-events: auto; }
 
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            width: 85%;
+        .btn-back-top {
+            position: absolute;
+            top: 40px;
+            background: none;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            z-index: 160;
+        }
+        .btn-back-top:hover { background: white; color: black; }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            width: 90%;
             max-width: 1100px;
         }
 
-        .project-card {
-            background: rgba(255, 255, 255, 0.03);
+        .project-viewport {
+            width: 650px; 
+            height: 480px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            height: 100%;
+        }
+
+        .project-slide {
+            min-width: 650px;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .project-card-center {
+            background: var(--glass);
+            backdrop-filter: blur(30px);
             border: 1px solid var(--glass-border);
-            padding: 40px;
-            border-radius: 20px;
-            transition: 0.4s;
+            border-radius: 32px;
+            padding: 50px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+        }
+
+        .project-card-center h3 {
+            color: var(--accent);
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .card-content {
+            overflow-y: auto;
             text-align: left;
+            padding-right: 15px;
         }
 
-        .project-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent);
-            background: rgba(255, 255, 255, 0.08);
+        .card-content p {
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            opacity: 0.85;
         }
 
-        .project-card h3 { color: var(--accent); margin-bottom: 15px; font-size: 1.1rem; }
-        .project-card p { font-size: 0.85rem; line-height: 1.5; opacity: 0.8; }
+        /* Custom Scrollbar */
+        .card-content::-webkit-scrollbar { width: 4px; }
+        .card-content::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
 
-        .btn-back {
-            margin-top: 50px; background: none; border: 1px solid white;
-            color: white; padding: 12px 30px; border-radius: 50px;
-            cursor: pointer; text-transform: uppercase; font-size: 0.7rem;
-            letter-spacing: 2px; transition: 0.3s;
+        /* Setas Minimalistas */
+        .arrow {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            opacity: 0.3;
+            transition: 0.3s;
+            user-select: none;
         }
-        .btn-back:hover { background: white; color: black; }
+        .arrow:hover { opacity: 1; color: var(--accent); transform: scale(1.1); }
 
-        /* Ajuste Mobile */
         @media (max-width: 768px) {
+            .project-viewport, .project-slide { min-width: 90vw; width: 90vw; }
             .chat-ai { width: calc(100% - 40px); right: 20px; bottom: 20px; }
-            nav { padding: 20px; }
-            nav ul { display: none; } /* Esconde o menu no mobile para focar na imagem */
         }
- </style>
+</style>
 </head>
 <body>
 
@@ -235,38 +292,63 @@
         </div>
     </div>
 
-    <section class="projects-screen" id="projectsScreen">
-        <h2 style="margin-bottom: 60px; letter-spacing: 8px; font-weight: 200; text-transform: uppercase;">Aplicações & Workflows</h2>
-        <div class="projects-grid">
-            <div class="project-card">
-                <h3>N8N AUTOMATION</h3>
-                <p>Workflows inteligentes e integrações complexas.</p>
+   <section class="projects-screen" id="projectsScreen">
+        <button class="btn-back-top" onclick="closeProjects()">[ VOLTAR AO INÍCIO ]</button>
+
+        <div class="slider-container">
+            <button class="arrow" onclick="moveSlide(-1)">&#10094;</button>
+            
+            <div class="project-viewport">
+                <div class="project-track" id="projectTrack">
+                    <div class="project-slide">
+                        <div class="project-card-center">
+                            <h3>N8N AUTOMATION</h3>
+                            <div class="card-content">
+                                <p>Desenvolvimento de workflows inteligentes e integrações complexas utilizando n8n.</p>
+                                <p>Foco em automação de processos que conectam APIs como HubSpot e Telegram para otimizar o suporte técnico e operações.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-slide">
+                        <div class="project-card-center">
+                            <h3>AI AGENTS</h3>
+                            <div class="card-content">
+                                <p>Criação de um sistema de multi-agentes com personas especializadas: Beatriz para atendimento, Matheus para suporte e Natanael para finanças.</p>
+                                <p>Implementação de lógica avançada para tomada de decisões autônomas baseada em contexto.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-slide">
+                        <div class="project-card-center">
+                            <h3>SAAS EMAIL</h3>
+                            <div class="card-content">
+                                <p>Projeto focado no refino de comunicação corporativa, utilizando IA para melhorar macros de e-mail e garantir tom profissional.</p>
+                                <p>Uma solução completa para transformar rascunhos em comunicações polidas instantaneamente.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="project-card">
-                <h3>AI AGENTS</h3>
-                <p>Ecossistema de personas para suporte e finanças.</p>
-            </div>
-            <div class="project-card">
-                <h3>SAAS EMAIL</h3>
-                <p>Refino de comunicação corporativa com LLMs.</p>
-            </div>
+
+            <button class="arrow" onclick="moveSlide(1)">&#10095;</button>
         </div>
-        <button class="btn-back" onclick="closeProjects()">[ Voltar ao Início ]</button>
     </section>
 
-    <script>
+  <script>
         const roboLayer = document.getElementById('roboLayer');
         const viking = document.getElementById('viking');
         const projectsScreen = document.getElementById('projectsScreen');
         const chatAi = document.getElementById('chatAi');
         const btnProjetos = document.getElementById('btn-projetos');
+        const projectTrack = document.getElementById('projectTrack');
+
+        let currentSlide = 0;
 
         // Efeito de Máscara e Parallax
         window.addEventListener('mousemove', (e) => {
             const x = e.clientX;
             const y = e.clientY;
 
-            // Só move a máscara se o portal não estiver expandido
             if (!roboLayer.classList.contains('portal-active')) {
                 const mask = `radial-gradient(circle 220px at ${x}px ${y}px, black 0%, transparent 100%)`;
                 roboLayer.style.webkitMaskImage = mask;
@@ -279,16 +361,26 @@
             roboLayer.style.transform = `translate(${moveX}px, ${moveY}px)`;
         });
 
+        // Lógica do Carrossel
+        function moveSlide(direction) {
+            const slides = document.querySelectorAll('.project-slide');
+            const totalSlides = slides.length;
+            const slideWidth = slides[0].offsetWidth;
+
+            currentSlide += direction;
+
+            if (currentSlide >= totalSlides) currentSlide = 0;
+            if (currentSlide < 0) currentSlide = totalSlides - 1;
+
+            projectTrack.style.transform = `translateX(${-currentSlide * slideWidth}px)`;
+        }
+
         // Lógica do Portal
         function openProjects() {
-            // Adiciona a classe que faz a máscara crescer via CSS
             roboLayer.classList.add('portal-active');
-            
-            // Some com a caixa de chat
             chatAi.style.opacity = '0';
             chatAi.style.pointerEvents = 'none';
             
-            // Mostra a tela de projetos após o delay da animação
             setTimeout(() => {
                 projectsScreen.classList.add('active');
             }, 600);
@@ -304,7 +396,6 @@
             }, 500);
         }
 
-        // Evento de clique no menu
         btnProjetos.addEventListener('click', (e) => {
             e.preventDefault();
             openProjects();
