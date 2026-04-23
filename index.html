@@ -384,86 +384,94 @@
         </div>
     </section>
 
-  <script>
-        const roboLayer = document.getElementById('roboLayer');
-        const viking = document.getElementById('viking');
-        const projectsScreen = document.getElementById('projectsScreen');
-        const chatAi = document.getElementById('chatAi');
-        const btnProjetos = document.getElementById('btn-projetos');
-        const projectTrack = document.getElementById('projectTrack');
-        const userInput = document.getElementById('userInput');
-const sendBtn = document.getElementById('sendBtn');
-const chatMessages = document.getElementById('chatMessages');
-
-        let currentSlide = 0;
-
-        // --- LÓGICA DO CHAT ---
-       async function sendMessage() {
+ <script>
+    const roboLayer = document.getElementById('roboLayer');
+    const viking = document.getElementById('viking');
+    const projectsScreen = document.getElementById('projectsScreen');
+    const chatAi = document.getElementById('chatAi');
+    const btnProjetos = document.getElementById('btn-projetos');
+    const projectTrack = document.getElementById('projectTrack');
     const userInput = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
     const chatMessages = document.getElementById('chatMessages');
-    const msg = userInput.value.trim();
-    
-    if (!msg) return;
 
-    // Estética da mensagem do usuário
-    chatMessages.innerHTML += `<div class="msg user">${msg}</div>`;
-    userInput.value = '';
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    let currentSlide = 0;
 
-    try {
-        const response = await fetch('/api/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: msg })
-        });
-        
-        const data = await response.json();
-        
-        // Estética da resposta da IA
-        chatMessages.innerHTML += `<div class="msg bot">${data.response}</div>`;
-    } catch (e) {
-        chatMessages.innerHTML += `<div class="msg bot" style="color: #ff4b4b;">Erro na conexão com o servidor.</div>`;
+    // --- LÓGICA DO CHAT ---
+    async function sendMessage() {
+        const msg = userInput.value.trim();
+        if (!msg) return;
+
+        // Adiciona mensagem do usuário na tela
+        chatMessages.innerHTML += `<div class="msg user">${msg}</div>`;
+        userInput.value = '';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        try {
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: msg })
+            });
+            
+            const data = await response.json();
+            
+            // Adiciona resposta da IA na tela
+            chatMessages.innerHTML += `<div class="msg bot">${data.response}</div>`;
+        } catch (e) {
+            chatMessages.innerHTML += `<div class="msg bot" style="color: #ff4b4b;">Erro na conexão com o servidor.</div>`;
+        }
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     }
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-}
 
-        // --- PARALLAX ---
-        window.addEventListener('mousemove', (e) => {
-            const x = e.clientX;
-            const y = e.clientY;
-            if (!roboLayer.classList.contains('portal-active')) {
-                const mask = `radial-gradient(circle 220px at ${x}px ${y}px, black 0%, transparent 100%)`;
-                roboLayer.style.webkitMaskImage = mask;
-                roboLayer.style.maskImage = mask;
-            }
-            const moveX = (x - window.innerWidth / 2) / 60;
-            const moveY = (y - window.innerHeight / 2) / 60;
-            viking.style.transform = `translate(${moveX}px, ${moveY}px)`;
-            roboLayer.style.transform = `translate(${moveX}px, ${moveY}px)`;
-        });
+    // --- ESCUTADORES DE EVENTOS (O QUE FALTAVA) ---
 
-        // --- CARROSSEL ---
-        function moveSlide(direction) {
-            const slides = document.querySelectorAll('.project-slide');
-            currentSlide = (currentSlide + direction + slides.length) % slides.length;
-            projectTrack.style.transform = `translateX(${-currentSlide * 900}px)`;
+    // 1. Escutar o clique no botão ➤
+    sendBtn.addEventListener('click', sendMessage);
+
+    // 2. Escutar a tecla Enter no campo de texto
+    userInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Impede o navegador de atualizar a página
+            sendMessage();
         }
+    });
 
-        function openProjects() {
-            roboLayer.classList.add('portal-active');
-            chatAi.style.opacity = '0';
-            setTimeout(() => { projectsScreen.classList.add('active'); }, 600);
+    // --- PARALLAX ---
+    window.addEventListener('mousemove', (e) => {
+        const x = e.clientX;
+        const y = e.clientY;
+        if (!roboLayer.classList.contains('portal-active')) {
+            const mask = `radial-gradient(circle 220px at ${x}px ${y}px, black 0%, transparent 100%)`;
+            roboLayer.style.webkitMaskImage = mask;
+            roboLayer.style.maskImage = mask;
         }
+        const moveX = (x - window.innerWidth / 2) / 60;
+        const moveY = (y - window.innerHeight / 2) / 60;
+        viking.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        roboLayer.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    });
 
-        function closeProjects() {
-            projectsScreen.classList.remove('active');
-            setTimeout(() => {
-                roboLayer.classList.remove('portal-active');
-                chatAi.style.opacity = '1';
-            }, 500);
-        }
+    // --- CARROSSEL ---
+    function moveSlide(direction) {
+        const slides = document.querySelectorAll('.project-slide');
+        currentSlide = (currentSlide + direction + slides.length) % slides.length;
+        projectTrack.style.transform = `translateX(${-currentSlide * 900}px)`;
+    }
 
-        btnProjetos.addEventListener('click', (e) => { e.preventDefault(); openProjects(); });
-    </script>
-</body>
-</html>
+    function openProjects() {
+        roboLayer.classList.add('portal-active');
+        chatAi.style.opacity = '0';
+        setTimeout(() => { projectsScreen.classList.add('active'); }, 600);
+    }
+
+    function closeProjects() {
+        projectsScreen.classList.remove('active');
+        setTimeout(() => {
+            roboLayer.classList.remove('portal-active');
+            chatAi.style.opacity = '1';
+        }, 500);
+    }
+
+    btnProjetos.addEventListener('click', (e) => { e.preventDefault(); openProjects(); });
+</script>
