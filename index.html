@@ -361,68 +361,75 @@
         const chatAi = document.getElementById('chatAi');
         const btnProjetos = document.getElementById('btn-projetos');
         const projectTrack = document.getElementById('projectTrack');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const chatMessages = document.getElementById('chatMessages');
 
         let currentSlide = 0;
 
-        // Efeito de Máscara e Parallax
+        // --- LÓGICA DO CHAT ---
+        async function sendMessage() {
+            const msg = userInput.value.trim();
+            if (!msg) return;
+
+            chatMessages.innerHTML += `<div style="margin-top:10px; color: var(--accent);"><strong>Você:</strong> ${msg}</div>`;
+            userInput.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: msg })
+                });
+                const data = await response.json();
+                chatMessages.innerHTML += `<div style="margin-top:10px;"><strong>Matheus.AI:</strong> ${data.response}</div>`;
+            } catch (e) {
+                chatMessages.innerHTML += `<div style="color:red; font-size:0.8rem;">Erro ao conectar. Tente novamente.</div>`;
+            }
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMessage(); });
+
+        // --- PARALLAX ---
         window.addEventListener('mousemove', (e) => {
             const x = e.clientX;
             const y = e.clientY;
-
             if (!roboLayer.classList.contains('portal-active')) {
                 const mask = `radial-gradient(circle 220px at ${x}px ${y}px, black 0%, transparent 100%)`;
                 roboLayer.style.webkitMaskImage = mask;
                 roboLayer.style.maskImage = mask;
             }
-
             const moveX = (x - window.innerWidth / 2) / 60;
             const moveY = (y - window.innerHeight / 2) / 60;
             viking.style.transform = `translate(${moveX}px, ${moveY}px)`;
             roboLayer.style.transform = `translate(${moveX}px, ${moveY}px)`;
         });
 
-        // Lógica do Carrossel
-       function moveSlide(direction) {
-    const slides = document.querySelectorAll('.project-slide');
-    const totalSlides = slides.length;
-    // Usamos o offsetWidth para que o cálculo seja sempre dinâmico à largura do slide (900px)
-    const slideWidth = slides[0].offsetWidth; 
+        // --- CARROSSEL ---
+        function moveSlide(direction) {
+            const slides = document.querySelectorAll('.project-slide');
+            currentSlide = (currentSlide + direction + slides.length) % slides.length;
+            projectTrack.style.transform = `translateX(${-currentSlide * 900}px)`;
+        }
 
-    currentSlide += direction;
-
-    if (currentSlide >= totalSlides) currentSlide = 0;
-    if (currentSlide < 0) currentSlide = totalSlides - 1;
-
-    // A variável correta é projectTrack, que você já definiu no topo do script
-    const offset = -currentSlide * slideWidth;
-    projectTrack.style.transform = `translateX(${offset}px)`;
-}
-
-        // Lógica do Portal
         function openProjects() {
             roboLayer.classList.add('portal-active');
             chatAi.style.opacity = '0';
-            chatAi.style.pointerEvents = 'none';
-            
-            setTimeout(() => {
-                projectsScreen.classList.add('active');
-            }, 600);
+            setTimeout(() => { projectsScreen.classList.add('active'); }, 600);
         }
 
         function closeProjects() {
             projectsScreen.classList.remove('active');
-            
             setTimeout(() => {
                 roboLayer.classList.remove('portal-active');
                 chatAi.style.opacity = '1';
-                chatAi.style.pointerEvents = 'auto';
             }, 500);
         }
 
-        btnProjetos.addEventListener('click', (e) => {
-            e.preventDefault();
-            openProjects();
-        });
+        btnProjetos.addEventListener('click', (e) => { e.preventDefault(); openProjects(); });
     </script>
 </body>
 </html>
