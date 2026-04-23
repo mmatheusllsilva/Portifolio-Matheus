@@ -179,12 +179,13 @@
         .btn-back-top:hover { background: white; color: black; }
 
         .slider-container {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-            width: 90%;
-            max-width: 1100px;
-        }
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    width: 90%;
+    max-width: 1100px;
+    margin-top: 80px; /* Cria o respiro entre o botão e o card */
+}
 
        .project-viewport {
     width: 900px; /* Bloco mais comprido lateralmente */
@@ -211,25 +212,25 @@
 }
 
        .project-card-center {
-    background: var(--glass);
-    backdrop-filter: blur(30px);
-    border: 1px solid var(--glass-border);
+    /* Alteramos o fundo para uma cor levemente mais clara e aumentamos o blur */
+    background: rgba(25, 30, 35, 0.85); 
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Borda um pouco mais visível */
+    
     border-radius: 30px;
     padding: 40px;
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Mantém o card fixo */
+    overflow: hidden;
 }
 
         .project-card-center h3 {
-            color: var(--accent);
-            font-size: 1.8rem;
-            margin-bottom: 25px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-        }
+    color: var(--accent);
+    text-shadow: 0 0 15px rgba(0, 209, 255, 0.4); /* Leve brilho neon */
+}
 
         .card-content {
     flex-grow: 1;
