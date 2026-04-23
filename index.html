@@ -470,7 +470,7 @@
         scene.add(new THREE.AmbientLight(0x404040));
 
         const loader = new THREE.TextureLoader();
-        loader.load('image_1836fa.png.png', function(texture) {
+        loader.load('barco.png', function(texture) {
             const boatMat = new THREE.SpriteMaterial({ map: texture });
             boat = new THREE.Sprite(boatMat);
             boat.scale.set(15, 15, 1);
