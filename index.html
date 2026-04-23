@@ -109,11 +109,39 @@
         }
 
         .chat-messages { 
-            padding: 24px; 
-            font-size: 0.95rem; 
-            line-height: 1.6; 
-            color: white;
-        }
+    padding: 24px; 
+    font-size: 0.9rem; 
+    line-height: 1.4; 
+    color: white;
+    overflow-y: auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+        .msg {
+    max-width: 80%;
+    padding: 10px 15px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+}
+
+.msg.user {
+    align-self: flex-end;
+    background: var(--accent);
+    color: #000;
+    border-bottom-right-radius: 2px;
+    font-weight: 500;
+}
+
+.msg.bot {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
+    color: #fff;
+    border-bottom-left-radius: 2px;
+}
 
         .chat-input { 
             padding: 20px; 
@@ -297,14 +325,16 @@
         <div class="viking-layer" id="viking"></div>
         <div class="robo-layer" id="roboLayer"></div>
         
-        <div class="chat-ai" id="chatAi">
-            <div class="chat-header">Matheus.AI - Assistente</div>
-            <div class="chat-messages">Olá, eu sou a assitente de IA do Matheus, como posso te ajudar hoje?</div>
-            <div class="chat-input">
-                <input type="text" placeholder="Digite aqui.">
-                <button>➤</button>
-            </div>
-        </div>
+       <div class="chat-ai" id="chatAi">
+    <div class="chat-header">Matheus.AI - Assistente</div>
+    <div class="chat-messages" id="chatMessages">
+        <div class="msg bot">Olá, eu sou o assistente de IA do Matheus, como posso te ajudar hoje?</div>
+    </div>
+    <div class="chat-input">
+        <input type="text" id="userInput" placeholder="Digite aqui...">
+        <button id="sendBtn">➤</button>
+    </div>
+</div>
     </div>
 
    <section class="projects-screen" id="projectsScreen">
@@ -369,13 +399,14 @@ const chatMessages = document.getElementById('chatMessages');
 
         // --- LÓGICA DO CHAT ---
        async function sendMessage() {
+    const userInput = document.getElementById('userInput');
+    const chatMessages = document.getElementById('chatMessages');
     const msg = userInput.value.trim();
+    
     if (!msg) return;
 
-    console.log("Tentando enviar mensagem:", msg); // Para debug
-
-    // Adiciona sua mensagem na tela
-    chatMessages.innerHTML += `<div style="margin-top:10px; color: var(--accent);"><strong>Você:</strong> ${msg}</div>`;
+    // Estética da mensagem do usuário
+    chatMessages.innerHTML += `<div class="msg user">${msg}</div>`;
     userInput.value = '';
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
@@ -386,27 +417,15 @@ const chatMessages = document.getElementById('chatMessages');
             body: JSON.stringify({ message: msg })
         });
         
-        if (!response.ok) throw new Error('Erro na API');
-
         const data = await response.json();
-        chatMessages.innerHTML += `<div style="margin-top:10px;"><strong>Matheus.AI:</strong> ${data.response}</div>`;
+        
+        // Estética da resposta da IA
+        chatMessages.innerHTML += `<div class="msg bot">${data.response}</div>`;
     } catch (e) {
-        console.error(e);
-        chatMessages.innerHTML += `<div style="color:#ff4b4b; font-size:0.8rem; margin-top:5px;">Erro ao conectar. Verifique se o deploy na Vercel terminou.</div>`;
+        chatMessages.innerHTML += `<div class="msg bot" style="color: #ff4b4b;">Erro na conexão com o servidor.</div>`;
     }
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
-
-// Garante que o clique funciona
-sendBtn.onclick = sendMessage;
-
-// Garante que o Enter funciona (Keydown é mais confiável que Keypress)
-userInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-        e.preventDefault(); // Impede que o Enter crie uma nova linha ou recarregue a página
-        sendMessage();
-    }
-});
 
         // --- PARALLAX ---
         window.addEventListener('mousemove', (e) => {
