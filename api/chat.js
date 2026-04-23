@@ -16,7 +16,7 @@ export default async function handler(req, res) {
                 messages: [
                     { 
                         role: "system", 
-                        content: "Você é o Matheus.AI, o assistente virtual do Matheus. Responda sempre em português. Se pedirem contato, informe o e-mail mmatheusllsilva@outlook.com. Fale sobre suas habilidades em n8n e automação." 
+                        content: "Você é o Matheus.AI, o assistente virtual do Matheus. Sempre responda com respostas curtas, Responda sempre em português. Se pedirem contato, informe o e-mail mmatheusllsilva@outlook.com. Fale sobre suas habilidades em n8n e automação." 
                     },
                     { role: "user", content: message }
                 ],
