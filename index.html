@@ -447,54 +447,81 @@
         chatAi.style.opacity = '1';
     }
 
-    function initThreeJS() {
-        const canvas = document.getElementById('game-canvas');
-        scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x050505);
+   // --- DENTRO DA FUNÇÃO initThreeJS ---
 
-        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 10, 25);
+// 1. ADICIONAR NÉVOA (Crucial para o clima sombrio)
+scene.fog = new THREE.FogExp2(0x050505, 0.04); // Preto profundo e denso
 
-        renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
+// 2. ADICIONAR LANTERNA AO BARCO (Luz SpotLight)
+// Criamos a luz, mas ela só é ativada quando o barco carrega.
+let flashlight = new THREE.SpotLight(0xfff0c7, 3, 40, Math.PI / 4, 0.3); // Luz quente
+flashlight.position.set(0, 5, 0); // Altura da luz no barco
+flashlight.castShadow = true;
+// A SpotLight precisa de um alvo para apontar. Criamos um objeto invisível.
+let flashlightTarget = new THREE.Object3D();
+flashlightTarget.position.set(0, 0, -20); // Aponta para frente
+scene.add(flashlightTarget);
+flashlight.target = flashlightTarget;
 
-        const geometry = new THREE.PlaneGeometry(200, 200, 40, 40);
-        const material = new THREE.MeshPhongMaterial({ color: 0x00d1ff, wireframe: true, transparent: true, opacity: 0.4 });
-        sea = new THREE.Mesh(geometry, material);
-        sea.rotation.x = -Math.PI / 2;
-        scene.add(sea);
 
-        const light = new THREE.PointLight(0xffffff, 1, 100);
-        light.position.set(0, 20, 10);
-        scene.add(light);
-        scene.add(new THREE.AmbientLight(0x404040));
+// 3. MUDAR O MATERIAL DO MAR (Mais realista, menos neon)
+const seaGeometry = new THREE.PlaneGeometry(300, 300, 100, 100); 
+// Usamos texturas realistas (substitua pelos seus arquivos de textura se tiver)
+const seaTexture = new THREE.TextureLoader().load('textura-agua.jpg'); // Uma imagem de água escura
+const materialMarSombrio = new THREE.MeshStandardMaterial({ 
+    map: seaTexture,
+    color: 0x111111,   // Água muito escura
+    transparent: true, // Ainda transparente nas bordas da névoa
+    opacity: 0.8,
+    metalness: 0.1,    // Leve reflexo
+    roughness: 0.8     // Superfície fosca
+});
+sea = new THREE.Mesh(seaGeometry, materialMarSombrio);
+sea.rotation.x = -Math.PI / 2;
+scene.add(sea);
 
-        const loader = new THREE.TextureLoader();
-        loader.load('barco.png', function(texture) {
-            const boatMat = new THREE.SpriteMaterial({ map: texture });
-            boat = new THREE.Sprite(boatMat);
-            boat.scale.set(15, 15, 1);
-            boat.position.set(0, 7, 0);
-            scene.add(boat);
-            animate(); 
-        });
-    }
 
-    function animate() {
-        requestAnimationFrame(animate);
-        const time = Date.now() * 0.002;
-        if (sea) sea.position.y = Math.sin(time) * 0.5;
+// --- NO CALLBACK DO CARREGAMENTO DO BARCO (Onde boat.scale.set está) ---
+loader.load('image_1836fa.png', function(texture) {
+    const boatMat = new THREE.SpriteMaterial({ map: texture, transparent: true });
+    boat = new THREE.Sprite(boatMat);
+    boat.scale.set(15, 15, 1);
+    boat.position.set(0, 7, 0);
+    scene.add(boat);
+    
+    // Adicionar a lanterna ao barco
+    boat.add(flashlight); // Agora a luz se move COM o barco
+    animate(); 
+});
+
+
+// --- ATUALIZAR A FUNÇÃO animate() ---
+function animate() {
+    requestAnimationFrame(animate);
+    const time = Date.now() * 0.002;
+    
+    // Animação das Ondas (Sombrias)
+    sea.position.y = Math.sin(time) * 0.15;
+    
+    if (boat) {
+        // Movimentação (W, A, S, D ou setas)
+        if (moveLeft) boat.position.x -= 0.3;
+        if (moveRight) boat.position.x += 0.3;
         
-        if (boat) {
-            if (moveLeft) boat.position.x -= 0.5;
-            if (moveRight) boat.position.x += 0.5;
-            boat.position.y = 7 + Math.sin(time * 1.2) * 0.8;
-            boat.rotation.z = Math.sin(time) * 0.05;
-            camera.position.x = boat.position.x * 0.5;
-        }
-        renderer.render(scene, camera);
-    }
+        // Balanço suave
+        boat.position.y = 6.5 + Math.sin(time * 0.8) * 0.4;
+        boat.rotation.z = Math.sin(time) * 0.02;
 
+        // O alvo da lanterna segue o barco
+        flashlightTarget.position.x = boat.position.x;
+        flashlightTarget.position.z = boat.position.z - 20;
+
+        // A câmera segue o barco, mas mais devagar
+        camera.position.x += (boat.position.x - camera.position.x) * 0.05;
+        camera.lookAt(boat.position);
+    }
+    renderer.render(scene, camera);
+}
     // Controles do Barco
     window.addEventListener('keydown', (e) => {
         if(e.key === 'ArrowLeft') moveLeft = true;
