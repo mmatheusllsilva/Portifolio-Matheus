@@ -393,7 +393,8 @@
 
      <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
- <script>
+<script>
+    // 1. Variáveis Globais (Acessíveis por todo o código)
     const roboLayer = document.getElementById('roboLayer');
     const viking = document.getElementById('viking');
     const projectsScreen = document.getElementById('projectsScreen');
@@ -404,14 +405,14 @@
     const sendBtn = document.getElementById('sendBtn');
     const chatMessages = document.getElementById('chatMessages');
 
+    let scene, camera, renderer, sea, boat;
     let currentSlide = 0;
+    let moveLeft = false, moveRight = false;
 
     // --- LÓGICA DO CHAT ---
     async function sendMessage() {
         const msg = userInput.value.trim();
         if (!msg) return;
-
-        // Adiciona mensagem do usuário na tela
         chatMessages.innerHTML += `<div class="msg user">${msg}</div>`;
         userInput.value = '';
         chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -422,105 +423,89 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: msg })
             });
-            
             const data = await response.json();
-            
-            // Adiciona resposta da IA na tela
             chatMessages.innerHTML += `<div class="msg bot">${data.response}</div>`;
         } catch (e) {
-            chatMessages.innerHTML += `<div class="msg bot" style="color: #ff4b4b;">Erro na conexão com o servidor.</div>`;
+            chatMessages.innerHTML += `<div class="msg bot" style="color: #ff4b4b;">Erro na conexão.</div>`;
         }
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
     sendBtn.addEventListener('click', sendMessage);
-    userInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            sendMessage();
-        }
-    });
+    userInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
 
+    // --- MINI GAME (THREE.JS) ---
+    function abrirJogo() {
+        console.log("Abrindo jogo...");
+        chatAi.style.opacity = '0';
+        document.getElementById('game-container').style.display = 'flex';
+        if (!scene) initThreeJS();
+    }
 
-     // --- MINI GAME (THREE.JS) ---
-     let scene, camera, renderer, sea;
+    function fecharJogo() {
+        document.getElementById('game-container').style.display = 'none';
+        chatAi.style.opacity = '1';
+    }
 
-        function abrirJogo() {
-            chatAi.style.opacity = '0';
-            document.getElementById('game-container').style.display = 'flex';
-            if (!scene) initThreeJS();
-        }
+    function initThreeJS() {
+        const canvas = document.getElementById('game-canvas');
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x050505);
 
-        function fecharJogo() {
-            document.getElementById('game-container').style.display = 'none';
-            chatAi.style.opacity = '1';
-        }
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 10, 25);
 
-        function initThreeJS() {
-    const canvas = document.getElementById('game-canvas');
-    scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x050505);
+        renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
 
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 10, 25);
+        const geometry = new THREE.PlaneGeometry(200, 200, 40, 40);
+        const material = new THREE.MeshPhongMaterial({ color: 0x00d1ff, wireframe: true, transparent: true, opacity: 0.4 });
+        sea = new THREE.Mesh(geometry, material);
+        sea.rotation.x = -Math.PI / 2;
+        scene.add(sea);
 
-    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+        const light = new THREE.PointLight(0xffffff, 1, 100);
+        light.position.set(0, 20, 10);
+        scene.add(light);
+        scene.add(new THREE.AmbientLight(0x404040));
 
-    // Mar em Wireframe (estilo Matrix/Retro)
-    const geometry = new THREE.PlaneGeometry(200, 200, 40, 40);
-    const material = new THREE.MeshPhongMaterial({ 
-        color: 0x00d1ff, 
-        wireframe: true,
-        transparent: true,
-        opacity: 0.4
-    });
-    sea = new THREE.Mesh(geometry, material);
-    sea.rotation.x = -Math.PI / 2;
-    scene.add(sea);
+        const loader = new THREE.TextureLoader();
+        loader.load('image_1836fa.png', function(texture) {
+            const boatMat = new THREE.SpriteMaterial({ map: texture });
+            boat = new THREE.Sprite(boatMat);
+            boat.scale.set(15, 15, 1);
+            boat.position.set(0, 7, 0);
+            scene.add(boat);
+            animate(); 
+        });
+    }
 
-    const light = new THREE.PointLight(0xffffff, 1, 100);
-    light.position.set(0, 20, 10);
-    scene.add(light);
-    scene.add(new THREE.AmbientLight(0x404040));
-
-    // --- ADICIONANDO SEU BARCO ---
-    const loader = new THREE.TextureLoader();
-    // Certifique-se que o nome do arquivo seja exatamente image_1836fa.png
-    loader.load('image_1836fa.png', function(texture) {
-        const boatMat = new THREE.SpriteMaterial({ map: texture });
-        const boat = new THREE.Sprite(boatMat);
-        boat.scale.set(15, 15, 1);
-        boat.position.y = 7;
-        scene.add(boat);
-
-        // Animação interna
-        function animate() {
-            requestAnimationFrame(animate);
-            const time = Date.now() * 0.002;
-            
-            // O mar ondula
-            sea.position.y = Math.sin(time) * 0.5;
-            
-            // O barco acompanha o balanço
+    function animate() {
+        requestAnimationFrame(animate);
+        const time = Date.now() * 0.002;
+        if (sea) sea.position.y = Math.sin(time) * 0.5;
+        
+        if (boat) {
+            if (moveLeft) boat.position.x -= 0.5;
+            if (moveRight) boat.position.x += 0.5;
             boat.position.y = 7 + Math.sin(time * 1.2) * 0.8;
             boat.rotation.z = Math.sin(time) * 0.05;
-
-            renderer.render(scene, camera);
+            camera.position.x = boat.position.x * 0.5;
         }
-        animate();
-
-        window.addEventListener('resize', () => {
-    if (camera && renderer) {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.render(scene, camera);
     }
-});
-    
-}
 
-        // --- PARALLAX ---
+    // Controles do Barco
+    window.addEventListener('keydown', (e) => {
+        if(e.key === 'ArrowLeft') moveLeft = true;
+        if(e.key === 'ArrowRight') moveRight = true;
+    });
+    window.addEventListener('keyup', (e) => {
+        if(e.key === 'ArrowLeft') moveLeft = false;
+        if(e.key === 'ArrowRight') moveRight = false;
+    });
+
+    // --- PARALLAX ---
     window.addEventListener('mousemove', (e) => {
         const x = e.clientX;
         const y = e.clientY;
@@ -529,13 +514,10 @@
             roboLayer.style.webkitMaskImage = mask;
             roboLayer.style.maskImage = mask;
         }
-        const moveX = (x - window.innerWidth / 2) / 60;
-        const moveY = (y - window.innerHeight / 2) / 60;
-        viking.style.transform = `translate(${moveX}px, ${moveY}px)`;
-        roboLayer.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        viking.style.transform = `translate(${(x - window.innerWidth/2)/60}px, ${(y - window.innerHeight/2)/60}px)`;
     });
 
-    // --- CARROSSEL ---
+    // --- PROJETOS & CARROSSEL ---
     function moveSlide(direction) {
         const slides = document.querySelectorAll('.project-slide');
         currentSlide = (currentSlide + direction + slides.length) % slides.length;
@@ -556,5 +538,14 @@
         }, 500);
     }
 
+    // Event Listeners Finais
     btnProjetos.addEventListener('click', (e) => { e.preventDefault(); openProjects(); });
+    
+    window.addEventListener('resize', () => {
+        if (camera && renderer) {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+    });
 </script>
