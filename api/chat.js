@@ -1,10 +1,9 @@
 import fetch from 'node-fetch';
 
 export default async function handler(req, res) {
-    // Garante que só aceita requisições POST
-    if (req.method !== 'POST') {
-        return res.status(405).json({ response: "Método não permitido" });
-    }
+    // Adiciona headers para evitar problemas de CORS
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST');
 
     try {
         const { message } = req.body;
@@ -19,29 +18,21 @@ export default async function handler(req, res) {
             body: JSON.stringify({
                 model: "llama3-8b-8192",
                 messages: [
-                    { role: "system", content: "Você é o Matheus.AI, assistente do portfólio de Matheus Silva, especialista em n8n e automação." },
-                    { role: "user", content: message || "Olá" } // Fallback caso message venha vazio
-                ]
+                    { role: "user", content: message }
+                ],
+                temperature: 0.7
             })
         });
 
         const data = await response.json();
 
-        // Se a Groq retornar erro (ex: API Key inválida), a gente captura aqui
-        if (!response.ok) {
-            console.error("Erro da Groq:", data);
-            return res.status(response.status).json({ response: "Erro na API: " + (data.error?.message || "Desconhecido") });
-        }
-
-        // Verifica se a estrutura esperada existe antes de acessar o [0]
-        if (data.choices && data.choices.length > 0) {
-            res.status(200).json({ response: data.choices[0].message.content });
+        if (response.ok && data.choices) {
+            return res.status(200).json({ response: data.choices[0].message.content });
         } else {
-            res.status(500).json({ response: "Resposta da API em formato inesperado." });
+            console.error("Detalhe do erro Groq:", data);
+            return res.status(500).json({ response: "A IA recusou a mensagem. Verifique os logs." });
         }
-
     } catch (error) {
-        console.error("Erro no Servidor:", error);
-        res.status(500).json({ response: "Erro interno no servidor." });
+        return res.status(500).json({ response: "Erro interno: " + error.message });
     }
 }
