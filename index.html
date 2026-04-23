@@ -362,36 +362,51 @@
         const btnProjetos = document.getElementById('btn-projetos');
         const projectTrack = document.getElementById('projectTrack');
         const userInput = document.getElementById('userInput');
-        const sendBtn = document.getElementById('sendBtn');
-        const chatMessages = document.getElementById('chatMessages');
+const sendBtn = document.getElementById('sendBtn');
+const chatMessages = document.getElementById('chatMessages');
 
         let currentSlide = 0;
 
         // --- LÓGICA DO CHAT ---
-        async function sendMessage() {
-            const msg = userInput.value.trim();
-            if (!msg) return;
+       async function sendMessage() {
+    const msg = userInput.value.trim();
+    if (!msg) return;
 
-            chatMessages.innerHTML += `<div style="margin-top:10px; color: var(--accent);"><strong>Você:</strong> ${msg}</div>`;
-            userInput.value = '';
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+    console.log("Tentando enviar mensagem:", msg); // Para debug
 
-            try {
-                const response = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: msg })
-                });
-                const data = await response.json();
-                chatMessages.innerHTML += `<div style="margin-top:10px;"><strong>Matheus.AI:</strong> ${data.response}</div>`;
-            } catch (e) {
-                chatMessages.innerHTML += `<div style="color:red; font-size:0.8rem;">Erro ao conectar. Tente novamente.</div>`;
-            }
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
+    // Adiciona sua mensagem na tela
+    chatMessages.innerHTML += `<div style="margin-top:10px; color: var(--accent);"><strong>Você:</strong> ${msg}</div>`;
+    userInput.value = '';
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 
-        sendBtn.addEventListener('click', sendMessage);
-        userInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMessage(); });
+    try {
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: msg })
+        });
+        
+        if (!response.ok) throw new Error('Erro na API');
+
+        const data = await response.json();
+        chatMessages.innerHTML += `<div style="margin-top:10px;"><strong>Matheus.AI:</strong> ${data.response}</div>`;
+    } catch (e) {
+        console.error(e);
+        chatMessages.innerHTML += `<div style="color:#ff4b4b; font-size:0.8rem; margin-top:5px;">Erro ao conectar. Verifique se o deploy na Vercel terminou.</div>`;
+    }
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Garante que o clique funciona
+sendBtn.onclick = sendMessage;
+
+// Garante que o Enter funciona (Keydown é mais confiável que Keypress)
+userInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault(); // Impede que o Enter crie uma nova linha ou recarregue a página
+        sendMessage();
+    }
+});
 
         // --- PARALLAX ---
         window.addEventListener('mousemove', (e) => {
