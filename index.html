@@ -186,12 +186,14 @@
             max-width: 1100px;
         }
 
-        .project-viewport {
-            width: 650px; 
-            height: 480px;
-            overflow: hidden;
-            position: relative;
-        }
+       .project-viewport {
+    width: 900px; /* Bloco mais comprido lateralmente */
+    height: 600px; /* Altura maior para acomodar prints e texto */
+    overflow: hidden;
+    position: relative;
+    border-radius: 30px;
+    margin: 0 auto; /* Garante a centralização */
+}
 
         .project-track {
             display: flex;
@@ -200,26 +202,26 @@
         }
 
         .project-slide {
-            min-width: 650px;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 15px;
-        }
+    min-width: 900px; /* Deve acompanhar a largura da viewport */
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
 
-        .project-card-center {
-            background: var(--glass);
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            border-radius: 32px;
-            padding: 50px;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
-        }
+       .project-card-center {
+    background: var(--glass);
+    backdrop-filter: blur(30px);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    padding: 40px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Mantém o card fixo */
+}
 
         .project-card-center h3 {
             color: var(--accent);
@@ -230,10 +232,11 @@
         }
 
         .card-content {
-            overflow-y: auto;
-            text-align: left;
-            padding-right: 15px;
-        }
+    flex-grow: 1;
+    overflow-y: auto; /* Habilita o scroll para baixo */
+    text-align: left;
+    padding-right: 20px;
+}
 
         .card-content p {
             font-size: 1rem;
@@ -241,6 +244,17 @@
             margin-bottom: 20px;
             opacity: 0.85;
         }
+
+        .card-content img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 20px 0;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
 
         /* Custom Scrollbar */
         .card-content::-webkit-scrollbar { width: 4px; }
@@ -300,15 +314,20 @@
             
             <div class="project-viewport">
                 <div class="project-track" id="projectTrack">
-                    <div class="project-slide">
-                        <div class="project-card-center">
-                            <h3>N8N AUTOMATION</h3>
-                            <div class="card-content">
-                                <p>Desenvolvimento de workflows inteligentes e integrações complexas utilizando n8n.</p>
-                                <p>Foco em automação de processos que conectam APIs como HubSpot e Telegram para otimizar o suporte técnico e operações.</p>
-                            </div>
-                        </div>
-                    </div>
+<div class="project-slide">
+    <div class="project-card-center">
+        <h3>N8N AUTOMATION</h3>
+        <div class="card-content">
+            <p>Desenvolvimento de workflows inteligentes e integrações complexas utilizando n8n.</p>
+            
+            <img src="print-workflow-n8n.png" alt="Print do Workflow n8n">
+            
+            <p>Aqui você pode continuar o texto longo. O scroll vai permitir que o usuário veja tanto as imagens quanto as explicações detalhadas rolando para baixo dentro deste bloco centralizado.</p>
+            
+            <img src="outro-print.png" alt="Detalhe técnico">
+        </div>
+    </div>
+</div>
                     <div class="project-slide">
                         <div class="project-card-center">
                             <h3>AI AGENTS</h3>
@@ -362,18 +381,21 @@
         });
 
         // Lógica do Carrossel
-        function moveSlide(direction) {
-            const slides = document.querySelectorAll('.project-slide');
-            const totalSlides = slides.length;
-            const slideWidth = slides[0].offsetWidth;
+       function moveSlide(direction) {
+    const slides = document.querySelectorAll('.project-slide');
+    const totalSlides = slides.length;
+    // Usamos o offsetWidth para que o cálculo seja sempre dinâmico à largura do slide (900px)
+    const slideWidth = slides[0].offsetWidth; 
 
-            currentSlide += direction;
+    currentSlide += direction;
 
-            if (currentSlide >= totalSlides) currentSlide = 0;
-            if (currentSlide < 0) currentSlide = totalSlides - 1;
+    if (currentSlide >= totalSlides) currentSlide = 0;
+    if (currentSlide < 0) currentSlide = totalSlides - 1;
 
-            projectTrack.style.transform = `translateX(${-currentSlide * slideWidth}px)`;
-        }
+    // A variável correta é projectTrack, que você já definiu no topo do script
+    const offset = -currentSlide * slideWidth;
+    projectTrack.style.transform = `translateX(${offset}px)`;
+}
 
         // Lógica do Portal
         function openProjects() {
