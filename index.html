@@ -482,7 +482,7 @@
 
         // 4. CARREGAR BARCO (PNG)
         const loader = new THREE.TextureLoader();
-        loader.load('image_1836fa.png', function(texture) {
+        loader.load('barco.png', function(texture) {
             const boatMat = new THREE.SpriteMaterial({ map: texture, transparent: true });
             boat = new THREE.Sprite(boatMat);
             boat.scale.set(15, 15, 1);
