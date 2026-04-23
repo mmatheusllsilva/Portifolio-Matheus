@@ -16,12 +16,24 @@ export default async function handler(req, res) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                model: "llama-3.3-70b-versatile",
-                messages: [
-                    { role: "user", content: message }
-                ],
-                temperature: 0.7
-            })
+    model: "llama-3.3-70b-versatile",
+    messages: [
+        { 
+            role: "system", 
+            content: `Você é o Matheus.AI, o assistente virtual inteligente do Matheus Silva. 
+            Sua missão é ajudar os visitantes do portfólio dele.
+            
+            DIRETRIZES DE COMPORTAMENTO:
+            1. Responda SEMPRE em português do Brasil.
+            2. Seja profissional, técnico e amigável.
+            3. Se perguntarem pelo contato do Matheus, informe:
+               - E-mail: matheus.luis.lopes.silva@outook.com
+               - Telefone: (11) 91311-9373
+            4. Se perguntarem sobre as especialidades dele, mencione automação com n8n, chatbots de IA e suporte técnico.` 
+        },
+        { role: "user", content: message }
+    ],
+    temperature: 0.7
         });
 
         const data = await response.json();
