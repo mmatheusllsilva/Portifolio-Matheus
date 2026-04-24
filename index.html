@@ -280,13 +280,14 @@
         .btn-back-top:hover { background: white; color: black; }
 
         .slider-container {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-            width: 90%;
-            max-width: 1100px;
-            margin-top: 80px;
-        }
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centraliza horizontalmente */
+    gap: 20px; /* Reduz o gap para não empurrar as setas */
+    width: 95%; /* Ocupa quase toda a largura */
+    max-width: 1200px; /* Limite confortável */
+    margin: 80px auto 0; /* Centraliza na página e dá respiro do topo */
+}
 
         .project-viewport {
             width: 900px;
@@ -294,8 +295,27 @@
             overflow: hidden;
             position: relative;
             border-radius: 30px;
-            margin: 0 auto;
         }
+
+        /* Force a visibilidade das setas */
+.arrow {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 3rem;
+    cursor: pointer;
+    opacity: 0.5; /* Aumentei um pouco a opacidade padrão */
+    transition: 0.3s;
+    user-select: none;
+    z-index: 170; /* Garante que fica acima do card */
+    flex-shrink: 0; /* Impede que a seta seja esmagada */
+}
+
+.arrow:hover { 
+    opacity: 1; 
+    color: var(--accent); 
+    transform: scale(1.1); 
+}
 
         .project-track {
             display: flex;
