@@ -281,7 +281,7 @@
             transition: 0.3s;
             z-index: 160;
         }
-        .btn-back-top:hover { background: white; color: black; }
+        <div class="img-zoom-container" onclick="toggleZoom(this)">
 
         .slider-container {
     display: flex;
@@ -398,60 +398,44 @@
     border-left: 3px solid var(--accent);
 }
 
-/* Lógica do Zoom */
+/* Container do Zoom - Estado Normal */
 .img-zoom-container {
     position: relative;
     cursor: zoom-in;
     transition: 0.3s;
     width: 100%;
+    z-index: 10; /* Garante que o ícone fique visível */
 }
 
-.img-zoom-container:hover .zoom-icon { opacity: 1; }
-
-.zoom-icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0,0,0,0.6);
-    padding: 15px;
-    border-radius: 50%;
-    color: var(--accent);
-    opacity: 0;
-    transition: 0.3s;
-    pointer-events: none;
-}
-
-/* Classe aplicada via JS ao clicar */
+/* Estado ZOOMED (Modal que cobre tudo) */
 .img-zoom-container.zoomed {
-    position: fixed; /* Fixa na tela toda, ignorando o card */
+    position: fixed; /* O segredo: sai do fluxo do card e vai para a tela */
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.95); /* Fundo bem escuro */
+    background: rgba(0, 0, 0, 0.95); /* Fundo preto total */
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 9999; /* Garante que fica acima de qualquer nav ou card */
+    z-index: 9999; /* Fica acima de TUDO (nav, botões, etc) */
     cursor: zoom-out;
     padding: 20px;
 }
 
 .img-zoom-container.zoomed img {
-    width: auto !important; /* Reseta a largura total */
+    width: auto !important;
     height: auto !important;
-    max-width: 95vw; /* Não deixa passar da largura da tela */
-    max-height: 90vh; /* Não deixa passar da altura da tela */
+    max-width: 95vw;
+    max-height: 90vh;
     object-fit: contain;
     border-radius: 8px;
     box-shadow: 0 0 50px rgba(0, 209, 255, 0.3);
-    animation: zoomIn 0.3s ease-out;
 }
 
-@keyframes zoomIn {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+/* Esconde o ícone de lupa quando estiver no zoom */
+.img-zoom-container.zoomed .zoom-icon {
+    display: none;
 }
 
         /* Custom Scrollbar */
@@ -546,7 +530,7 @@
     <div class="project-card-center">
         <h3>AUTOMAÇÃO DE LOGÍSTICA & RASTREIO</h3>
         <div class="card-content">
-            <div class="img-zoom-container" onclick="(this)">
+            <div class="img-zoom-container" onclick="toggleZoom(this)">
                 <img src="projeto-codigo-de-rastreio.jpeg" alt="Workflow de Rastreio" class="project-img">
                 <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
             </div>
@@ -555,7 +539,7 @@
                 <div class="grid-item">
                     <h4><i class="fa-solid fa-triangle-exclamation"></i> DESAFIO</h4>
                     <ul>
-                        <li>Inexistência de envio de dados de envio.</li>
+                        <li>Inexistência do envio de dados de envio.</li>
                         <li>Sobrecarga no Atendimento.</li>
                         <li>Incerteza na Jornada do Cliente.</li>
                         <li>Fragmentação de Transportadoras.</li>
@@ -565,11 +549,9 @@
                 <div class="grid-item">
                     <h4><i class="fa-solid fa-gears"></i> SOLUÇÃO</h4>
                     <ul>
-                        <li>Workflow centralizado no <strong>n8n</strong>.</li>
+                        <li>Workflow centralizado no n8n.</li>
                         <li>Gatilhos em tempo real via CRM.</li>
-                        <li>Consulta e cruzamento de informações</li>
-                        <li>Tratamento automatizado dos dados das Notas Fiscais</li>
-                        <li>Aplicação de regras de negócio</li>
+                        <li>Tratamento automatizado de Notas Fiscais.</li>
                         <li>Lógica de links dinâmicos por transportadora.</li>
                         <li>Registro automático no CRM.</li>
                     </ul>
@@ -578,7 +560,7 @@
 
             <div class="result-bar">
                 <strong><i class="fa-solid fa-chart-line"></i> RESULTADO:</strong> 
-                Redução de chamados sobre o tema e excelência em UX com envio de pedido.
+                 Redução de chamados sobre o tema e excelência em UX com envio de pedido.
             </div>
         </div>
     </div>
@@ -636,6 +618,7 @@ function triggerOpen(e) {
    function toggleZoom(element) {
     element.classList.toggle('zoomed');
     
+    // Trava o scroll da página ao fundo para focar na imagem
     if (element.classList.contains('zoomed')) {
         document.body.style.overflow = 'hidden'; 
     } else {
