@@ -362,6 +362,87 @@
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
+        /* Organização em Grid para reduzir altura do texto */
+.project-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.grid-item h4 {
+    font-size: 0.8rem;
+    color: var(--accent);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.grid-item ul {
+    list-style: none;
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.grid-item ul li::before {
+    content: "→";
+    color: var(--accent);
+    margin-right: 8px;
+}
+
+.result-bar {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(0, 209, 255, 0.1);
+    border-radius: 10px;
+    font-size: 0.85rem;
+    border-left: 3px solid var(--accent);
+}
+
+/* Lógica do Zoom */
+.img-zoom-container {
+    position: relative;
+    cursor: zoom-in;
+    transition: 0.3s;
+    width: 100%;
+}
+
+.img-zoom-container:hover .zoom-icon { opacity: 1; }
+
+.zoom-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.6);
+    padding: 15px;
+    border-radius: 50%;
+    color: var(--accent);
+    opacity: 0;
+    transition: 0.3s;
+    pointer-events: none;
+}
+
+/* Classe aplicada via JS ao clicar */
+.img-zoom-container.zoomed {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 2000;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+}
+
+.img-zoom-container.zoomed img {
+    max-width: 95%;
+    max-height: 95%;
+    box-shadow: 0 0 50px rgba(0,d1,ff, 0.2);
+}
+
+.img-zoom-container.zoomed .zoom-icon { display: none; }
+
         /* Custom Scrollbar */
         .card-content::-webkit-scrollbar { width: 4px; }
         .card-content::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
@@ -454,26 +535,35 @@
     <div class="project-card-center">
         <h3>AUTOMAÇÃO DE LOGÍSTICA & RASTREIO</h3>
         <div class="card-content">
-            <p><strong>O Desafio:</strong> Inexistência de Processo de Envio: Ausência de um fluxo automatizado para fornecer o código de rastreio, resultando em uma operação manual e lenta.
-Sobrecarga no Atendimento: O vácuo de informação gerava um aumento crítico no volume de chamados, sobrecarregando as equipes de suporte com consultas de status.
-Incerteza na Jornada do Cliente: A falta de transparência sobre a data de entrega prejudicava a experiência do usuário e a confiança no serviço.
-Fragmentação de Transportadoras: Necessidade de centralizar e padronizar dados vindos de diferentes parceiros logísticos com padrões distintos.
-Gestão de Exceções: Requisito de implementar filtros inteligentes para identificar casos específicos onde o envio de notificações deveria ser bloqueado.</p>
-            
-            <img src="projeto-codigo-de-rastreio.jpeg" alt="Workflow de Automação de Rastreio">
-            
-            <p><strong>A Solução:</strong> Orquestração via n8n: Desenvolvimento de um sistema de automação centralizado utilizando n8n para integrar o CRM e os fluxos de logística.
-Gatilho Estratégico: Implementação de triggers automáticos dentro do CRM que detectam mudanças de status no pedido em tempo real.
-Enriquecimento de Dados: Consulta e cruzamento de informações de bancos de dados para validar os detalhes de cada transação.
-Processamento de Notas Fiscais: Tratamento automatizado dos dados das Notas Fiscais para extração precisa das informações de envio.
-Inteligência Logística: Criação de lógica avançada para identificação automática da transportadora e geração dinâmica do link de rastreio correspondente.
-Filtros de Exceção: Aplicação de regras de negócio complexas para filtrar e tratar casos onde a notificação não deve ser disparada.
-Interface Estética e Profissional: Design e envio de e-mails transacionais com layout polido e informativo, focando na experiência do usuário.
-Rastreabilidade no CRM: Registro automático de cada e-mail enviado dentro do histórico do cliente no CRM, garantindo o controle total da comunicação.</p>
-            
-            <p><strong>Resultado:</strong> Otimização do Fluxo de Atendimento: Redução drástica no volume de contatos dos clientes questionando o status do envio.
-Excelência em UX (User Experience): Elevação da experiência do usuário ao fornecer transparência e previsibilidade total sobre a entrega, desde a emissão da nota fiscal até o destino final.
-Eficiência Operacional: Automação de ponta a ponta que garantiu a integridade dos dados entre o CRM e as transportadoras, eliminando falhas de comunicação.</p>
+            <div class="img-zoom-container" onclick="toggleZoom(this)">
+                <img src="projeto-codigo-de-rastreio.jpeg" alt="Workflow de Rastreio" class="project-img">
+                <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+            </div>
+
+            <div class="project-grid">
+                <div class="grid-item">
+                    <h4><i class="fa-solid fa-triangle-exclamation"></i> DESAFIO</h4>
+                    <ul>
+                        <li>Operação manual e lenta.</li>
+                        <li>Sobrecarga no suporte técnico.</li>
+                        <li>Falta de transparência para o cliente.</li>
+                    </ul>
+                </div>
+                <div class="grid-item">
+                    <h4><i class="fa-solid fa-gears"></i> SOLUÇÃO</h4>
+                    <ul>
+                        <li>Workflow centralizado no <strong>n8n</strong>.</li>
+                        <li>Gatilhos em tempo real via CRM.</li>
+                        <li>Lógica de links dinâmicos por transportadora.</li>
+                        <li>Registro automático de logs no CRM.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="result-bar">
+                <strong><i class="fa-solid fa-chart-line"></i> RESULTADO:</strong> 
+                Redução drástica de chamados e excelência em UX com rastreio em tempo real.
+            </div>
         </div>
     </div>
 </div>
@@ -526,6 +616,17 @@ function triggerOpen(e) {
     if (btnLateral) btnLateral.addEventListener('click', triggerOpen);
 
     let currentSlide = 0;
+
+    function toggleZoom(element) {
+    element.classList.toggle('zoomed');
+    
+    // Troca o ícone se necessário ou apenas fecha ao clicar fora
+    if(element.classList.contains('zoomed')) {
+        document.body.style.overflow = 'hidden'; // Trava o scroll da página
+    } else {
+        document.body.style.overflow = 'auto';
+    }
+}
 
     // --- LÓGICA DO CHAT ---
     async function sendMessage() {
