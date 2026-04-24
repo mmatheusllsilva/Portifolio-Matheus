@@ -668,10 +668,11 @@ function triggerOpen(e) {
 
     // --- CARROSSEL DE PROJETOS ---
     function moveSlide(direction) {
-        const slides = document.querySelectorAll('.project-slide');
-        currentSlide = (currentSlide + direction + slides.length) % slides.length;
-        projectTrack.style.transform = `translateX(${-currentSlide * 900}px)`;
-    }
+    const slides = document.querySelectorAll('.project-slide');
+    currentSlide = (currentSlide + direction + slides.length) % slides.length;
+    const slideWidth = slides[0].offsetWidth; // Pega a largura real do slide
+    projectTrack.style.transform = `translateX(${-currentSlide * slideWidth}px)`;
+}
 
     // --- TRANSIÇÕES DE TELA ---
     function openProjects() {
