@@ -400,10 +400,10 @@
     <div class="side-panel-left">
     <div class="decorative-line top"></div>
 
-    <div class="icon-wrapper" data-tooltip="PROJETOS" onclick="openProjects()">
-        <i class="fa-solid fa-layer-group"></i>
-        <div class="pulse-dot"></div>
-    </div>
+    <div class="icon-wrapper" id="btn-projetos-side" data-tooltip="PROJETOS">
+    <i class="fa-solid fa-layer-group"></i>
+    <div class="pulse-dot"></div>
+</div>
 
     <a href="https://mmatheusllsilva.github.io/Drakkar-game/" target="_blank" style="text-decoration: none;">
         <div class="icon-wrapper" data-tooltip="MINI GAME">
@@ -494,11 +494,23 @@
     const viking = document.getElementById('viking');
     const projectsScreen = document.getElementById('projectsScreen');
     const chatAi = document.getElementById('chatAi');
-    const btnProjetos = document.getElementById('btn-projetos');
     const projectTrack = document.getElementById('projectTrack');
     const userInput = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
     const chatMessages = document.getElementById('chatMessages');
+
+    // --- LÓGICA DOS BOTÕES DE PROJETOS ---
+    const btnTopo = document.getElementById('btn-projetos');
+    const btnLateral = document.getElementById('btn-projetos-side');
+
+function triggerOpen(e) {
+        if (e) e.preventDefault();
+        openProjects();
+    }
+
+// Atribui o evento aos dois botões de forma limpa
+    if (btnTopo) btnTopo.addEventListener('click', triggerOpen);
+    if (btnLateral) btnLateral.addEventListener('click', triggerOpen);
 
     let currentSlide = 0;
 
@@ -547,102 +559,6 @@
         projectTrack.style.transform = `translateX(${-currentSlide * 900}px)`;
     }
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    .side-panel-left {
-    position: fixed;
-    left: 40px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 80;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    align-items: center;
-}
-
-.icon-wrapper {
-    position: relative;
-    width: 50px;
-    height: 50px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--glass-border);
-    border-radius: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    color: white;
-    font-size: 1.2rem;
-}
-
-.icon-wrapper:hover {
-    background: var(--accent);
-    color: #000;
-    transform: scale(1.1) translateX(5px);
-    box-shadow: 0 0 20px rgba(0, 209, 255, 0.4);
-}
-
-/* Tooltip (Legenda ao passar o mouse) */
-.icon-wrapper::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    left: 65px;
-    background: var(--accent);
-    color: #000;
-    padding: 5px 12px;
-    font-size: 0.6rem;
-    font-weight: bold;
-    border-radius: 4px;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: 0.3s;
-    font-family: 'Inter', sans-serif;
-    letter-spacing: 1px;
-}
-
-.icon-wrapper:hover::after {
-    opacity: 1;
-    left: 75px;
-}
-
-/* Ponto de pulsação para o Status */
-.pulse-dot {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    width: 8px;
-    height: 8px;
-    background: #00ff88;
-    border-radius: 50%;
-    box-shadow: 0 0 10px #00ff88;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.5); opacity: 0.5; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-/* Linha que vem do topo */
-.decorative-line.top {
-    width: 1px;
-    height: 80px;
-    background: linear-gradient(to top, var(--accent), transparent);
-    margin-bottom: 10px;
-}
-
-/* Linha que vai para o fundo */
-.decorative-line.bottom {
-    width: 1px;
-    height: 80px;
-    background: linear-gradient(to bottom, var(--accent), transparent);
-    margin-top: 10px;
-}
-
     // --- TRANSIÇÕES DE TELA ---
     function openProjects() {
         roboLayer.classList.add('portal-active');
@@ -659,9 +575,4 @@
             chatAi.style.pointerEvents = 'auto';
         }, 500);
     }
-
-    btnProjetos.addEventListener('click', (e) => { 
-        e.preventDefault(); 
-        openProjects(); 
-    });
 </script>
