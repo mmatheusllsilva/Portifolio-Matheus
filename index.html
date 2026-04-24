@@ -398,20 +398,30 @@
 </nav>
 
     <div class="side-panel-left">
-    <div class="icon-wrapper" data-tooltip="CORE STATUS: ONLINE">
-        <i class="fa-solid fa-microchip"></i>
+    <div class="decorative-line top"></div>
+
+    <div class="icon-wrapper" data-tooltip="PROJETOS" onclick="openProjects()">
+        <i class="fa-solid fa-layer-group"></i>
         <div class="pulse-dot"></div>
     </div>
-    <div class="icon-wrapper" data-tooltip="STACK: N8N & IA">
-        <i class="fa-solid fa-layer-group"></i>
+
+    <a href="https://mmatheusllsilva.github.io/Drakkar-game/" target="_blank" style="text-decoration: none;">
+        <div class="icon-wrapper" data-tooltip="MINI GAME">
+            <i class="fa-solid fa-gamepad"></i>
+        </div>
+    </a>
+
+    <div class="icon-wrapper" data-tooltip="CONTATO">
+        <i class="fa-solid fa-envelope"></i>
     </div>
-    <div class="icon-wrapper" data-tooltip="LOCATION: SÃO PAULO">
-        <i class="fa-solid fa-location-dot"></i>
-    </div>
-    <div class="icon-wrapper" data-tooltip="OPEN TERMINAL">
-        <i class="fa-solid fa-code"></i>
-    </div>
-    <div class="decorative-line"></div>
+
+    <a href="https://www.linkedin.com/in/matheus-lopes-silva/" target="_blank" style="text-decoration: none;">
+        <div class="icon-wrapper" data-tooltip="SOBRE">
+            <i class="fa-brands fa-linkedin-in"></i>
+        </div>
+    </a>
+
+    <div class="decorative-line bottom"></div>
 </div>
 
     <div class="vignette"></div>
@@ -617,7 +627,16 @@
     100% { transform: scale(1); opacity: 1; }
 }
 
-.decorative-line {
+/* Linha que vem do topo */
+.decorative-line.top {
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to top, var(--accent), transparent);
+    margin-bottom: 10px;
+}
+
+/* Linha que vai para o fundo */
+.decorative-line.bottom {
     width: 1px;
     height: 80px;
     background: linear-gradient(to bottom, var(--accent), transparent);
