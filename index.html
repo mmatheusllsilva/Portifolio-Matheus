@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matheus Silva | IA & Automação</title>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
     <style>
         :root {
             --glass: rgba(10, 15, 20, 0.75);
@@ -36,7 +34,6 @@
             width: 110%; height: 110%;
             background-size: cover;
             background-position: center;
-            /* Suaviza o movimento do parallax */
             transition: transform 0.2s cubic-bezier(0.2, 0.49, 0.32, 0.99), mask-image 1.2s ease-in-out, -webkit-mask-image 1.2s ease-in-out;
         }
 
@@ -50,7 +47,6 @@
             mask-repeat: no-repeat;
         }
 
-        /* --- O QUE FALTAVA: CSS DO PORTAL --- */
         .portal-active {
             -webkit-mask-image: radial-gradient(circle 150% at center, black 100%, transparent 100%) !important;
             mask-image: radial-gradient(circle 150% at center, black 100%, transparent 100%) !important;
@@ -157,7 +153,7 @@
             background: linear-gradient(to bottom, var(--accent), transparent);
         }
 
-        /* --- CHAT E PROJETOS --- */
+        /* --- CHAT --- */
         .chat-ai {
             position: absolute;
             bottom: 50px; 
@@ -186,39 +182,39 @@
         }
 
         .chat-messages { 
-    padding: 24px; 
-    font-size: 0.9rem; 
-    line-height: 1.4; 
-    color: white;
-    overflow-y: auto;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
+            padding: 24px; 
+            font-size: 0.9rem; 
+            line-height: 1.4; 
+            color: white;
+            overflow-y: auto;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
 
         .msg {
-    max-width: 80%;
-    padding: 10px 15px;
-    border-radius: 15px;
-    font-size: 0.85rem;
-}
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+        }
 
-.msg.user {
-    align-self: flex-end;
-    background: var(--accent);
-    color: #000;
-    border-bottom-right-radius: 2px;
-    font-weight: 500;
-}
+        .msg.user {
+            align-self: flex-end;
+            background: var(--accent);
+            color: #000;
+            border-bottom-right-radius: 2px;
+            font-weight: 500;
+        }
 
-.msg.bot {
-    align-self: flex-start;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid var(--glass-border);
-    color: #fff;
-    border-bottom-left-radius: 2px;
-}
+        .msg.bot {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            border-bottom-left-radius: 2px;
+        }
 
         .chat-input { 
             padding: 20px; 
@@ -239,7 +235,6 @@
             border-radius: 10px; cursor: pointer; transition: 0.3s;
         }
 
-
         .vignette {
             position: absolute;
             top: 0; left: 0;
@@ -249,7 +244,7 @@
             pointer-events: none;
         }
 
-       /* --- TELA DE PROJETOS (ESTILO CARROSSEL) --- */
+        /* --- TELA DE PROJETOS --- */
         .projects-screen {
             position: fixed;
             top: 0; left: 0;
@@ -281,25 +276,26 @@
             transition: 0.3s;
             z-index: 160;
         }
-        <div class="img-zoom-container" onclick="toggleZoom(this)">
+
+        .btn-back-top:hover { background: white; color: black; }
 
         .slider-container {
-    display: flex;
-    align-items: center;
-    gap: 40px;
-    width: 90%;
-    max-width: 1100px;
-    margin-top: 80px; /* Cria o respiro entre o botão e o card */
-}
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            width: 90%;
+            max-width: 1100px;
+            margin-top: 80px;
+        }
 
-       .project-viewport {
-    width: 900px; /* Bloco mais comprido lateralmente */
-    height: 600px; /* Altura maior para acomodar prints e texto */
-    overflow: hidden;
-    position: relative;
-    border-radius: 30px;
-    margin: 0 auto; /* Garante a centralização */
-}
+        .project-viewport {
+            width: 900px;
+            height: 600px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 30px;
+            margin: 0 auto;
+        }
 
         .project-track {
             display: flex;
@@ -308,41 +304,40 @@
         }
 
         .project-slide {
-    min-width: 900px; /* Deve acompanhar a largura da viewport */
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-}
+            min-width: 900px;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
 
-       .project-card-center {
-    /* Alteramos o fundo para uma cor levemente mais clara e aumentamos o blur */
-    background: rgba(25, 30, 35, 0.85); 
-    backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(40px);
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Borda um pouco mais visível */
-    
-    border-radius: 30px;
-    padding: 40px;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
+        .project-card-center {
+            background: rgba(25, 30, 35, 0.85); 
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            padding: 40px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
 
         .project-card-center h3 {
-    color: var(--accent);
-    text-shadow: 0 0 15px rgba(0, 209, 255, 0.4); /* Leve brilho neon */
-}
+            color: var(--accent);
+            text-shadow: 0 0 15px rgba(0, 209, 255, 0.4);
+            margin-bottom: 20px;
+        }
 
         .card-content {
-    flex-grow: 1;
-    overflow-y: auto; /* Habilita o scroll para baixo */
-    text-align: left;
-    padding-right: 20px;
-}
+            flex-grow: 1;
+            overflow-y: auto;
+            text-align: left;
+            padding-right: 20px;
+        }
 
         .card-content p {
             font-size: 1rem;
@@ -352,97 +347,70 @@
         }
 
         .card-content img {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 20px 0;
-    border-radius: 12px;
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
 
-        /* Organização em Grid para reduzir altura do texto */
-.project-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-top: 20px;
-}
+        .project-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
 
-.grid-item h4 {
-    font-size: 0.8rem;
-    color: var(--accent);
-    margin-bottom: 10px;
-    letter-spacing: 1px;
-}
+        .grid-item h4 {
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
 
-.grid-item ul {
-    list-style: none;
-    font-size: 0.85rem;
-    opacity: 0.8;
-}
+        .grid-item ul {
+            list-style: none;
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
 
-.grid-item ul li::before {
-    content: "→";
-    color: var(--accent);
-    margin-right: 8px;
-}
+        .grid-item ul li::before {
+            content: "→";
+            color: var(--accent);
+            margin-right: 8px;
+        }
 
-.result-bar {
-    margin-top: 20px;
-    padding: 15px;
-    background: rgba(0, 209, 255, 0.1);
-    border-radius: 10px;
-    font-size: 0.85rem;
-    border-left: 3px solid var(--accent);
-}
+        .result-bar {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 209, 255, 0.1);
+            border-radius: 10px;
+            font-size: 0.85rem;
+            border-left: 3px solid var(--accent);
+        }
 
-/* Container do Zoom - Estado Normal */
-.img-zoom-container {
-    position: relative;
-    cursor: zoom-in;
-    transition: 0.3s;
-    width: 100%;
-    z-index: 10; /* Garante que o ícone fique visível */
-}
+        .img-zoom-container {
+            position: relative;
+            cursor: zoom-in;
+            transition: 0.3s;
+            width: 100%;
+        }
 
-/* Estado ZOOMED (Modal que cobre tudo) */
-.img-zoom-container.zoomed {
-    position: fixed; /* O segredo: sai do fluxo do card e vai para a tela */
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.95); /* Fundo preto total */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999; /* Fica acima de TUDO (nav, botões, etc) */
-    cursor: zoom-out;
-    padding: 20px;
-}
+        .zoom-icon {
+            position: absolute;
+            bottom: 28px;
+            right: 8px;
+            color: var(--accent);
+            font-size: 1rem;
+            opacity: 0.7;
+        }
 
-.img-zoom-container.zoomed img {
-    width: auto !important;
-    height: auto !important;
-    max-width: 95vw;
-    max-height: 90vh;
-    object-fit: contain;
-    border-radius: 8px;
-    box-shadow: 0 0 50px rgba(0, 209, 255, 0.3);
-}
-
-/* Esconde o ícone de lupa quando estiver no zoom */
-.img-zoom-container.zoomed .zoom-icon {
-    display: none;
-}
-
-        /* Custom Scrollbar */
         .card-content::-webkit-scrollbar { width: 4px; }
         .card-content::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
 
-        /* Setas Minimalistas */
         .arrow {
             background: none;
             border: none;
@@ -459,112 +427,118 @@
             .project-viewport, .project-slide { min-width: 90vw; width: 90vw; }
             .chat-ai { width: calc(100% - 40px); right: 20px; bottom: 20px; }
         }
-</style>
+    </style>
 </head>
 <body>
 
+    <!-- NAVEGAÇÃO SUPERIOR -->
     <nav>
-    <div class="logo">Matheus Lopes</div>
-    <ul>
-        <li><a href="#" id="btn-projetos">Projetos</a></li>
-        <li><a href="https://mmatheusllsilva.github.io/Drakkar-game/" target="_blank">Mini Game</a></li>
-        <li><a href="#">Contato</a></li>
-        <li><a href="#">Sobre</a></li>
-    </ul>
-</nav>
+        <div class="logo">Matheus Lopes</div>
+        <ul>
+            <li><a href="#" id="btn-projetos">Projetos</a></li>
+            <li><a href="https://mmatheusllsilva.github.io/Drakkar-game/" target="_blank">Mini Game</a></li>
+            <li><a href="#">Contato</a></li>
+            <li><a href="#">Sobre</a></li>
+        </ul>
+    </nav>
 
+    <!-- MENU LATERAL ESQUERDO -->
     <div class="side-panel-left">
-    <div class="decorative-line top"></div>
+        <div class="decorative-line"></div>
 
-    <div class="icon-wrapper" id="btn-projetos-side" data-tooltip="PROJETOS">
-    <i class="fa-solid fa-layer-group"></i>
-    <div class="pulse-dot"></div>
-</div>
-
-    <a href="https://mmatheusllsilva.github.io/Drakkar-game/" target="_blank" style="text-decoration: none;">
-        <div class="icon-wrapper" data-tooltip="MINI GAME">
-            <i class="fa-solid fa-gamepad"></i>
+        <div class="icon-wrapper" id="btn-projetos-side" data-tooltip="PROJETOS">
+            <i class="fa-solid fa-layer-group"></i>
+            <div class="pulse-dot"></div>
         </div>
-    </a>
 
-    <div class="icon-wrapper" data-tooltip="CONTATO">
-        <i class="fa-solid fa-envelope"></i>
+        <a href="https://mmatheusllsilva.github.io/Drakkar-game/" target="_blank" style="text-decoration: none;">
+            <div class="icon-wrapper" data-tooltip="MINI GAME">
+                <i class="fa-solid fa-gamepad"></i>
+            </div>
+        </a>
+
+        <div class="icon-wrapper" data-tooltip="CONTATO">
+            <i class="fa-solid fa-envelope"></i>
+        </div>
+
+        <a href="https://www.linkedin.com/in/matheus-lopes-silva/" target="_blank" style="text-decoration: none;">
+            <div class="icon-wrapper" data-tooltip="SOBRE">
+                <i class="fa-brands fa-linkedin-in"></i>
+            </div>
+        </a>
+
+        <div class="decorative-line" style="background: linear-gradient(to top, var(--accent), transparent);"></div>
     </div>
 
-    <a href="https://www.linkedin.com/in/matheus-lopes-silva/" target="_blank" style="text-decoration: none;">
-        <div class="icon-wrapper" data-tooltip="SOBRE">
-            <i class="fa-brands fa-linkedin-in"></i>
-        </div>
-    </a>
-
-    <div class="decorative-line bottom"></div>
-</div>
-
+    <!-- FUNDO COM PARALLAX -->
     <div class="vignette"></div>
-
     <div class="container">
         <div class="viking-layer" id="viking"></div>
         <div class="robo-layer" id="roboLayer"></div>
-        
-       <div class="chat-ai" id="chatAi">
-    <div class="chat-header">Matheus.AI - Assistente</div>
-    <div class="chat-messages" id="chatMessages">
-        <div class="msg bot">Olá, eu sou o assistente de IA do Matheus, como posso te ajudar hoje?</div>
-    </div>
-    <div class="chat-input">
-        <input type="text" id="userInput" placeholder="Digite aqui...">
-        <button id="sendBtn">➤</button>
-    </div>
-</div>
-    </div>
 
-   <section class="projects-screen" id="projectsScreen">
-        <button class="btn-back-top" onclick="closeProjects()"> VOLTAR AO INÍCIO </button>
-
-        <div class="slider-container">
-            <button class="arrow" onclick="moveSlide(-1)">&#10094;</button>
-            
-            <div class="project-viewport">
-                <div class="project-track" id="projectTrack">
-<div class="project-slide">
-    <div class="project-card-center">
-        <h3>AUTOMAÇÃO DE LOGÍSTICA & RASTREIO</h3>
-        <div class="card-content">
-            <div class="img-zoom-container" onclick="toggleZoom(this)">
-                <img src="projeto-codigo-de-rastreio.jpeg" alt="Workflow de Rastreio" class="project-img">
-                <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        <!-- CHAT -->
+        <div class="chat-ai" id="chatAi">
+            <div class="chat-header">Matheus.AI - Assistente</div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="msg bot">Olá, eu sou o assistente de IA do Matheus, como posso te ajudar hoje?</div>
             </div>
-
-            <div class="project-grid">
-                <div class="grid-item">
-                    <h4><i class="fa-solid fa-triangle-exclamation"></i> DESAFIO</h4>
-                    <ul>
-                        <li>Inexistência do envio de dados de envio.</li>
-                        <li>Sobrecarga no Atendimento.</li>
-                        <li>Incerteza na Jornada do Cliente.</li>
-                        <li>Fragmentação de Transportadoras.</li>
-                        <li>Gestão de Exceções.</li>
-                    </ul>
-                </div>
-                <div class="grid-item">
-                    <h4><i class="fa-solid fa-gears"></i> SOLUÇÃO</h4>
-                    <ul>
-                        <li>Workflow centralizado no n8n.</li>
-                        <li>Gatilhos em tempo real via CRM.</li>
-                        <li>Tratamento automatizado de Notas Fiscais.</li>
-                        <li>Lógica de links dinâmicos por transportadora.</li>
-                        <li>Registro automático no CRM.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="result-bar">
-                <strong><i class="fa-solid fa-chart-line"></i> RESULTADO:</strong> 
-                 Redução de chamados sobre o tema e excelência em UX com envio de pedido.
+            <div class="chat-input">
+                <input type="text" id="userInput" placeholder="Digite aqui...">
+                <button id="sendBtn">➤</button>
             </div>
         </div>
     </div>
-</div>
+
+    <!-- TELA DE PROJETOS -->
+    <section class="projects-screen" id="projectsScreen">
+        <button class="btn-back-top" onclick="closeProjects()">VOLTAR AO INÍCIO</button>
+
+        <div class="slider-container">
+            <button class="arrow" onclick="moveSlide(-1)">&#10094;</button>
+
+            <div class="project-viewport">
+                <div class="project-track" id="projectTrack">
+
+                    <!-- SLIDE 1 -->
+                    <div class="project-slide">
+                        <div class="project-card-center">
+                            <h3>AUTOMAÇÃO DE LOGÍSTICA & RASTREIO</h3>
+                            <div class="card-content">
+                                <div class="img-zoom-container" onclick="toggleZoom(this)">
+                                    <img src="projeto-codigo-de-rastreio.jpeg" alt="Workflow de Rastreio" class="project-img">
+                                    <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                                </div>
+                                <div class="project-grid">
+                                    <div class="grid-item">
+                                        <h4><i class="fa-solid fa-triangle-exclamation"></i> DESAFIO</h4>
+                                        <ul>
+                                            <li>Inexistência do envio de dados de envio.</li>
+                                            <li>Sobrecarga no Atendimento.</li>
+                                            <li>Incerteza na Jornada do Cliente.</li>
+                                            <li>Fragmentação de Transportadoras.</li>
+                                            <li>Gestão de Exceções.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="grid-item">
+                                        <h4><i class="fa-solid fa-gears"></i> SOLUÇÃO</h4>
+                                        <ul>
+                                            <li>Workflow centralizado no n8n.</li>
+                                            <li>Gatilhos em tempo real via CRM.</li>
+                                            <li>Tratamento automatizado de Notas Fiscais.</li>
+                                            <li>Lógica de links dinâmicos por transportadora.</li>
+                                            <li>Registro automático no CRM.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="result-bar">
+                                    <strong><i class="fa-solid fa-chart-line"></i> RESULTADO:</strong>
+                                    Redução de chamados sobre o tema e excelência em UX com envio de pedido.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 2 -->
                     <div class="project-slide">
                         <div class="project-card-center">
                             <h3>AI AGENTS</h3>
@@ -574,6 +548,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- SLIDE 3 -->
                     <div class="project-slide">
                         <div class="project-card-center">
                             <h3>SAAS EMAIL</h3>
@@ -583,6 +559,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 
@@ -590,102 +567,129 @@
         </div>
     </section>
 
-<script>
-    const roboLayer = document.getElementById('roboLayer');
-    const viking = document.getElementById('viking');
-    const projectsScreen = document.getElementById('projectsScreen');
-    const chatAi = document.getElementById('chatAi');
-    const projectTrack = document.getElementById('projectTrack');
-    const userInput = document.getElementById('userInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const chatMessages = document.getElementById('chatMessages');
+    <!-- OVERLAY DE ZOOM GLOBAL (fora de qualquer container com backdrop-filter) -->
+    <div id="zoomOverlay" onclick="closeZoom()" style="
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        background: rgba(0,0,0,0.95);
+        align-items: center;
+        justify-content: center;
+        cursor: zoom-out;
+    ">
+        <img id="zoomImg" src="" style="
+            max-width: 95vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 0 60px rgba(0, 209, 255, 0.25);
+        ">
+    </div>
 
-    // --- LÓGICA DOS BOTÕES DE PROJETOS ---
-    const btnTopo = document.getElementById('btn-projetos');
-    const btnLateral = document.getElementById('btn-projetos-side');
+    <script>
+        const roboLayer = document.getElementById('roboLayer');
+        const viking = document.getElementById('viking');
+        const projectsScreen = document.getElementById('projectsScreen');
+        const chatAi = document.getElementById('chatAi');
+        const projectTrack = document.getElementById('projectTrack');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const chatMessages = document.getElementById('chatMessages');
 
-function triggerOpen(e) {
-        if (e) e.preventDefault();
-        openProjects();
-    }
+        const btnTopo = document.getElementById('btn-projetos');
+        const btnLateral = document.getElementById('btn-projetos-side');
 
-// Atribui o evento aos dois botões de forma limpa
-    if (btnTopo) btnTopo.addEventListener('click', triggerOpen);
-    if (btnLateral) btnLateral.addEventListener('click', triggerOpen);
-
-    let currentSlide = 0;
-
-   function toggleZoom(element) {
-    element.classList.toggle('zoomed');
-    
-    // Trava o scroll da página ao fundo para focar na imagem
-    if (element.classList.contains('zoomed')) {
-        document.body.style.overflow = 'hidden'; 
-    } else {
-        document.body.style.overflow = 'auto';
-    }
-}
-
-    // --- LÓGICA DO CHAT ---
-    async function sendMessage() {
-        const msg = userInput.value.trim();
-        if (!msg) return;
-        chatMessages.innerHTML += `<div class="msg user">${msg}</div>`;
-        userInput.value = '';
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-
-        try {
-            const response = await fetch('/api/chat', { // Aqui entrará o seu webhook do n8n
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: msg })
-            });
-            const data = await response.json();
-            chatMessages.innerHTML += `<div class="msg bot">${data.response}</div>`;
-        } catch (e) {
-            chatMessages.innerHTML += `<div class="msg bot" style="color: #ff4b4b;">Estou offline no momento, mas o Matheus recebeu seu sinal!</div>`;
+        function triggerOpen(e) {
+            if (e) e.preventDefault();
+            openProjects();
         }
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
 
-    sendBtn.addEventListener('click', sendMessage);
-    userInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
+        if (btnTopo) btnTopo.addEventListener('click', triggerOpen);
+        if (btnLateral) btnLateral.addEventListener('click', triggerOpen);
 
-    // --- EFEITO PARALLAX & PORTAL ---
-    window.addEventListener('mousemove', (e) => {
-        const x = e.clientX;
-        const y = e.clientY;
-        if (!roboLayer.classList.contains('portal-active')) {
-            const mask = `radial-gradient(circle 220px at ${x}px ${y}px, black 0%, transparent 100%)`;
-            roboLayer.style.webkitMaskImage = mask;
-            roboLayer.style.maskImage = mask;
+        let currentSlide = 0;
+
+        // --- ZOOM ---
+        function toggleZoom(element) {
+            const img = element.querySelector('img');
+            const overlay = document.getElementById('zoomOverlay');
+            const zoomImg = document.getElementById('zoomImg');
+            zoomImg.src = img.src;
+            overlay.style.display = 'flex';
         }
-        // Movimento suave do Viking ao fundo
-        viking.style.transform = `translate(${(x - window.innerWidth/2)/60}px, ${(y - window.innerHeight/2)/60}px)`;
-    });
 
-    // --- CARROSSEL DE PROJETOS ---
-    function moveSlide(direction) {
-    const slides = document.querySelectorAll('.project-slide');
-    currentSlide = (currentSlide + direction + slides.length) % slides.length;
-    const slideWidth = slides[0].offsetWidth; // Pega a largura real do slide
-    projectTrack.style.transform = `translateX(${-currentSlide * slideWidth}px)`;
-}
+        function closeZoom() {
+            document.getElementById('zoomOverlay').style.display = 'none';
+        }
 
-    // --- TRANSIÇÕES DE TELA ---
-    function openProjects() {
-        roboLayer.classList.add('portal-active');
-        chatAi.style.opacity = '0';
-        chatAi.style.pointerEvents = 'none';
-        setTimeout(() => { projectsScreen.classList.add('active'); }, 600);
-    }
+        // Fecha zoom com ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeZoom();
+        });
 
-    function closeProjects() {
-        projectsScreen.classList.remove('active');
-        setTimeout(() => {
-            roboLayer.classList.remove('portal-active');
-            chatAi.style.opacity = '1';
-            chatAi.style.pointerEvents = 'auto';
-        }, 500);
-    }
-</script>
+        // --- CHAT ---
+        async function sendMessage() {
+            const msg = userInput.value.trim();
+            if (!msg) return;
+            chatMessages.innerHTML += `<div class="msg user">${msg}</div>`;
+            userInput.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: msg })
+                });
+                const data = await response.json();
+                chatMessages.innerHTML += `<div class="msg bot">${data.response}</div>`;
+            } catch (e) {
+                chatMessages.innerHTML += `<div class="msg bot" style="color: #ff4b4b;">Estou offline no momento, mas o Matheus recebeu seu sinal!</div>`;
+            }
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
+
+        // --- PARALLAX & PORTAL ---
+        window.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            if (!roboLayer.classList.contains('portal-active')) {
+                const mask = `radial-gradient(circle 220px at ${x}px ${y}px, black 0%, transparent 100%)`;
+                roboLayer.style.webkitMaskImage = mask;
+                roboLayer.style.maskImage = mask;
+            }
+            viking.style.transform = `translate(${(x - window.innerWidth/2)/60}px, ${(y - window.innerHeight/2)/60}px)`;
+        });
+
+        // --- CARROSSEL ---
+        function moveSlide(direction) {
+            const slides = document.querySelectorAll('.project-slide');
+            currentSlide = (currentSlide + direction + slides.length) % slides.length;
+            const slideWidth = slides[0].offsetWidth;
+            projectTrack.style.transform = `translateX(${-currentSlide * slideWidth}px)`;
+        }
+
+        // --- TRANSIÇÕES ---
+        function openProjects() {
+            roboLayer.classList.add('portal-active');
+            chatAi.style.opacity = '0';
+            chatAi.style.pointerEvents = 'none';
+            setTimeout(() => { projectsScreen.classList.add('active'); }, 600);
+        }
+
+        function closeProjects() {
+            projectsScreen.classList.remove('active');
+            setTimeout(() => {
+                roboLayer.classList.remove('portal-active');
+                chatAi.style.opacity = '1';
+                chatAi.style.pointerEvents = 'auto';
+            }, 500);
+        }
+    </script>
+
+</body>
+</html>
