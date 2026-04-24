@@ -424,24 +424,35 @@
 
 /* Classe aplicada via JS ao clicar */
 .img-zoom-container.zoomed {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    z-index: 2000;
-    background: rgba(0,0,0,0.9);
+    position: fixed; /* Fixa na tela toda, ignorando o card */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95); /* Fundo bem escuro */
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 9999; /* Garante que fica acima de qualquer nav ou card */
     cursor: zoom-out;
+    padding: 20px;
 }
 
 .img-zoom-container.zoomed img {
-    max-width: 95%;
-    max-height: 95%;
-    box-shadow: 0 0 50px rgba(0,d1,ff, 0.2);
+    width: auto !important; /* Reseta a largura total */
+    height: auto !important;
+    max-width: 95vw; /* Não deixa passar da largura da tela */
+    max-height: 90vh; /* Não deixa passar da altura da tela */
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 0 50px rgba(0, 209, 255, 0.3);
+    animation: zoomIn 0.3s ease-out;
 }
 
-.img-zoom-container.zoomed .zoom-icon { display: none; }
+@keyframes zoomIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
 
         /* Custom Scrollbar */
         .card-content::-webkit-scrollbar { width: 4px; }
@@ -535,7 +546,7 @@
     <div class="project-card-center">
         <h3>AUTOMAÇÃO DE LOGÍSTICA & RASTREIO</h3>
         <div class="card-content">
-            <div class="img-zoom-container" onclick="toggleZoom(this)">
+            <div class="img-zoom-container" onclick="(this)">
                 <img src="projeto-codigo-de-rastreio.jpeg" alt="Workflow de Rastreio" class="project-img">
                 <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
             </div>
@@ -544,9 +555,11 @@
                 <div class="grid-item">
                     <h4><i class="fa-solid fa-triangle-exclamation"></i> DESAFIO</h4>
                     <ul>
-                        <li>Operação manual e lenta.</li>
-                        <li>Sobrecarga no suporte técnico.</li>
-                        <li>Falta de transparência para o cliente.</li>
+                        <li>Inexistência de envio de dados de envio.</li>
+                        <li>Sobrecarga no Atendimento.</li>
+                        <li>Incerteza na Jornada do Cliente.</li>
+                        <li>Fragmentação de Transportadoras.</li>
+                        <li>Gestão de Exceções.</li>
                     </ul>
                 </div>
                 <div class="grid-item">
@@ -554,15 +567,18 @@
                     <ul>
                         <li>Workflow centralizado no <strong>n8n</strong>.</li>
                         <li>Gatilhos em tempo real via CRM.</li>
+                        <li>Consulta e cruzamento de informações</li>
+                        <li>Tratamento automatizado dos dados das Notas Fiscais</li>
+                        <li>Aplicação de regras de negócio</li>
                         <li>Lógica de links dinâmicos por transportadora.</li>
-                        <li>Registro automático de logs no CRM.</li>
+                        <li>Registro automático no CRM.</li>
                     </ul>
                 </div>
             </div>
 
             <div class="result-bar">
                 <strong><i class="fa-solid fa-chart-line"></i> RESULTADO:</strong> 
-                Redução drástica de chamados e excelência em UX com rastreio em tempo real.
+                Redução de chamados sobre o tema e excelência em UX com envio de pedido.
             </div>
         </div>
     </div>
@@ -617,12 +633,11 @@ function triggerOpen(e) {
 
     let currentSlide = 0;
 
-    function toggleZoom(element) {
+   function toggleZoom(element) {
     element.classList.toggle('zoomed');
     
-    // Troca o ícone se necessário ou apenas fecha ao clicar fora
-    if(element.classList.contains('zoomed')) {
-        document.body.style.overflow = 'hidden'; // Trava o scroll da página
+    if (element.classList.contains('zoomed')) {
+        document.body.style.overflow = 'hidden'; 
     } else {
         document.body.style.overflow = 'auto';
     }
