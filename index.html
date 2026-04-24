@@ -311,20 +311,14 @@
 <body>
 
     <nav>
-        <div class="logo">Matheus Lopes</div>
-        <ul>
-            <li><a href="#" id="btn-projetos">Projetos</a></li>
-            <li><a href="#" id="btn-game" onclick="abrirJogo()">Mini Game</a>
-            <li><a href="#">Contato</a></li>
-            <li><a href="#">Sobre</a></li>
-        </ul>
-    </nav>
-
-        <div id="game-container" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:10000; justify-content: center; align-items: center; backdrop-filter: blur(10px);">
-    <button onclick="fecharJogo()" style="position:absolute; top:40px; right:40px; background:none; border:1px solid white; color:white; padding:10px 20px; border-radius:50px; cursor:pointer; letter-spacing:2px; z-index:10001;"> SAIR DO MAR </button>
-    
-    <canvas id="game-canvas" style="width: 100%; height: 100%;"></canvas>
-</div>
+    <div class="logo">Matheus Lopes</div>
+    <ul>
+        <li><a href="#" id="btn-projetos">Projetos</a></li>
+        <li><a href="https://mmatheusllsilva.github.io/Drakkar-game/" target="_blank">Mini Game</a></li>
+        <li><a href="#">Contato</a></li>
+        <li><a href="#">Sobre</a></li>
+    </ul>
+</nav>
 
     <div class="vignette"></div>
 
@@ -394,7 +388,6 @@
      <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <script>
-    // 1. Variáveis Globais (Acessíveis por todo o código)
     const roboLayer = document.getElementById('roboLayer');
     const viking = document.getElementById('viking');
     const projectsScreen = document.getElementById('projectsScreen');
@@ -405,11 +398,9 @@
     const sendBtn = document.getElementById('sendBtn');
     const chatMessages = document.getElementById('chatMessages');
 
-    let scene, camera, renderer, sea, boat, flashlight, flashlightTarget;
     let currentSlide = 0;
-    let moveLeft = false, moveRight = false;
 
-    // --- LÓGICA DO CHAT ---
+    // --- LÓGICA DO CHAT (Conectado ao seu n8n no futuro) ---
     async function sendMessage() {
         const msg = userInput.value.trim();
         if (!msg) return;
@@ -418,7 +409,7 @@
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
         try {
-            const response = await fetch('/api/chat', {
+            const response = await fetch('/api/chat', { // Aqui entrará o seu webhook do n8n
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: msg })
@@ -426,7 +417,7 @@
             const data = await response.json();
             chatMessages.innerHTML += `<div class="msg bot">${data.response}</div>`;
         } catch (e) {
-            chatMessages.innerHTML += `<div class="msg bot" style="color: #ff4b4b;">Erro na conexão.</div>`;
+            chatMessages.innerHTML += `<div class="msg bot" style="color: #ff4b4b;">Estou offline no momento, mas o Matheus recebeu seu sinal!</div>`;
         }
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
@@ -434,105 +425,7 @@
     sendBtn.addEventListener('click', sendMessage);
     userInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
 
-    // --- MINI GAME (THREE.JS) ---
-    function abrirJogo() {
-        chatAi.style.opacity = '0';
-        document.getElementById('game-container').style.display = 'flex';
-        if (!scene) initThreeJS();
-    }
-
-    function fecharJogo() {
-        document.getElementById('game-container').style.display = 'none';
-        chatAi.style.opacity = '1';
-    }
-
-    function initThreeJS() {
-        scene = new THREE.Scene();
-        // 1. NÉVOA DENSA (Efeito Dredge)
-        scene.fog = new THREE.FogExp2(0x050505, 0.05); 
-
-        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 15, 30);
-
-        renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('game-canvas'), antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setClearColor(0x050505);
-
-        // 2. ILUMINAÇÃO
-        const ambientLight = new THREE.AmbientLight(0x404040, 0.5); // Luz mínima para não ser breu total
-        scene.add(ambientLight);
-
-        flashlight = new THREE.SpotLight(0xfff0c7, 5, 60, Math.PI / 4, 0.3);
-        flashlight.position.set(0, 10, 0);
-        flashlightTarget = new THREE.Object3D();
-        scene.add(flashlightTarget);
-        flashlight.target = flashlightTarget;
-        scene.add(flashlight);
-
-        // 3. MAR SOMBRIO
-        const seaGeometry = new THREE.PlaneGeometry(500, 500, 50, 50);
-        const seaMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0x0a0a0a, 
-            roughness: 0.1, 
-            metalness: 0.5 
-        });
-        sea = new THREE.Mesh(seaGeometry, seaMaterial);
-        sea.rotation.x = -Math.PI / 2;
-        scene.add(sea);
-
-        // 4. CARREGAR BARCO (PNG)
-        const loader = new THREE.TextureLoader();
-        loader.load('barco.png', function(texture) {
-            const boatMat = new THREE.SpriteMaterial({ map: texture, transparent: true });
-            boat = new THREE.Sprite(boatMat);
-            boat.scale.set(15, 15, 1);
-            boat.position.set(0, 7, 0);
-            scene.add(boat);
-            animate();
-        });
-    }
-
-    function animate() {
-        requestAnimationFrame(animate);
-        const time = Date.now() * 0.001;
-
-        if (boat) {
-            if (moveLeft) boat.position.x -= 0.4;
-            if (moveRight) boat.position.x += 0.4;
-
-            // Movimento da câmera e lanterna seguindo o barco
-            camera.position.x += (boat.position.x - camera.position.x) * 0.05;
-            flashlight.position.x = boat.position.x;
-            flashlightTarget.position.set(boat.position.x, 0, boat.position.z - 30);
-            
-            // Balanço do barco
-            boat.position.y = 7 + Math.sin(time) * 0.5;
-            camera.lookAt(boat.position);
-
-            // Dentro da função animate(), após os movimentos de posição:
-if (moveLeft) boat.rotation.z = 0.1;
-else if (moveRight) boat.rotation.z = -0.1;
-else boat.rotation.z = 0;
-        }
-        
-        // Ondas sutis
-        sea.position.y = Math.sin(time * 0.5) * 0.2;
-
-        renderer.render(scene, camera);
-    }
-
-    // Controles do Barco
-window.addEventListener('keydown', (e) => {
-    if(e.key === 'ArrowLeft') moveLeft = true;
-    if(e.key === 'ArrowRight') moveRight = true;
-});
-window.addEventListener('keyup', (e) => {
-    if(e.key === 'ArrowLeft') moveLeft = false;
-    if(e.key === 'ArrowRight') moveRight = false;
-});
-
-    
-    // --- PARALLAX ---
+    // --- EFEITO PARALLAX & PORTAL ---
     window.addEventListener('mousemove', (e) => {
         const x = e.clientX;
         const y = e.clientY;
@@ -541,19 +434,22 @@ window.addEventListener('keyup', (e) => {
             roboLayer.style.webkitMaskImage = mask;
             roboLayer.style.maskImage = mask;
         }
+        // Movimento suave do Viking ao fundo
         viking.style.transform = `translate(${(x - window.innerWidth/2)/60}px, ${(y - window.innerHeight/2)/60}px)`;
     });
 
-    // --- PROJETOS & CARROSSEL ---
+    // --- CARROSSEL DE PROJETOS ---
     function moveSlide(direction) {
         const slides = document.querySelectorAll('.project-slide');
         currentSlide = (currentSlide + direction + slides.length) % slides.length;
         projectTrack.style.transform = `translateX(${-currentSlide * 900}px)`;
     }
 
+    // --- TRANSIÇÕES DE TELA ---
     function openProjects() {
         roboLayer.classList.add('portal-active');
         chatAi.style.opacity = '0';
+        chatAi.style.pointerEvents = 'none';
         setTimeout(() => { projectsScreen.classList.add('active'); }, 600);
     }
 
@@ -562,17 +458,12 @@ window.addEventListener('keyup', (e) => {
         setTimeout(() => {
             roboLayer.classList.remove('portal-active');
             chatAi.style.opacity = '1';
+            chatAi.style.pointerEvents = 'auto';
         }, 500);
     }
 
-    // Event Listeners Finais
-    btnProjetos.addEventListener('click', (e) => { e.preventDefault(); openProjects(); });
-    
-    window.addEventListener('resize', () => {
-        if (camera && renderer) {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
+    btnProjetos.addEventListener('click', (e) => { 
+        e.preventDefault(); 
+        openProjects(); 
     });
 </script>
