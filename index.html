@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matheus Silva | IA & Automação</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
         :root {
             --glass: rgba(10, 15, 20, 0.75);
@@ -25,7 +28,6 @@
             height: 100vh;
             animation: fadeInPage 1.5s ease-out;
             perspective: 1000px;
-            cursor: default;
         }
 
         .viking-layer, .robo-layer {
@@ -66,7 +68,6 @@
             background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
         }
 
-
         .logo { font-size: 1.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; }
         nav ul { display: flex; list-style: none; gap: 40px; }
         nav ul li a { 
@@ -81,6 +82,82 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
+        /* --- MENU LATERAL ESQUERDO --- */
+        .side-panel-left {
+            position: fixed;
+            left: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 80;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            align-items: center;
+            animation: fadeInPage 2s ease-out 0.8s backwards;
+        }
+
+        .icon-wrapper {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .icon-wrapper:hover {
+            background: var(--accent);
+            color: #000;
+            transform: scale(1.1) translateX(5px);
+            box-shadow: 0 0 20px rgba(0, 209, 255, 0.4);
+        }
+
+        .icon-wrapper::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 65px;
+            background: var(--accent);
+            color: #000;
+            padding: 5px 12px;
+            font-size: 0.6rem;
+            font-weight: bold;
+            border-radius: 4px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .icon-wrapper:hover::after { opacity: 1; left: 75px; }
+
+        .pulse-dot {
+            position: absolute;
+            top: 5px; right: 5px;
+            width: 8px; height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ff88;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+        }
+
+        .decorative-line {
+            width: 1px; height: 80px;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+        }
+
+        /* --- CHAT E PROJETOS --- */
         .chat-ai {
             position: absolute;
             bottom: 50px; 
@@ -320,6 +397,23 @@
     </ul>
 </nav>
 
+    <div class="side-panel-left">
+    <div class="icon-wrapper" data-tooltip="CORE STATUS: ONLINE">
+        <i class="fa-solid fa-microchip"></i>
+        <div class="pulse-dot"></div>
+    </div>
+    <div class="icon-wrapper" data-tooltip="STACK: N8N & IA">
+        <i class="fa-solid fa-layer-group"></i>
+    </div>
+    <div class="icon-wrapper" data-tooltip="LOCATION: SÃO PAULO">
+        <i class="fa-solid fa-location-dot"></i>
+    </div>
+    <div class="icon-wrapper" data-tooltip="OPEN TERMINAL">
+        <i class="fa-solid fa-code"></i>
+    </div>
+    <div class="decorative-line"></div>
+</div>
+
     <div class="vignette"></div>
 
     <div class="container">
@@ -385,8 +479,6 @@
         </div>
     </section>
 
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
 <script>
     const roboLayer = document.getElementById('roboLayer');
     const viking = document.getElementById('viking');
@@ -400,7 +492,7 @@
 
     let currentSlide = 0;
 
-    // --- LÓGICA DO CHAT (Conectado ao seu n8n no futuro) ---
+    // --- LÓGICA DO CHAT ---
     async function sendMessage() {
         const msg = userInput.value.trim();
         if (!msg) return;
@@ -444,6 +536,93 @@
         currentSlide = (currentSlide + direction + slides.length) % slides.length;
         projectTrack.style.transform = `translateX(${-currentSlide * 900}px)`;
     }
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    .side-panel-left {
+    position: fixed;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 80;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+}
+
+.icon-wrapper {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    color: white;
+    font-size: 1.2rem;
+}
+
+.icon-wrapper:hover {
+    background: var(--accent);
+    color: #000;
+    transform: scale(1.1) translateX(5px);
+    box-shadow: 0 0 20px rgba(0, 209, 255, 0.4);
+}
+
+/* Tooltip (Legenda ao passar o mouse) */
+.icon-wrapper::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 65px;
+    background: var(--accent);
+    color: #000;
+    padding: 5px 12px;
+    font-size: 0.6rem;
+    font-weight: bold;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 1px;
+}
+
+.icon-wrapper:hover::after {
+    opacity: 1;
+    left: 75px;
+}
+
+/* Ponto de pulsação para o Status */
+.pulse-dot {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 8px;
+    height: 8px;
+    background: #00ff88;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00ff88;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.decorative-line {
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    margin-top: 10px;
+}
 
     // --- TRANSIÇÕES DE TELA ---
     function openProjects() {
