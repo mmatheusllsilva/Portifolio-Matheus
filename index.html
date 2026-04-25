@@ -435,6 +435,59 @@
             .project-viewport, .project-slide { min-width: 90vw; width: 90vw; }
             .chat-ai { width: calc(100% - 40px); right: 20px; bottom: 20px; }
         }
+
+        /* Estilo específico para os cards de Games */
+.game-card {
+    width: 300px;
+    height: 400px;
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s;
+    cursor: pointer;
+}
+
+.game-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.game-card:hover {
+    transform: scale(1.05) translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 209, 255, 0.4);
+    border-color: var(--accent);
+}
+
+.game-card:hover img {
+    transform: scale(1.1);
+}
+
+.game-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    text-align: center;
+}
+
+.game-info h3 {
+    font-size: 1.2rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+}
+
+.game-info p {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-top: 5px;
+}
+        
     </style>
 </head>
 <body>
@@ -672,6 +725,38 @@
         </div>         <!-- fecha slider-container -->
     </section>
 
+    <section class="projects-screen" id="gamesScreen">
+    <button class="btn-back-top" onclick="closeGames()">VOLTAR AO INÍCIO</button>
+
+    <div class="slider-container">
+        <div class="project-viewport">
+            <div class="project-track" style="justify-content: center; gap: 40px; padding: 20px;">
+                
+                <a href="https://mmatheusllsilva.github.io/Drakkar-game/" target="_blank" style="text-decoration: none;">
+                    <div class="game-card">
+                        <img src="CAPA_DRAKKAR.jpg" alt="Drakkar Mar do Norte">
+                        <div class="game-info">
+                            <h3>DRAKKAR</h3>
+                            <p>Mar do Norte</p>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://mmatheusllsilva.github.io/Grakkar-Village/" target="_blank" style="text-decoration: none;">
+                    <div class="game-card">
+                        <img src="CAPA_VALHALLA.jpg" alt="Valhalla Gate">
+                        <div class="game-info">
+                            <h3>VALHALLA GATE</h3>
+                            <p>Exploração</p>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</section>
+
     <!-- OVERLAY DE ZOOM GLOBAL (fora de qualquer container com backdrop-filter) -->
     <div id="zoomOverlay" onclick="closeZoom()" style="
         display: none;
@@ -693,108 +778,153 @@
     </div>
 
     <script>
-        const roboLayer = document.getElementById('roboLayer');
-        const viking = document.getElementById('viking');
-        const projectsScreen = document.getElementById('projectsScreen');
-        const chatAi = document.getElementById('chatAi');
-        const projectTrack = document.getElementById('projectTrack');
-        const userInput = document.getElementById('userInput');
-        const sendBtn = document.getElementById('sendBtn');
-        const chatMessages = document.getElementById('chatMessages');
+    // Seleção de Elementos Principais
+    const roboLayer = document.getElementById('roboLayer');
+    const viking = document.getElementById('viking');
+    const projectsScreen = document.getElementById('projectsScreen');
+    const gamesScreen = document.getElementById('gamesScreen');
+    const chatAi = document.getElementById('chatAi');
+    const projectTrack = document.getElementById('projectTrack');
+    const userInput = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const chatMessages = document.getElementById('chatMessages');
 
-        const btnTopo = document.getElementById('btn-projetos');
-        const btnLateral = document.getElementById('btn-projetos-side');
+    // Seleção de Botões
+    const btnProjetosTopo = document.getElementById('btn-projetos');
+    const btnProjetosSide = document.getElementById('btn-projetos-side');
+    const btnGameTopo = document.querySelector('nav ul li a[href*="Drakkar-game"]');
+    const btnGameSide = document.querySelector('.icon-wrapper[data-tooltip="MINI GAME"]');
 
-        function triggerOpen(e) {
-            if (e) e.preventDefault();
-            openProjects();
-        }
+    // --- EVENT LISTENERS DE NAVEGAÇÃO ---
 
-        if (btnTopo) btnTopo.addEventListener('click', triggerOpen);
-        if (btnLateral) btnLateral.addEventListener('click', triggerOpen);
+    if (btnGameTopo) btnGameTopo.addEventListener('click', (e) => { e.preventDefault(); openGames(); });
+    
+    if (btnGameSide) {
+        btnGameSide.parentElement.addEventListener('click', (e) => {
+            e.preventDefault();
+            openGames();
+        });
+    }
 
-        let currentSlide = 0;
+    if (btnProjetosTopo) btnProjetosTopo.addEventListener('click', (e) => { e.preventDefault(); openProjects(); });
+    if (btnProjetosSide) btnProjetosSide.addEventListener('click', (e) => { e.preventDefault(); openProjects(); });
 
-        // --- ZOOM ---
-        function toggleZoom(element) {
-            const img = element.querySelector('img');
-            const overlay = document.getElementById('zoomOverlay');
-            const zoomImg = document.getElementById('zoomImg');
+    // --- FUNÇÕES DE TRANSIÇÃO (PORTAL) ---
+
+    function openGames() {
+        roboLayer.classList.add('portal-active');
+        chatAi.style.opacity = '0';
+        chatAi.style.pointerEvents = 'none';
+        setTimeout(() => { gamesScreen.classList.add('active'); }, 600);
+    }
+
+    function closeGames() {
+        gamesScreen.classList.remove('active');
+        setTimeout(() => {
+            roboLayer.classList.remove('portal-active');
+            chatAi.style.opacity = '1';
+            chatAi.style.pointerEvents = 'auto';
+        }, 500);
+    }
+
+    function openProjects() {
+        roboLayer.classList.add('portal-active');
+        chatAi.style.opacity = '0';
+        chatAi.style.pointerEvents = 'none';
+        setTimeout(() => { projectsScreen.classList.add('active'); }, 600);
+    }
+
+    function closeProjects() {
+        projectsScreen.classList.remove('active');
+        setTimeout(() => {
+            roboLayer.classList.remove('portal-active');
+            chatAi.style.opacity = '1';
+            chatAi.style.pointerEvents = 'auto';
+        }, 500);
+    }
+
+    // --- ZOOM DE IMAGENS ---
+
+    function toggleZoom(element) {
+        const img = element.querySelector('img');
+        const overlay = document.getElementById('zoomOverlay');
+        const zoomImg = document.getElementById('zoomImg');
+        if (img && overlay && zoomImg) {
             zoomImg.src = img.src;
             overlay.style.display = 'flex';
         }
+    }
 
-        function closeZoom() {
-            document.getElementById('zoomOverlay').style.display = 'none';
+    function closeZoom() {
+        const overlay = document.getElementById('zoomOverlay');
+        if (overlay) overlay.style.display = 'none';
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeZoom();
+            closeProjects();
+            closeGames();
+        }
+    });
+
+    // --- CARROSSEL DE PROJETOS ---
+
+    let currentSlide = 0;
+    function moveSlide(direction) {
+        const slides = document.querySelectorAll('.project-slide');
+        if (slides.length === 0) return;
+        
+        currentSlide = (currentSlide + direction + slides.length) % slides.length;
+        const slideWidth = slides[0].getBoundingClientRect().width;
+        projectTrack.style.transform = `translateX(${-currentSlide * slideWidth}px)`;
+    }
+
+    // --- PARALLAX & EFEITO MÁSCARA ---
+
+    window.addEventListener('mousemove', (e) => {
+        const x = e.clientX;
+        const y = e.clientY;
+
+        if (!roboLayer.classList.contains('portal-active')) {
+            const mask = `radial-gradient(circle 220px at ${x}px ${y}px, black 0%, transparent 100%)`;
+            roboLayer.style.webkitMaskImage = mask;
+            roboLayer.style.maskImage = mask;
         }
 
-        // Fecha zoom com ESC
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeZoom();
-        });
+        // Suaviza o movimento do Viking
+        const moveX = (x - window.innerWidth / 2) / 60;
+        const moveY = (y - window.innerHeight / 2) / 60;
+        viking.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    });
 
-        // --- CHAT ---
-        async function sendMessage() {
-            const msg = userInput.value.trim();
-            if (!msg) return;
-            chatMessages.innerHTML += `<div class="msg user">${msg}</div>`;
-            userInput.value = '';
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+    // --- LÓGICA DO CHAT AI ---
 
-            try {
-                const response = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: msg })
-                });
-                const data = await response.json();
-                chatMessages.innerHTML += `<div class="msg bot">${data.response}</div>`;
-            } catch (e) {
-                chatMessages.innerHTML += `<div class="msg bot" style="color: #ff4b4b;">Estou offline no momento, mas o Matheus recebeu seu sinal!</div>`;
-            }
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+    async function sendMessage() {
+        const msg = userInput.value.trim();
+        if (!msg) return;
+
+        chatMessages.innerHTML += `<div class="msg user">${msg}</div>`;
+        userInput.value = '';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        try {
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: msg })
+            });
+            const data = await response.json();
+            chatMessages.innerHTML += `<div class="msg bot">${data.response}</div>`;
+        } catch (e) {
+            chatMessages.innerHTML += `<div class="msg bot" style="color: #ff4b4b;">O sinal falhou, mas Matheus foi notificado!</div>`;
         }
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
 
-        sendBtn.addEventListener('click', sendMessage);
-        userInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
+    if (sendBtn) sendBtn.addEventListener('click', sendMessage);
+    if (userInput) userInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
 
-        // --- PARALLAX & PORTAL ---
-        window.addEventListener('mousemove', (e) => {
-            const x = e.clientX;
-            const y = e.clientY;
-            if (!roboLayer.classList.contains('portal-active')) {
-                const mask = `radial-gradient(circle 220px at ${x}px ${y}px, black 0%, transparent 100%)`;
-                roboLayer.style.webkitMaskImage = mask;
-                roboLayer.style.maskImage = mask;
-            }
-            viking.style.transform = `translate(${(x - window.innerWidth/2)/60}px, ${(y - window.innerHeight/2)/60}px)`;
-        });
-
-        // --- CARROSSEL ---
-        function moveSlide(direction) {
-            const slides = document.querySelectorAll('.project-slide');
-            currentSlide = (currentSlide + direction + slides.length) % slides.length;
-            const slideWidth = slides[0].offsetWidth;
-            projectTrack.style.transform = `translateX(${-currentSlide * slideWidth}px)`;
-        }
-
-        // --- TRANSIÇÕES ---
-        function openProjects() {
-            roboLayer.classList.add('portal-active');
-            chatAi.style.opacity = '0';
-            chatAi.style.pointerEvents = 'none';
-            setTimeout(() => { projectsScreen.classList.add('active'); }, 600);
-        }
-
-        function closeProjects() {
-            projectsScreen.classList.remove('active');
-            setTimeout(() => {
-                roboLayer.classList.remove('portal-active');
-                chatAi.style.opacity = '1';
-                chatAi.style.pointerEvents = 'auto';
-            }, 500);
-        }
-    </script>
-
+</script>
 </body>
 </html>
