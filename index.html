@@ -68,388 +68,280 @@
         .card-content { flex-grow: 1; overflow-y: auto; text-align: left; padding-right: 20px;}
         .card-content p {font-size: 1rem;line-height: 1.8; margin-bottom: 20px; opacity: 0.85;}
         .card-content img { width: 100%;max-width: 100%; height: auto;display: block; margin: 20px 0; border-radius: 12px; border: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5);}
-
-        .project-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .grid-item h4 {
-            font-size: 0.8rem;
-            color: var(--accent);
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-        }
-
-        .grid-item ul {
-            list-style: none;
-            font-size: 0.85rem;
-            opacity: 0.8;
-        }
-
-        .grid-item ul li::before {
-            content: "→";
-            color: var(--accent);
-            margin-right: 8px;
-        }
-
-        .result-bar {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(0, 209, 255, 0.1);
-            border-radius: 10px;
-            font-size: 0.85rem;
-            border-left: 3px solid var(--accent);
-        }
-
-        .img-zoom-container {
-            position: relative;
-            cursor: zoom-in;
-            transition: 0.3s;
-            width: 100%;
-        }
-
-        .zoom-icon {
-            position: absolute;
-            bottom: 28px;
-            right: 8px;
-            color: var(--accent);
-            font-size: 1rem;
-            opacity: 0.7;
-        }
-
+        .project-grid {display: grid;grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+        .grid-item h4 {font-size: 0.8rem; color: var(--accent); margin-bottom: 10px; letter-spacing: 1px; }
+        .grid-item ul {list-style: none;font-size: 0.85rem;opacity: 0.8;}
+        .grid-item ul li::before {content: "→"; color: var(--accent); margin-right: 8px;}
+        .result-bar { margin-top: 20px; padding: 15px; background: rgba(0, 209, 255, 0.1); border-radius: 10px;font-size: 0.85rem; border-left: 3px solid var(--accent);}
+        .img-zoom-container { position: relative; cursor: zoom-in; transition: 0.3s; width: 100%;}
+        .zoom-icon { position: absolute; bottom: 28px; right: 8px; color: var(--accent); font-size: 1rem; opacity: 0.7;}
         .card-content::-webkit-scrollbar { width: 4px; }
         .card-content::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
 
-        @media (max-width: 768px) {
-            .project-viewport, .project-slide { min-width: 90vw; width: 90vw; }
-            .chat-ai { width: calc(100% - 40px); right: 20px; bottom: 20px; }
-        }
+        @media (max-width: 768px) {.project-viewport, .project-slide { min-width: 90vw; width: 90vw; }.chat-ai { width: calc(100% - 40px); right: 20px; bottom: 20px; }}
 
         /* Estilo específico para os cards de Games */
-.game-card {
-    width: 300px;
-    height: 400px;
-    position: relative;
-    border-radius: 20px;
-    overflow: hidden;
-    border: 1px solid var(--glass-border);
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s;
-    cursor: pointer;
-}
-
-.game-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Isso faz a imagem preencher o card sem deformar */
-    display: block;
-}
-
-.game-card:hover {
-    transform: scale(1.05) translateY(-10px);
-    box-shadow: 0 15px 40px rgba(0, 209, 255, 0.4);
-    border-color: var(--accent);
-}
-
-.game-card:hover img {
-    transform: scale(1.1);
-}
-
-.game-info {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 20px;
-    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-    text-align: center;
-}
-
-.game-info h3 {
-    font-size: 1.2rem;
-    color: var(--accent);
-    letter-spacing: 2px;
-}
-
-.game-info p {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    opacity: 0.7;
-    margin-top: 5px;
-}
-        
+        .game-card {width: 300px; height: 400px;position: relative; border-radius: 20px; overflow: hidden; border: 1px solid var(--glass-border); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s; cursor: pointer;}
+        .game-card img {width: 100%; height: 100%;object-fit: cover;display: block;}.game-card:hover { transform: scale(1.05) translateY(-10px); box-shadow: 0 15px 40px rgba(0, 209, 255, 0.4); border-color: var(--accent);}
+        .game-card:hover img {transform: scale(1.1);}
+        .game-info { position: absolute; bottom: 0; left: 0;width: 100%;padding: 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); text-align: center;}
+        .game-info h3 { font-size: 1.2rem; color: var(--accent); letter-spacing: 2px;}
+        .game-info p { font-size: 0.7rem; text-transform: uppercase;opacity: 0.7; margin-top: 5px;}
     </style>
 </head>
-<body>
+    <body>
 
-    <!-- NAVEGAÇÃO SUPERIOR -->
-    <nav>
-        <div class="logo">Matheus Lopes</div>
-        <ul>
-            <li><a href="#" id="btn-projetos">Projetos</a></li>
-            <li><a href="https://mmatheusllsilva.github.io/Drakkar-game/" target="_blank">Mini Game</a></li>
-            <li><a href="#">Contato</a></li>
-            <li><a href="#">Sobre</a></li>
-        </ul>
-    </nav>
+        <!-- NAVEGAÇÃO SUPERIOR -->
+        <nav>
+            <div class="logo">Matheus Lopes</div>
+            <ul>
+                <li><a href="#" id="btn-projetos">Projetos</a></li>
+                <li><a href="https://mmatheusllsilva.github.io/Drakkar-game/" target="_blank">Mini Game</a></li>
+                <li><a href="#">Contato</a></li>
+                <li><a href="#">Sobre</a></li>
+            </ul>
+        </nav>
 
-    <!-- MENU LATERAL ESQUERDO -->
-    <div class="side-panel-left">
-        <div class="decorative-line"></div>
-
-        <div class="icon-wrapper" id="btn-projetos-side" data-tooltip="PROJETOS">
-            <i class="fa-solid fa-layer-group"></i>
-            <div class="pulse-dot"></div>
+        <!-- MENU LATERAL ESQUERDO -->
+        <div class="side-panel-left">
+            <div class="decorative-line"></div>
+            <div class="icon-wrapper" id="btn-projetos-side" data-tooltip="PROJETOS">
+                <i class="fa-solid fa-layer-group"></i>
+                <div class="pulse-dot"></div>
+            </div>
+            <a href="https://mmatheusllsilva.github.io/Drakkar-game/" target="_blank" style="text-decoration: none;">
+                <div class="icon-wrapper" data-tooltip="MINI GAME">
+                    <i class="fa-solid fa-gamepad"></i>
+                </div>
+            </a>
+            <div class="icon-wrapper" data-tooltip="CONTATO">
+                <i class="fa-solid fa-envelope"></i>
+            </div>
+            <a href="https://www.linkedin.com/in/matheus-lopes-silva/" target="_blank" style="text-decoration: none;">
+                <div class="icon-wrapper" data-tooltip="SOBRE">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </div>
+            </a>
+            <div class="decorative-line" style="background: linear-gradient(to top, var(--accent), transparent);"></div>
         </div>
 
-        <a href="https://mmatheusllsilva.github.io/Drakkar-game/" target="_blank" style="text-decoration: none;">
-            <div class="icon-wrapper" data-tooltip="MINI GAME">
-                <i class="fa-solid fa-gamepad"></i>
-            </div>
-        </a>
-
-        <div class="icon-wrapper" data-tooltip="CONTATO">
-            <i class="fa-solid fa-envelope"></i>
-        </div>
-
-        <a href="https://www.linkedin.com/in/matheus-lopes-silva/" target="_blank" style="text-decoration: none;">
-            <div class="icon-wrapper" data-tooltip="SOBRE">
-                <i class="fa-brands fa-linkedin-in"></i>
-            </div>
-        </a>
-
-        <div class="decorative-line" style="background: linear-gradient(to top, var(--accent), transparent);"></div>
-    </div>
-
-    <!-- FUNDO COM PARALLAX -->
-    <div class="vignette"></div>
-    <div class="container">
-        <div class="viking-layer" id="viking"></div>
-        <div class="robo-layer" id="roboLayer"></div>
+        <!-- FUNDO COM PARALLAX -->
+        <div class="vignette"></div>
+        <div class="container">
+            <div class="viking-layer" id="viking"></div>
+            <div class="robo-layer" id="roboLayer"></div>
 
         <!-- CHAT -->
-        <div class="chat-ai" id="chatAi">
-            <div class="chat-header">Matheus.AI - Assistente</div>
-            <div class="chat-messages" id="chatMessages">
-                <div class="msg bot">Olá, eu sou o assistente de IA do Matheus, como posso te ajudar hoje?</div>
-            </div>
-            <div class="chat-input">
-                <input type="text" id="userInput" placeholder="Digite aqui...">
-                <button id="sendBtn">➤</button>
+            <div class="chat-ai" id="chatAi">
+                <div class="chat-header">Matheus.AI - Assistente</div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="msg bot">Olá, eu sou o assistente de IA do Matheus, como posso te ajudar hoje?</div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="userInput" placeholder="Digite aqui...">
+                    <button id="sendBtn">➤</button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- TELA DE PROJETOS -->
-    <section class="projects-screen" id="projectsScreen">
-        <button class="btn-back-top" onclick="closeProjects()">VOLTAR AO INÍCIO</button>
+        <!-- TELA DE PROJETOS -->
+        <section class="projects-screen" id="projectsScreen">
+            <button class="btn-back-top" onclick="closeProjects()">VOLTAR AO INÍCIO</button>
+            <div class="slider-container">
+                <button class="arrow" onclick="moveSlide(-1)">&#10094;</button>
+                <div class="project-viewport">
+                    <div class="project-track" id="projectTrack">
 
-        <div class="slider-container">
-            <button class="arrow" onclick="moveSlide(-1)">&#10094;</button>
-
-            <div class="project-viewport">
-                <div class="project-track" id="projectTrack">
-
-                    <!-- SLIDE 1 -->
-                    <div class="project-slide">
-                        <div class="project-card-center">
-                            <h3>AUTOMAÇÃO DE LOGÍSTICA & RASTREIO</h3>
-                            <div class="card-content">
-                                <div class="img-zoom-container" onclick="toggleZoom(this)">
-                                    <img src="projeto-codigo-de-rastreio.jpeg" alt="Workflow de Rastreio" class="project-img">
-                                    <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
-                                </div>
-                                <div class="project-grid">
-                                    <div class="grid-item">
-                                        <h4><i class="fa-solid fa-triangle-exclamation"></i> DESAFIO</h4>
-                                        <ul>
-                                            <li>Inexistência do envio de dados de envio.</li>
-                                            <li>Sobrecarga no Atendimento.</li>
-                                            <li>Incerteza na Jornada do Cliente.</li>
-                                            <li>Fragmentação de Transportadoras.</li>
-                                            <li>Gestão de Exceções.</li>
-                                        </ul>
+                        <!-- SLIDE 1 -->
+                        <div class="project-slide">
+                            <div class="project-card-center">
+                                <h3>AUTOMAÇÃO DE LOGÍSTICA & RASTREIO</h3>
+                                <div class="card-content">
+                                    <div class="img-zoom-container" onclick="toggleZoom(this)">
+                                        <img src="projeto-codigo-de-rastreio.jpeg" alt="Workflow de Rastreio" class="project-img">
+                                        <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
                                     </div>
-                                    <div class="grid-item">
-                                        <h4><i class="fa-solid fa-gears"></i> SOLUÇÃO</h4>
-                                        <ul>
-                                            <li>Workflow centralizado no n8n.</li>
-                                            <li>Gatilhos em tempo real via CRM.</li>
-                                            <li>Tratamento automatizado de Notas Fiscais.</li>
-                                            <li>Lógica de links dinâmicos por transportadora.</li>
-                                            <li>Registro automático no CRM.</li>
-                                        </ul>
+                                    <div class="project-grid">
+                                        <div class="grid-item">
+                                            <h4><i class="fa-solid fa-triangle-exclamation"></i> DESAFIO</h4>
+                                            <ul>
+                                                <li>Inexistência do envio de dados de envio.</li>
+                                                <li>Sobrecarga no Atendimento.</li>
+                                                <li>Incerteza na Jornada do Cliente.</li>
+                                                <li>Fragmentação de Transportadoras.</li>
+                                                <li>Gestão de Exceções.</li>
+                                            </ul>
+                                        </div>
+                                        <div class="grid-item">
+                                            <h4><i class="fa-solid fa-gears"></i> SOLUÇÃO</h4>
+                                            <ul>
+                                                <li>Workflow centralizado no n8n.</li>
+                                                <li>Gatilhos em tempo real via CRM.</li>
+                                                <li>Tratamento automatizado de Notas Fiscais.</li>
+                                                <li>Lógica de links dinâmicos por transportadora.</li>
+                                                <li>Registro automático no CRM.</li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="result-bar">
-                                    <strong><i class="fa-solid fa-chart-line"></i> RESULTADO:</strong>
-                                    Redução de chamados sobre o tema e excelência em UX com envio de pedido.
+                                    <div class="result-bar">
+                                        <strong><i class="fa-solid fa-chart-line"></i> RESULTADO:</strong>
+                                        Redução de chamados sobre o tema e excelência em UX com envio de pedido.
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- SLIDE 2 -->
-                    <div class="project-slide">
-    <div class="project-card-center">
-        <h3>SISTEMA DE MULTI-AGENTES IA</h3>
-        <div class="card-content">
-            <div class="img-zoom-container" onclick="toggleZoom(this)">
-                <img src="multiagente.jpeg" alt="Arquitetura Multi-Agente" class="project-img">
-                <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
-            </div>
-            
-            <div class="project-grid">
-                <div class="grid-item">
-                    <h4><i class="fa-solid fa-users-gear"></i> ESTRUTURA</h4>
-                    <ul>
-                        <li><strong>Beatriz:</strong> Especialista em Atendimento e Triagem.</li>
-                        <li><strong>Matheus:</strong> Agente de Suporte Técnico e Troubleshooting.</li>
-                        <li><strong>Natanael:</strong> Consultor de Operações Financeiras.</li>
-                    </ul>
-                </div>
-                <div class="grid-item">
-                    <h4><i class="fa-solid fa-brain"></i> TECNOLOGIAS</h4>
-                    <ul>
-                        <li>Orquestração complexa via <strong>n8n</strong>.</li>
-                        <li>Modelos de linguagem com memória de contexto.</li>
-                        <li>Tomada de decisão autônoma (Agentic Workflow).</li>
-                        <li>Integração nativa com APIs externas.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="result-bar">
-                <strong><i class="fa-solid fa-bolt"></i> IMPACTO:</strong>
-                Redução do tempo de resposta e automação de 80% das interações de nível 1 com personas humanizadas.
-            </div>
-        </div>
-    </div>
-</div>
-
-                    <!-- SLIDE 3 -->
-                   <div class="project-slide">
-    <div class="project-card-center">
-        <h3>SAAS EMAIL & REFINO DE COMUNICAÇÃO</h3>
-        <div class="card-content">
-            <div class="project-grid" style="margin-top: 0; margin-bottom: 20px;">
-                <div class="img-zoom-container" onclick="toggleZoom(this)">
-                    <img src="frontIAmensagem.jpeg" alt="Interface de Usuário" class="project-img">
-                    <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
-                </div>
-                <div class="img-zoom-container" onclick="toggleZoom(this)">
-                    <img src="IAmensagem.jpeg" alt="Processamento de IA" class="project-img">
-                    <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
-                </div>
-            </div>
-            
-            <div class="project-grid">
-                <div class="grid-item">
-                    <h4><i class="fa-solid fa-i-cursor"></i> O PROBLEMA</h4>
-                    <ul>
-                        <li>Uso excessivo de macros engessadas.</li>
-                        <li>Tempo gasto revisando tons de voz.</li>
-                        <li>Comunicações corporativas impessoais.</li>
-                    </ul>
-                </div>
-                <div class="grid-item">
-                    <h4><i class="fa-solid fa-wand-magic-sparkles"></i> A SOLUÇÃO</h4>
-                    <ul>
-                        <li>Interface <strong>Neo-Vintage</strong> minimalista.</li>
-                        <li>IA integrada para ajuste de tom e clareza.</li>
-                        <li>Transformação de rascunhos em textos profissionais.</li>
-                        <li>Redução drástica no tempo de resposta.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="result-bar">
-                <strong><i class="fa-solid fa-envelope-circle-check"></i> OBJETIVO:</strong>
-                Padronizar a excelência na comunicação corporativa através de automação inteligente de macros.
-            </div>
-        </div>
-    </div>
-</div>
- <!-- SLIDE 4 -->
-<div class="project-slide">
-    <div class="project-card-center">
-        <h3>PROJETO PORTFÓLIO & UX</h3>
-        <div class="card-content">
-            <div class="img-zoom-container" onclick="toggleZoom(this)">
-                <img src="projetoportfolio.jpeg" alt="Visão Geral do Portfólio" class="project-img">
-                <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
-            </div>
-            
-            <div class="project-grid">
-                <div class="grid-item">
-                    <h4><i class="fa-solid fa-palette"></i> DESIGN</h4>
-                    <ul>
-                        <li>Estética <strong>Neo-Vintage</strong> (2027 vibes).</li>
-                        <li>Interface imersiva com efeito <strong>Parallax</strong>.</li>
-                        <li>Efeito "Portal" usando máscaras radiais dinâmicas.</li>
-                        <li>Dark mode nativo e Glassmorphism.</li>
-                    </ul>
-                </div>
-                <div class="grid-item">
-                    <h4><i class="fa-solid fa-code"></i> ENGINE</h4>
-                    <ul>
-                        <li>Assistente de IA integrado via API (n8n backend).</li>
-                        <li>Animações otimizadas em CSS3 e Vanilla JS.</li>
-                        <li>Arquitetura modular para fácil atualização.</li>
-                        <li>Foco em performance e carregamento fluido.</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="result-bar">
-                <strong><i class="fa-solid fa-wand-magic-sparkles"></i> DIFERENCIAL:</strong>
-                Um portfólio que não apenas lista projetos, mas é uma prova viva de capacidade técnica em automação e front-end.
-            </div>
-        </div>
-    </div>
-</div>
-
-                </div> <!-- fecha project-track -->
-            </div>     <!-- fecha project-viewport -->
-
-            <button class="arrow" onclick="moveSlide(1)">&#10095;</button>
-        </div>         <!-- fecha slider-container -->
-    </section>
-
-   <section class="projects-screen" id="gamesScreen">
-    <button class="btn-back-top" onclick="closeGames()">VOLTAR AO INÍCIO</button>
-
-    <div class="slider-container">
-        <div class="project-viewport">
-            <div class="project-track" style="display: flex; justify-content: center; gap: 40px; padding: 20px; width: 100%;">
-                
-                <a href="https://mmatheusllsilva.github.io/Drakkar-game/" target="_blank" style="text-decoration: none;">
-                    <div class="game-card">
-                        <img src="capajogo1.jpg" alt="Drakkar Mar do Norte" onerror="this.src='https://via.placeholder.com/300x400?text=Drakkar+Image'">
-                        <div class="game-info">
-                            <h3>DRAKKAR</h3>
-                            <p>Mar do Norte</p>
+                        <!-- SLIDE 2 -->
+                        <div class="project-slide">
+                            <div class="project-card-center">
+                                <h3>SISTEMA DE MULTI-AGENTES IA</h3>
+                                <div class="card-content">
+                                    <div class="img-zoom-container" onclick="toggleZoom(this)">
+                                        <img src="multiagente.jpeg" alt="Arquitetura Multi-Agente" class="project-img">
+                                        <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                                    </div>
+                                    <div class="project-grid">
+                                        <div class="grid-item">
+                                            <h4><i class="fa-solid fa-users-gear"></i> ESTRUTURA</h4>
+                                            <ul>
+                                                <li><strong>Beatriz:</strong> Especialista em Atendimento e Triagem.</li>
+                                                <li><strong>Matheus:</strong> Agente de Suporte Técnico e Troubleshooting.</li>
+                                                <li><strong>Natanael:</strong> Consultor de Operações Financeiras.</li>
+                                            </ul>
+                                        </div>
+                                        <div class="grid-item">
+                                            <h4><i class="fa-solid fa-brain"></i> TECNOLOGIAS</h4>
+                                            <ul>
+                                                <li>Orquestração complexa via <strong>n8n</strong>.</li>
+                                                <li>Modelos de linguagem com memória de contexto.</li>
+                                                <li>Tomada de decisão autônoma (Agentic Workflow).</li>
+                                                <li>Integração nativa com APIs externas.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="result-bar">
+                                        <strong><i class="fa-solid fa-bolt"></i> IMPACTO:</strong>
+                                        Redução do tempo de resposta e automação de 80% das interações de nível 1 com personas humanizadas.
+                                    </div>
+                                </div>
+                            </div> 
                         </div>
-                    </div>
-                </a>
 
-                <a href="https://mmatheusllsilva.github.io/Grakkar-Village/" target="_blank" style="text-decoration: none;">
-                    <div class="game-card">
-                        <img src="capajogo2.jpg" alt="Valhalla Gate" onerror="this.src='https://via.placeholder.com/300x400?text=Valhalla+Image'">
-                        <div class="game-info">
-                            <h3>VALHALLA GATE</h3>
-                            <p>Exploração</p>
+                    
+                        <!-- SLIDE 3 -->
+                        <div class="project-slide">
+                            <div class="project-card-center">
+                                <h3>SAAS EMAIL & REFINO DE COMUNICAÇÃO</h3>
+                                <div class="card-content">
+                                    <div class="project-grid" style="margin-top: 0; margin-bottom: 20px;">
+                                        <div class="img-zoom-container" onclick="toggleZoom(this)">
+                                            <img src="frontIAmensagem.jpeg" alt="Interface de Usuário" class="project-img">
+                                            <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                                        </div>
+                                        <div class="img-zoom-container" onclick="toggleZoom(this)">
+                                            <img src="IAmensagem.jpeg" alt="Processamento de IA" class="project-img">
+                                            <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="project-grid">
+                                        <div class="grid-item">
+                                            <h4><i class="fa-solid fa-i-cursor"></i> O PROBLEMA</h4>
+                                            <ul>
+                                                <li>Uso excessivo de macros engessadas.</li>
+                                                <li>Tempo gasto revisando tons de voz.</li>
+                                                <li>Comunicações corporativas impessoais.</li>
+                                            </ul>
+                                        </div>
+                                        <div class="grid-item">
+                                            <h4><i class="fa-solid fa-wand-magic-sparkles"></i> A SOLUÇÃO</h4>
+                                            <ul>
+                                                <li>Interface <strong>Neo-Vintage</strong> minimalista.</li>
+                                                <li>IA integrada para ajuste de tom e clareza.</li>
+                                                <li>Transformação de rascunhos em textos profissionais.</li>
+                                                <li>Redução drástica no tempo de resposta.</li>
+                                            </ul>
+                                        </div>
+                                    </div>                 
+                                    <div class="result-bar">
+                                        <strong><i class="fa-solid fa-envelope-circle-check"></i> OBJETIVO:</strong>
+                                        Padronizar a excelência na comunicação corporativa através de automação inteligente de macros.
+                                    </div>
+                                </div>  
+                            </div>
                         </div>
-                    </div>
-                </a>
+      
+                        <!-- SLIDE 4 -->
+                        <div class="project-slide">
+                            <div class="project-card-center">
+                                <h3>PROJETO PORTFÓLIO & UX</h3>
+                                <div class="card-content">          
+                                    <div class="img-zoom-container" onclick="toggleZoom(this)">            
+                                        <img src="projetoportfolio.jpeg" alt="Visão Geral do Portfólio" class="project-img">             
+                                        <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>     
+                                    </div>             
+                                    <div class="project-grid">      
+                                        <div class="grid-item">           
+                                            <h4><i class="fa-solid fa-palette"></i> DESIGN</h4>             
+                                            <ul>                 
+                                                <li>Estética <strong>Neo-Vintage</strong> (2027 vibes).</li>               
+                                                <li>Interface imersiva com efeito <strong>Parallax</strong>.</li>                    
+                                                <li>Efeito "Portal" usando máscaras radiais dinâmicas.</li>                 
+                                                <li>Dark mode nativo e Glassmorphism.</li>  
+                                            </ul>             
+                                        </div>             
+                                        <div class="grid-item">            
+                                            <h4><i class="fa-solid fa-code"></i> ENGINE</h4>              
+                                            <ul>               
+                                                <li>Assistente de IA integrado via API (n8n backend).</li>   
+                                                <li>Animações otimizadas em CSS3 e Vanilla JS.</li>                 
+                                                <li>Arquitetura modular para fácil atualização.</li>                    
+                                                <li>Foco em performance e carregamento fluido.</li>                 
+                                            </ul>             
+                                        </div>        
+                                    </div>        
+                                    <div class="result-bar">      
+                                        <strong><i class="fa-solid fa-wand-magic-sparkles"></i> DIFERENCIAL:</strong>        
+                                        Um portfólio que não apenas lista projetos, mas é uma prova viva de capacidade técnica em automação e front-end.        
+                                    </div>     
+                                </div> 
+                            </div>
+                        </div>         
+                    </div>   
+                </div>     
+                <button class="arrow" onclick="moveSlide(1)">&#10095;</button>
+            </div>        
+        </section>
 
+        <section class="projects-screen" id="gamesScreen">
+            <button class="btn-back-top" onclick="closeGames()">VOLTAR AO INÍCIO</button>
+            <div class="slider-container">
+                <div class="project-viewport">           
+                    <div class="project-track" style="display: flex; justify-content: center; gap: 40px; padding: 20px; width: 100%;">                           
+                        <a href="https://mmatheusllsilva.github.io/Drakkar-game/" target="_blank" style="text-decoration: none;">               
+                            <div class="game-card">                        
+                                <img src="capajogo1.png" alt="Drakkar Mar do Norte" onerror="this.src='https://via.placeholder.com/300x400?text=Drakkar+Image'">                       
+                                <div class="game-info">                           
+                                    <h3>DRAKKAR</h3>                           
+                                    <p>Mar do Norte</p>                       
+                                </div>                   
+                            </div>               
+                        </a>               
+                        <a href="https://mmatheusllsilva.github.io/Grakkar-Village/" target="_blank" style="text-decoration: none;">                 
+                            <div class="game-card">                       
+                                <img src="capajogo2.png" alt="Valhalla Gate" onerror="this.src='https://via.placeholder.com/300x400?text=Valhalla+Image'">                       
+                                <div class="game-info">                         
+                                    <h3>VALHALLA GATE</h3>                      
+                                    <p>Exploração</p>                     
+                                </div>                   
+                            </div>            
+                        </a>         
+                    </div>       
+                </div>   
             </div>
-        </div>
-    </div>
-</section>
-    <!-- OVERLAY DE ZOOM GLOBAL (fora de qualquer container com backdrop-filter) -->
-    <div id="zoomOverlay" onclick="closeZoom()" style="
+        </section>       
+    
+        <!-- OVERLAY DE ZOOM GLOBAL (fora de qualquer container com backdrop-filter) -->
+        <div id="zoomOverlay" onclick="closeZoom()" style="
         display: none;
         position: fixed;
         inset: 0;
