@@ -12,416 +12,885 @@
         body, html { height: 100%; width: 100%; overflow: hidden; background-color: #000; color: white; }
 
         @keyframes fadeInPage { from { opacity: 0; filter: blur(10px); } to { opacity: 1; filter: blur(0); }}
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; }}
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.5; }}
+        @keyframes tutorialPop { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); }}
+        @keyframes spotlightPulse { 0%, 100% { box-shadow: 0 0 0 4000px rgba(0,0,0,0.82), 0 0 0 3px var(--accent), 0 0 25px rgba(0,209,255,0.5); } 50% { box-shadow: 0 0 0 4000px rgba(0,0,0,0.82), 0 0 0 3px var(--accent), 0 0 45px rgba(0,209,255,0.9); }}
+        @keyframes arrowBounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); }}
 
         .container { position: relative; width: 100vw; height: 100vh; animation: fadeInPage 1.5s ease-out; perspective: 1000px; }
         .viking-layer, .robo-layer { position: absolute; top: -5%; left: -5%; width: 110%; height: 110%; background-size: cover; background-position: center; transition: transform 0.2s cubic-bezier(0.2, 0.49, 0.32, 0.99), mask-image 1.2s ease-in-out, -webkit-mask-image 1.2s ease-in-out; }
         .viking-layer { background-image: url('viking.png'); z-index: 1; }
-        .robo-layer { background-image: url('robo2.png'); z-index: 2; -webkit-mask-image: radial-gradient(circle 0px at center, black 100%, transparent 100%);mask-image: radial-gradient(circle 0px at center, black 100%, transparent 100%);-webkit-mask-repeat: no-repeat;mask-repeat: no-repeat;}
-        .portal-active {-webkit-mask-image: radial-gradient(circle 150% at center, black 100%, transparent 100%) !important; mask-image: radial-gradient(circle 150% at center, black 100%, transparent 100%) !important;}
-        nav {position: fixed;top: 0; left: 0; width: 100%;padding: 30px 60px;display: flex;justify-content: space-between;align-items: center;z-index: 100;background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);}
+        .robo-layer { background-image: url('robo2.png'); z-index: 2; -webkit-mask-image: radial-gradient(circle 0px at center, black 100%, transparent 100%); mask-image: radial-gradient(circle 0px at center, black 100%, transparent 100%); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
+        .portal-active { -webkit-mask-image: radial-gradient(circle 150% at center, black 100%, transparent 100%) !important; mask-image: radial-gradient(circle 150% at center, black 100%, transparent 100%) !important; }
+
+        nav { position: fixed; top: 0; left: 0; width: 100%; padding: 30px 60px; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); }
         .logo { font-size: 1.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; }
         nav ul { display: flex; list-style: none; gap: 40px; }
-        nav ul li a { color: white; text-decoration: none; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px;opacity: 0.5; transition: 0.4s; }
+        nav ul li a { color: white; text-decoration: none; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.5; transition: 0.4s; }
         nav ul li a:hover { opacity: 1; color: var(--accent); }
 
-        @keyframes slideUp {from { transform: translateY(50px); opacity: 0; }to { transform: translateY(0); opacity: 1; }}
-
         /* --- MENU LATERAL ESQUERDO --- */
-        .side-panel-left {position: fixed;left: 40px; top: 50%; transform: translateY(-50%); z-index: 80; display: flex;flex-direction: column; gap: 25px;align-items: center;animation: fadeInPage 2s ease-out 0.8s backwards; }
-        .icon-wrapper {position: relative; width: 50px;height: 50px;background: rgba(255, 255, 255, 0.05);border: 1px solid var(--glass-border); border-radius: 12px;display: flex;justify-content: center;align-items: center;cursor: pointer;transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);color: white;font-size: 1.2rem;}
-        .icon-wrapper:hover {background: var(--accent);color: #000;transform: scale(1.1) translateX(5px);box-shadow: 0 0 20px rgba(0, 209, 255, 0.4);}
-        .icon-wrapper::after {content: attr(data-tooltip);position: absolute;left: 65px;background: var(--accent); color: #000; padding: 5px 12px;font-size: 0.6rem;font-weight: bold;border-radius: 4px;white-space: nowrap;opacity: 0;transition: 0.3s; letter-spacing: 1px;}
+        .side-panel-left { position: fixed; left: 40px; top: 50%; transform: translateY(-50%); z-index: 80; display: flex; flex-direction: column; gap: 25px; align-items: center; animation: fadeInPage 2s ease-out 0.8s backwards; }
+        .icon-wrapper { position: relative; width: 50px; height: 50px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); border-radius: 12px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); color: white; font-size: 1.2rem; }
+        .icon-wrapper:hover { background: var(--accent); color: #000; transform: scale(1.1) translateX(5px); box-shadow: 0 0 20px rgba(0, 209, 255, 0.4); }
+        .icon-wrapper::after { content: attr(data-tooltip); position: absolute; left: 65px; background: var(--accent); color: #000; padding: 5px 12px; font-size: 0.6rem; font-weight: bold; border-radius: 4px; white-space: nowrap; opacity: 0; transition: 0.3s; letter-spacing: 1px; }
         .icon-wrapper:hover::after { opacity: 1; left: 75px; }
-        .pulse-dot {position: absolute; top: 5px; right: 5px; width: 8px; height: 8px; background: #00ff88; border-radius: 50%;box-shadow: 0 0 10px #00ff88;animation: pulse 2s infinite;}
-
-        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; }50% { transform: scale(1.5); opacity: 0.5; }}
-
-        .decorative-line {width: 1px; height: 80px;background: linear-gradient(to bottom, var(--accent), transparent);}
+        .pulse-dot { position: absolute; top: 5px; right: 5px; width: 8px; height: 8px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 10px #00ff88; animation: pulse 2s infinite; }
+        .decorative-line { width: 1px; height: 80px; background: linear-gradient(to bottom, var(--accent), transparent); }
 
         /* --- CHAT --- */
-        .chat-ai { position: absolute; bottom: 50px; right: 50px; width: 340px;background: var(--glass);  backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);border: 1px solid var(--glass-border); border-radius: 24px;z-index: 100;display: flex;flex-direction: column;animation: slideUp 1s ease-out 0.5s backwards;box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9);}
-        .chat-header {padding: 20px;border-bottom: 1px solid rgba(255, 255, 255, 0.1);font-size: 0.75rem;font-weight: 700;text-transform: uppercase;letter-spacing: 2px; color: var(--accent);}
-        .chat-messages { padding: 24px; font-size: 0.9rem;  line-height: 1.4;  color: white;overflow-y: auto;flex-grow: 1;display: flex;flex-direction: column;gap: 12px; }
-        .msg {max-width: 80%; padding: 10px 15px; border-radius: 15px;font-size: 0.85rem;}
-        .msg.user {align-self: flex-end;background: var(--accent);color: #000; border-bottom-right-radius: 2px;font-weight: 500; }
-        .msg.bot {align-self: flex-start;background: rgba(255, 255, 255, 0.1); border: 1px solid var(--glass-border);color: #fff;border-bottom-left-radius: 2px;}
-        .chat-input { padding: 20px;  display: flex; gap: 12px; background: rgba(0, 0, 0, 0.2); border-radius: 0 0 24px 24px;}
-        .chat-input input {flex: 1; background: rgba(255, 255, 255, 0.08);border: 1px solid rgba(255, 255, 255, 0.2);border-radius: 12px; padding: 12px; color: white; outline: none; }
-        .chat-input button {background: var(--accent); border: none; padding: 0 15px;border-radius: 10px; cursor: pointer; transition: 0.3s;}
-        .vignette {position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.7) 100%);z-index: 5;pointer-events: none;}
+        .chat-ai { position: absolute; bottom: 50px; right: 50px; width: 340px; background: var(--glass); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid var(--glass-border); border-radius: 24px; z-index: 100; display: flex; flex-direction: column; animation: slideUp 1s ease-out 0.5s backwards; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9); }
+        .chat-header { padding: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); }
+        .chat-messages { padding: 24px; font-size: 0.9rem; line-height: 1.4; color: white; overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; gap: 12px; max-height: 180px; }
+        .msg { max-width: 80%; padding: 10px 15px; border-radius: 15px; font-size: 0.85rem; }
+        .msg.user { align-self: flex-end; background: var(--accent); color: #000; border-bottom-right-radius: 2px; font-weight: 500; }
+        .msg.bot { align-self: flex-start; background: rgba(255, 255, 255, 0.1); border: 1px solid var(--glass-border); color: #fff; border-bottom-left-radius: 2px; }
+        .chat-input { padding: 20px; display: flex; gap: 12px; background: rgba(0, 0, 0, 0.2); border-radius: 0 0 24px 24px; }
+        .chat-input input { flex: 1; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 12px; color: white; outline: none; }
+        .chat-input button { background: var(--accent); border: none; padding: 0 15px; border-radius: 10px; cursor: pointer; transition: 0.3s; }
+        .vignette { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.7) 100%); z-index: 5; pointer-events: none; }
 
         /* --- TELA DE PROJETOS --- */
-        .projects-screen {position: fixed;top: 0; left: 0; width: 100%; height: 100%; z-index: 150;display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; background: rgba(0, 0, 0, 0.4);backdrop-filter: blur(15px); }
+        .projects-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 150; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(15px); }
         .projects-screen.active { opacity: 1; pointer-events: auto; }
-        .btn-back-top { position: absolute; top: 40px; background: none; border: 1px solid rgba(255,255,255,0.3);  color: white;  padding: 10px 25px;  border-radius: 50px; cursor: pointer;font-size: 0.7rem; letter-spacing: 2px; transition: 0.3s;z-index: 160;}
+        .btn-back-top { position: absolute; top: 40px; background: none; border: 1px solid rgba(255,255,255,0.3); color: white; padding: 10px 25px; border-radius: 50px; cursor: pointer; font-size: 0.7rem; letter-spacing: 2px; transition: 0.3s; z-index: 160; }
         .btn-back-top:hover { background: white; color: black; }
-        .slider-container {display: flex;align-items: center;justify-content: center; gap: 20px; width: 95%; max-width: 1200px; margin: 80px auto 0;}
-        .project-viewport {width: 900px;height: 600px;overflow: hidden; position: relative; border-radius: 30px; }
-
-        /* Force a visibilidade das setas */
-        .arrow {background: none;border: none;color: white; font-size: 3rem; cursor: pointer; opacity: 0.5; transition: 0.3s; user-select: none; z-index: 170; flex-shrink: 0;}
-        .arrow: hover { opacity: 1; color: var(--accent); transform: scale(1.1); }
-        .project-track { display: flex;transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); height: 100%; }
-        .project-slide { min-width: 900px; height: 100%; display: flex; justify-content: center; align-items: center; padding: 10px;}
-        .project-card-center {background: rgba(25, 30, 35, 0.85); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 30px;padding: 40px;  width: 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
-        .project-card-center h3 { color: var(--accent); text-shadow: 0 0 15px rgba(0, 209, 255, 0.4); margin-bottom: 20px;}
-        .card-content { flex-grow: 1; overflow-y: auto; text-align: left; padding-right: 20px;}
-        .card-content p {font-size: 1rem;line-height: 1.8; margin-bottom: 20px; opacity: 0.85;}
-        .card-content img { width: 100%;max-width: 100%; height: auto;display: block; margin: 20px 0; border-radius: 12px; border: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5);}
-        .project-grid {display: grid;grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
-        .grid-item h4 {font-size: 0.8rem; color: var(--accent); margin-bottom: 10px; letter-spacing: 1px; }
-        .grid-item ul {list-style: none;font-size: 0.85rem;opacity: 0.8;}
-        .grid-item ul li::before {content: "→"; color: var(--accent); margin-right: 8px;}
-        .result-bar { margin-top: 20px; padding: 15px; background: rgba(0, 209, 255, 0.1); border-radius: 10px;font-size: 0.85rem; border-left: 3px solid var(--accent);}
-        .img-zoom-container { position: relative; cursor: zoom-in; transition: 0.3s; width: 100%;}
-        .zoom-icon { position: absolute; bottom: 28px; right: 8px; color: var(--accent); font-size: 1rem; opacity: 0.7;}
+        .slider-container { display: flex; align-items: center; justify-content: center; gap: 20px; width: 95%; max-width: 1200px; margin: 80px auto 0; }
+        .project-viewport { width: 900px; height: 600px; overflow: hidden; position: relative; border-radius: 30px; }
+        .arrow { background: none; border: none; color: white; font-size: 3rem; cursor: pointer; opacity: 0.5; transition: 0.3s; user-select: none; z-index: 170; flex-shrink: 0; }
+        .arrow:hover { opacity: 1; color: var(--accent); transform: scale(1.1); }
+        .project-track { display: flex; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); height: 100%; }
+        .project-slide { min-width: 900px; height: 100%; display: flex; justify-content: center; align-items: center; padding: 10px; }
+        .project-card-center { background: rgba(25, 30, 35, 0.85); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 30px; padding: 40px; width: 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
+        .project-card-center h3 { color: var(--accent); text-shadow: 0 0 15px rgba(0, 209, 255, 0.4); margin-bottom: 20px; }
+        .card-content { flex-grow: 1; overflow-y: auto; text-align: left; padding-right: 20px; }
+        .card-content p { font-size: 1rem; line-height: 1.8; margin-bottom: 20px; opacity: 0.85; }
+        .card-content img { width: 100%; max-width: 100%; height: auto; display: block; margin: 20px 0; border-radius: 12px; border: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .project-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+        .grid-item h4 { font-size: 0.8rem; color: var(--accent); margin-bottom: 10px; letter-spacing: 1px; }
+        .grid-item ul { list-style: none; font-size: 0.85rem; opacity: 0.8; }
+        .grid-item ul li::before { content: "→"; color: var(--accent); margin-right: 8px; }
+        .result-bar { margin-top: 20px; padding: 15px; background: rgba(0, 209, 255, 0.1); border-radius: 10px; font-size: 0.85rem; border-left: 3px solid var(--accent); }
+        .img-zoom-container { position: relative; cursor: zoom-in; transition: 0.3s; width: 100%; }
+        .zoom-icon { position: absolute; bottom: 28px; right: 8px; color: var(--accent); font-size: 1rem; opacity: 0.7; }
         .card-content::-webkit-scrollbar { width: 4px; }
         .card-content::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+        @media (max-width: 768px) { .project-viewport, .project-slide { min-width: 90vw; width: 90vw; } .chat-ai { width: calc(100% - 40px); right: 20px; bottom: 20px; } }
 
-        @media (max-width: 768px) {.project-viewport, .project-slide { min-width: 90vw; width: 90vw; }.chat-ai { width: calc(100% - 40px); right: 20px; bottom: 20px; }}
+        /* --- GAMES SCREEN --- */
+        .game-card { width: 300px; height: 400px; position: relative; border-radius: 20px; overflow: hidden; border: 1px solid var(--glass-border); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s; cursor: pointer; }
+        .game-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .game-card:hover { transform: scale(1.05) translateY(-10px); box-shadow: 0 15px 40px rgba(0, 209, 255, 0.4); border-color: var(--accent); }
+        .game-info { position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); text-align: center; }
+        .game-info h3 { font-size: 1.2rem; color: var(--accent); letter-spacing: 2px; }
+        .game-info p { font-size: 0.7rem; text-transform: uppercase; opacity: 0.7; margin-top: 5px; }
 
-        /* Estilo específico para os cards de Games */
-        .game-card {width: 300px; height: 400px;position: relative; border-radius: 20px; overflow: hidden; border: 1px solid var(--glass-border); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s; cursor: pointer;}
-        .game-card img {width: 100%; height: 100%;object-fit: cover;display: block;}.game-card:hover { transform: scale(1.05) translateY(-10px); box-shadow: 0 15px 40px rgba(0, 209, 255, 0.4); border-color: var(--accent);}
-        .game-card:hover img {transform: scale(1.1);}
-        .game-info { position: absolute; bottom: 0; left: 0;width: 100%;padding: 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); text-align: center;}
-        .game-info h3 { font-size: 1.2rem; color: var(--accent); letter-spacing: 2px;}
-        .game-info p { font-size: 0.7rem; text-transform: uppercase;opacity: 0.7; margin-top: 5px;}
+        /* ═══════════════════════════════════════════════════
+           TUTORIAL SYSTEM
+        ═══════════════════════════════════════════════════ */
+
+        /* Welcome modal */
+        #tut-welcome {
+            position: fixed; inset: 0; z-index: 9000;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(8px);
+            animation: fadeInPage 0.6s ease;
+        }
+        #tut-welcome.hidden { display: none; }
+
+        .tut-welcome-box {
+            background: rgba(10,15,22,0.95);
+            border: 1px solid rgba(0,209,255,0.35);
+            border-radius: 28px;
+            padding: 48px 52px;
+            max-width: 520px;
+            text-align: center;
+            box-shadow: 0 0 80px rgba(0,209,255,0.12);
+            animation: tutorialPop 0.5s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .tut-welcome-box .tut-icon {
+            font-size: 2.8rem; margin-bottom: 20px;
+            filter: drop-shadow(0 0 12px rgba(0,209,255,0.6));
+        }
+        .tut-welcome-box h2 {
+            font-size: 1.5rem; font-weight: 800; letter-spacing: 3px;
+            text-transform: uppercase; color: #fff; margin-bottom: 10px;
+        }
+        .tut-welcome-box .tut-sub {
+            font-size: 0.78rem; letter-spacing: 2px; color: var(--accent);
+            text-transform: uppercase; margin-bottom: 24px;
+        }
+        .tut-welcome-box p {
+            font-size: 0.95rem; line-height: 1.7; color: rgba(255,255,255,0.75);
+            margin-bottom: 36px;
+        }
+        .tut-welcome-btns { display: flex; gap: 14px; justify-content: center; }
+        .tut-btn-yes {
+            background: var(--accent); color: #000; border: none;
+            padding: 13px 32px; border-radius: 50px; font-size: 0.8rem;
+            font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+            cursor: pointer; transition: 0.3s;
+        }
+        .tut-btn-yes:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(0,209,255,0.5); }
+        .tut-btn-no {
+            background: transparent; color: rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 13px 32px; border-radius: 50px; font-size: 0.8rem;
+            letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: 0.3s;
+        }
+        .tut-btn-no:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
+
+        /* Spotlight overlay */
+        #tut-overlay {
+            position: fixed; inset: 0; z-index: 8000;
+            pointer-events: none;
+            transition: opacity 0.4s;
+        }
+        #tut-overlay.hidden { opacity: 0; pointer-events: none; }
+
+        /* Spotlight highlight ring (applied to target element) */
+        .tut-spotlight {
+            position: relative;
+            z-index: 8500 !important;
+            animation: spotlightPulse 2s ease-in-out infinite;
+            border-radius: 14px;
+            pointer-events: auto;
+        }
+        .tut-spotlight-nav {
+            z-index: 8500 !important;
+            position: relative;
+            animation: spotlightPulse 2s ease-in-out infinite;
+        }
+
+        /* Dark curtain behind spotlight element */
+        #tut-curtain {
+            position: fixed; inset: 0; z-index: 8001;
+            background: rgba(0,0,0,0.82);
+            pointer-events: all;
+            transition: opacity 0.4s;
+        }
+        #tut-curtain.hidden { opacity: 0; pointer-events: none; }
+
+        /* Tutorial tooltip card */
+        #tut-card {
+            position: fixed;
+            z-index: 9100;
+            width: 340px;
+            background: rgba(8,14,22,0.97);
+            border: 1px solid rgba(0,209,255,0.4);
+            border-radius: 20px;
+            padding: 28px 30px 24px;
+            box-shadow: 0 8px 60px rgba(0,0,0,0.7), 0 0 30px rgba(0,209,255,0.1);
+            transition: all 0.45s cubic-bezier(0.34,1.2,0.64,1);
+            animation: tutorialPop 0.4s cubic-bezier(0.34,1.2,0.64,1);
+        }
+        #tut-card.hidden { display: none; }
+
+        /* Arrow pointer on tooltip */
+        #tut-card::before {
+            content: '';
+            position: absolute;
+            width: 12px; height: 12px;
+            background: rgba(0,209,255,0.4);
+            transform: rotate(45deg);
+            transition: all 0.3s;
+        }
+        #tut-card.arrow-left::before   { left: -6px; top: 30px; }
+        #tut-card.arrow-right::before  { right: -6px; top: 30px; }
+        #tut-card.arrow-top::before    { top: -6px; left: 30px; }
+        #tut-card.arrow-bottom::before { bottom: -6px; left: 30px; }
+        #tut-card.arrow-none::before   { display: none; }
+
+        .tut-step-label {
+            font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--accent); margin-bottom: 10px; opacity: 0.8;
+        }
+        .tut-card-icon { font-size: 1.6rem; margin-bottom: 10px; }
+        #tut-title {
+            font-size: 1rem; font-weight: 800; letter-spacing: 2px;
+            text-transform: uppercase; color: #fff; margin-bottom: 10px;
+        }
+        #tut-text {
+            font-size: 0.88rem; line-height: 1.65; color: rgba(255,255,255,0.75);
+            margin-bottom: 22px;
+        }
+        .tut-progress {
+            display: flex; gap: 6px; margin-bottom: 18px;
+        }
+        .tut-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: rgba(255,255,255,0.2); transition: 0.3s;
+        }
+        .tut-dot.active { background: var(--accent); transform: scale(1.3); }
+        .tut-dot.done { background: rgba(0,209,255,0.4); }
+
+        .tut-nav-btns { display: flex; gap: 10px; align-items: center; justify-content: space-between; }
+        .tut-prev {
+            background: transparent; border: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.6); padding: 9px 18px;
+            border-radius: 50px; font-size: 0.72rem; letter-spacing: 1px;
+            text-transform: uppercase; cursor: pointer; transition: 0.3s;
+        }
+        .tut-prev:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
+        .tut-next {
+            background: var(--accent); color: #000; border: none;
+            padding: 9px 22px; border-radius: 50px; font-size: 0.72rem;
+            font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+            cursor: pointer; transition: 0.3s; flex: 1; text-align: center;
+        }
+        .tut-next:hover { box-shadow: 0 0 16px rgba(0,209,255,0.5); transform: scale(1.03); }
+        .tut-skip {
+            background: none; border: none; color: rgba(255,255,255,0.25);
+            font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase;
+            cursor: pointer; transition: 0.3s; margin-top: 14px;
+            display: block; text-align: center; width: 100%;
+        }
+        .tut-skip:hover { color: rgba(255,255,255,0.6); }
+
+        /* Animated pointer arrow */
+        #tut-pointer {
+            position: fixed; z-index: 9050;
+            font-size: 2rem; color: var(--accent);
+            animation: arrowBounce 0.8s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(0,209,255,0.8);
+            transition: all 0.4s ease;
+            pointer-events: none;
+        }
+        #tut-pointer.hidden { display: none; }
+
+        /* Finish card */
+        #tut-finish {
+            position: fixed; inset: 0; z-index: 9200;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);
+        }
+        #tut-finish.hidden { display: none; }
+        .tut-finish-box {
+            background: rgba(10,15,22,0.97);
+            border: 1px solid rgba(0,209,255,0.35);
+            border-radius: 28px; padding: 48px 52px;
+            max-width: 500px; text-align: center;
+            animation: tutorialPop 0.5s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .tut-finish-box h2 { font-size: 1.5rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px; }
+        .tut-finish-box p { color: rgba(255,255,255,0.7); line-height: 1.7; margin-bottom: 28px; }
+        .tut-finish-btn {
+            background: var(--accent); color: #000; border: none;
+            padding: 13px 36px; border-radius: 50px; font-size: 0.8rem;
+            font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+            cursor: pointer; transition: 0.3s;
+        }
+        .tut-finish-btn:hover { transform: scale(1.05); box-shadow: 0 0 24px rgba(0,209,255,0.5); }
     </style>
 </head>
-    <body>
+<body>
 
-        <!-- NAVEGAÇÃO SUPERIOR -->
-        <nav>
-            <div class="logo">Matheus Lopes</div>
-            <ul>
-                <li><a href="#" id="btn-projetos">Projetos</a></li>
-                <li><a href="https://mmatheusllsilva.github.io/Drakkar-game/" target="_blank">Mini Game</a></li>
-                <li><a href="#">Contato</a></li>
-                <li><a href="#">Sobre</a></li>
-            </ul>
-        </nav>
-
-        <!-- MENU LATERAL ESQUERDO -->
-        <div class="side-panel-left">
-            <div class="decorative-line"></div>
-            <div class="icon-wrapper" id="btn-projetos-side" data-tooltip="PROJETOS">
-                <i class="fa-solid fa-layer-group"></i>
-                <div class="pulse-dot"></div>
+    <!-- ═══ TUTORIAL: WELCOME MODAL ═══ -->
+    <div id="tut-welcome">
+        <div class="tut-welcome-box">
+            <div class="tut-icon">⚔️</div>
+            <h2>Bem-vindo</h2>
+            <div class="tut-sub">Matheus Lopes — IA & Automação</div>
+            <p>Você gostaria de fazer um tour guiado pelo portfólio? Vou te mostrar todas as funcionalidades, projetos e os segredos escondidos nessa interface.</p>
+            <div class="tut-welcome-btns">
+                <button class="tut-btn-yes" onclick="startTutorial()">✦ Sim, me guie!</button>
+                <button class="tut-btn-no" onclick="skipTutorial()">Explorar sozinho</button>
             </div>
-            <a href="https://mmatheusllsilva.github.io/Drakkar-game/" target="_blank" style="text-decoration: none;">
-                <div class="icon-wrapper" data-tooltip="MINI GAME">
-                    <i class="fa-solid fa-gamepad"></i>
-                </div>
-            </a>
-            <div class="icon-wrapper" data-tooltip="CONTATO">
-                <i class="fa-solid fa-envelope"></i>
-            </div>
-            <a href="https://www.linkedin.com/in/matheus-lopes-silva/" target="_blank" style="text-decoration: none;">
-                <div class="icon-wrapper" data-tooltip="SOBRE">
-                    <i class="fa-brands fa-linkedin-in"></i>
-                </div>
-            </a>
-            <div class="decorative-line" style="background: linear-gradient(to top, var(--accent), transparent);"></div>
         </div>
+    </div>
 
-        <!-- FUNDO COM PARALLAX -->
-        <div class="vignette"></div>
-        <div class="container">
-            <div class="viking-layer" id="viking"></div>
-            <div class="robo-layer" id="roboLayer"></div>
+    <!-- ═══ TUTORIAL: DARK CURTAIN ═══ -->
+    <div id="tut-curtain" class="hidden" onclick="advanceTutorial()"></div>
+
+    <!-- ═══ TUTORIAL: TOOLTIP CARD ═══ -->
+    <div id="tut-card" class="hidden arrow-none">
+        <div class="tut-step-label" id="tut-step-label">PASSO 1 DE 8</div>
+        <div class="tut-card-icon" id="tut-card-icon">🏠</div>
+        <div id="tut-title">Título</div>
+        <div id="tut-text">Texto</div>
+        <div class="tut-progress" id="tut-progress"></div>
+        <div class="tut-nav-btns">
+            <button class="tut-prev" id="tut-prev" onclick="prevStep()">← Voltar</button>
+            <button class="tut-next" id="tut-next" onclick="nextStep()">Próximo →</button>
+        </div>
+        <button class="tut-skip" onclick="skipTutorial()">Pular tour</button>
+    </div>
+
+    <!-- ═══ TUTORIAL: POINTER ═══ -->
+    <div id="tut-pointer" class="hidden">↑</div>
+
+    <!-- ═══ TUTORIAL: FINISH ═══ -->
+    <div id="tut-finish" class="hidden">
+        <div class="tut-finish-box">
+            <div style="font-size:2.5rem;margin-bottom:16px;">🎉</div>
+            <h2>Tour Completo!</h2>
+            <p>Agora você conhece todos os segredos do portfólio. Sinta-se à vontade para explorar os projetos, conversar com a IA ou jogar um dos mini games!</p>
+            <button class="tut-finish-btn" onclick="endTutorial()">Começar a explorar ✦</button>
+        </div>
+    </div>
+
+    <!-- NAVEGAÇÃO SUPERIOR -->
+    <nav id="main-nav">
+        <div class="logo">Matheus Lopes</div>
+        <ul>
+            <li><a href="#" id="btn-projetos">Projetos</a></li>
+            <li><a href="https://mmatheusllsilva.github.io/Drakkar-game/" id="btn-game-nav" target="_blank">Mini Game</a></li>
+            <li><a href="#">Contato</a></li>
+            <li><a href="#">Sobre</a></li>
+        </ul>
+    </nav>
+
+    <!-- MENU LATERAL ESQUERDO -->
+    <div class="side-panel-left" id="side-panel">
+        <div class="decorative-line"></div>
+        <div class="icon-wrapper" id="btn-projetos-side" data-tooltip="PROJETOS">
+            <i class="fa-solid fa-layer-group"></i>
+            <div class="pulse-dot"></div>
+        </div>
+        <a href="#" id="link-game-side" style="text-decoration: none;">
+            <div class="icon-wrapper" id="btn-game-side" data-tooltip="MINI GAME">
+                <i class="fa-solid fa-gamepad"></i>
+            </div>
+        </a>
+        <div class="icon-wrapper" data-tooltip="CONTATO">
+            <i class="fa-solid fa-envelope"></i>
+        </div>
+        <a href="https://www.linkedin.com/in/matheus-lopes-silva/" target="_blank" style="text-decoration: none;">
+            <div class="icon-wrapper" data-tooltip="SOBRE">
+                <i class="fa-brands fa-linkedin-in"></i>
+            </div>
+        </a>
+        <div class="decorative-line" style="background: linear-gradient(to top, var(--accent), transparent);"></div>
+    </div>
+
+    <!-- FUNDO COM PARALLAX -->
+    <div class="vignette"></div>
+    <div class="container">
+        <div class="viking-layer" id="viking"></div>
+        <div class="robo-layer" id="roboLayer"></div>
 
         <!-- CHAT -->
-            <div class="chat-ai" id="chatAi">
-                <div class="chat-header">Matheus.AI - Assistente</div>
-                <div class="chat-messages" id="chatMessages">
-                    <div class="msg bot">Olá, eu sou o assistente de IA do Matheus, como posso te ajudar hoje?</div>
-                </div>
-                <div class="chat-input">
-                    <input type="text" id="userInput" placeholder="Digite aqui...">
-                    <button id="sendBtn">➤</button>
-                </div>
+        <div class="chat-ai" id="chatAi">
+            <div class="chat-header">Matheus.AI - Assistente</div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="msg bot">Olá, eu sou o assistente de IA do Matheus, como posso te ajudar hoje?</div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="userInput" placeholder="Digite aqui...">
+                <button id="sendBtn">➤</button>
             </div>
         </div>
+    </div>
 
-        <!-- TELA DE PROJETOS -->
-        <section class="projects-screen" id="projectsScreen">
-            <button class="btn-back-top" onclick="closeProjects()">VOLTAR AO INÍCIO</button>
-            <div class="slider-container">
-                <button class="arrow" onclick="moveSlide(-1)">&#10094;</button>
-                <div class="project-viewport">
-                    <div class="project-track" id="projectTrack">
-
-                        <!-- SLIDE 1 -->
-                        <div class="project-slide">
-                            <div class="project-card-center">
-                                <h3>AUTOMAÇÃO DE LOGÍSTICA & RASTREIO</h3>
-                                <div class="card-content">
-                                    <div class="img-zoom-container" onclick="toggleZoom(this)">
-                                        <img src="projeto-codigo-de-rastreio.jpeg" alt="Workflow de Rastreio" class="project-img">
-                                        <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+    <!-- TELA DE PROJETOS -->
+    <section class="projects-screen" id="projectsScreen">
+        <button class="btn-back-top" onclick="closeProjects()">VOLTAR AO INÍCIO</button>
+        <div class="slider-container">
+            <button class="arrow" onclick="moveSlide(-1)">&#10094;</button>
+            <div class="project-viewport">
+                <div class="project-track" id="projectTrack">
+                    <!-- SLIDE 1 -->
+                    <div class="project-slide">
+                        <div class="project-card-center">
+                            <h3>AUTOMAÇÃO DE LOGÍSTICA & RASTREIO</h3>
+                            <div class="card-content">
+                                <div class="img-zoom-container" onclick="toggleZoom(this)">
+                                    <img src="projeto-codigo-de-rastreio.jpeg" alt="Workflow de Rastreio" class="project-img">
+                                    <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                                </div>
+                                <div class="project-grid">
+                                    <div class="grid-item">
+                                        <h4><i class="fa-solid fa-triangle-exclamation"></i> DESAFIO</h4>
+                                        <ul>
+                                            <li>Inexistência do envio de dados de envio.</li>
+                                            <li>Sobrecarga no Atendimento.</li>
+                                            <li>Incerteza na Jornada do Cliente.</li>
+                                            <li>Fragmentação de Transportadoras.</li>
+                                            <li>Gestão de Exceções.</li>
+                                        </ul>
                                     </div>
-                                    <div class="project-grid">
-                                        <div class="grid-item">
-                                            <h4><i class="fa-solid fa-triangle-exclamation"></i> DESAFIO</h4>
-                                            <ul>
-                                                <li>Inexistência do envio de dados de envio.</li>
-                                                <li>Sobrecarga no Atendimento.</li>
-                                                <li>Incerteza na Jornada do Cliente.</li>
-                                                <li>Fragmentação de Transportadoras.</li>
-                                                <li>Gestão de Exceções.</li>
-                                            </ul>
-                                        </div>
-                                        <div class="grid-item">
-                                            <h4><i class="fa-solid fa-gears"></i> SOLUÇÃO</h4>
-                                            <ul>
-                                                <li>Workflow centralizado no n8n.</li>
-                                                <li>Gatilhos em tempo real via CRM.</li>
-                                                <li>Tratamento automatizado de Notas Fiscais.</li>
-                                                <li>Lógica de links dinâmicos por transportadora.</li>
-                                                <li>Registro automático no CRM.</li>
-                                            </ul>
-                                        </div>
+                                    <div class="grid-item">
+                                        <h4><i class="fa-solid fa-gears"></i> SOLUÇÃO</h4>
+                                        <ul>
+                                            <li>Workflow centralizado no n8n.</li>
+                                            <li>Gatilhos em tempo real via CRM.</li>
+                                            <li>Tratamento automatizado de Notas Fiscais.</li>
+                                            <li>Lógica de links dinâmicos por transportadora.</li>
+                                            <li>Registro automático no CRM.</li>
+                                        </ul>
                                     </div>
-                                    <div class="result-bar">
-                                        <strong><i class="fa-solid fa-chart-line"></i> RESULTADO:</strong>
-                                        Redução de chamados sobre o tema e excelência em UX com envio de pedido.
-                                    </div>
+                                </div>
+                                <div class="result-bar">
+                                    <strong><i class="fa-solid fa-chart-line"></i> RESULTADO:</strong>
+                                    Redução de chamados sobre o tema e excelência em UX com envio de pedido.
                                 </div>
                             </div>
                         </div>
-
-                        <!-- SLIDE 2 -->
-                        <div class="project-slide">
-                            <div class="project-card-center">
-                                <h3>SISTEMA DE MULTI-AGENTES IA</h3>
-                                <div class="card-content">
-                                    <div class="img-zoom-container" onclick="toggleZoom(this)">
-                                        <img src="multiagente.jpeg" alt="Arquitetura Multi-Agente" class="project-img">
-                                        <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                    </div>
+                    <!-- SLIDE 2 -->
+                    <div class="project-slide">
+                        <div class="project-card-center">
+                            <h3>SISTEMA DE MULTI-AGENTES IA</h3>
+                            <div class="card-content">
+                                <div class="img-zoom-container" onclick="toggleZoom(this)">
+                                    <img src="multiagente.jpeg" alt="Arquitetura Multi-Agente" class="project-img">
+                                    <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                                </div>
+                                <div class="project-grid">
+                                    <div class="grid-item">
+                                        <h4><i class="fa-solid fa-users-gear"></i> ESTRUTURA</h4>
+                                        <ul>
+                                            <li><strong>Beatriz:</strong> Especialista em Atendimento e Triagem.</li>
+                                            <li><strong>Matheus:</strong> Agente de Suporte Técnico e Troubleshooting.</li>
+                                            <li><strong>Natanael:</strong> Consultor de Operações Financeiras.</li>
+                                        </ul>
                                     </div>
-                                    <div class="project-grid">
-                                        <div class="grid-item">
-                                            <h4><i class="fa-solid fa-users-gear"></i> ESTRUTURA</h4>
-                                            <ul>
-                                                <li><strong>Beatriz:</strong> Especialista em Atendimento e Triagem.</li>
-                                                <li><strong>Matheus:</strong> Agente de Suporte Técnico e Troubleshooting.</li>
-                                                <li><strong>Natanael:</strong> Consultor de Operações Financeiras.</li>
-                                            </ul>
-                                        </div>
-                                        <div class="grid-item">
-                                            <h4><i class="fa-solid fa-brain"></i> TECNOLOGIAS</h4>
-                                            <ul>
-                                                <li>Orquestração complexa via <strong>n8n</strong>.</li>
-                                                <li>Modelos de linguagem com memória de contexto.</li>
-                                                <li>Tomada de decisão autônoma (Agentic Workflow).</li>
-                                                <li>Integração nativa com APIs externas.</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="result-bar">
-                                        <strong><i class="fa-solid fa-bolt"></i> IMPACTO:</strong>
-                                        Redução do tempo de resposta e automação de 80% das interações de nível 1 com personas humanizadas.
+                                    <div class="grid-item">
+                                        <h4><i class="fa-solid fa-brain"></i> TECNOLOGIAS</h4>
+                                        <ul>
+                                            <li>Orquestração complexa via <strong>n8n</strong>.</li>
+                                            <li>Modelos de linguagem com memória de contexto.</li>
+                                            <li>Tomada de decisão autônoma (Agentic Workflow).</li>
+                                            <li>Integração nativa com APIs externas.</li>
+                                        </ul>
                                     </div>
                                 </div>
-                            </div> 
-                        </div>
-
-                    
-                        <!-- SLIDE 3 -->
-                        <div class="project-slide">
-                            <div class="project-card-center">
-                                <h3>SAAS EMAIL & REFINO DE COMUNICAÇÃO</h3>
-                                <div class="card-content">
-                                    <div class="project-grid" style="margin-top: 0; margin-bottom: 20px;">
-                                        <div class="img-zoom-container" onclick="toggleZoom(this)">
-                                            <img src="frontIAmensagem.jpeg" alt="Interface de Usuário" class="project-img">
-                                            <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
-                                        </div>
-                                        <div class="img-zoom-container" onclick="toggleZoom(this)">
-                                            <img src="IAmensagem.jpeg" alt="Processamento de IA" class="project-img">
-                                            <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
-                                        </div>
-                                    </div>
-                                    <div class="project-grid">
-                                        <div class="grid-item">
-                                            <h4><i class="fa-solid fa-i-cursor"></i> O PROBLEMA</h4>
-                                            <ul>
-                                                <li>Uso excessivo de macros engessadas.</li>
-                                                <li>Tempo gasto revisando tons de voz.</li>
-                                                <li>Comunicações corporativas impessoais.</li>
-                                            </ul>
-                                        </div>
-                                        <div class="grid-item">
-                                            <h4><i class="fa-solid fa-wand-magic-sparkles"></i> A SOLUÇÃO</h4>
-                                            <ul>
-                                                <li>Interface <strong>Neo-Vintage</strong> minimalista.</li>
-                                                <li>IA integrada para ajuste de tom e clareza.</li>
-                                                <li>Transformação de rascunhos em textos profissionais.</li>
-                                                <li>Redução drástica no tempo de resposta.</li>
-                                            </ul>
-                                        </div>
-                                    </div>                 
-                                    <div class="result-bar">
-                                        <strong><i class="fa-solid fa-envelope-circle-check"></i> OBJETIVO:</strong>
-                                        Padronizar a excelência na comunicação corporativa através de automação inteligente de macros.
-                                    </div>
-                                </div>  
+                                <div class="result-bar">
+                                    <strong><i class="fa-solid fa-bolt"></i> IMPACTO:</strong>
+                                    Redução do tempo de resposta e automação de 80% das interações de nível 1.
+                                </div>
                             </div>
                         </div>
-      
-                        <!-- SLIDE 4 -->
-                        <div class="project-slide">
-                            <div class="project-card-center">
-                                <h3>PROJETO PORTFÓLIO & UX</h3>
-                                <div class="card-content">          
-                                    <div class="img-zoom-container" onclick="toggleZoom(this)">            
-                                        <img src="projetoportfolio.jpeg" alt="Visão Geral do Portfólio" class="project-img">             
-                                        <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>     
-                                    </div>             
-                                    <div class="project-grid">      
-                                        <div class="grid-item">           
-                                            <h4><i class="fa-solid fa-palette"></i> DESIGN</h4>             
-                                            <ul>                 
-                                                <li>Estética <strong>Neo-Vintage</strong> (2027 vibes).</li>               
-                                                <li>Interface imersiva com efeito <strong>Parallax</strong>.</li>                    
-                                                <li>Efeito "Portal" usando máscaras radiais dinâmicas.</li>                 
-                                                <li>Dark mode nativo e Glassmorphism.</li>  
-                                            </ul>             
-                                        </div>             
-                                        <div class="grid-item">            
-                                            <h4><i class="fa-solid fa-code"></i> ENGINE</h4>              
-                                            <ul>               
-                                                <li>Assistente de IA integrado via API (n8n backend).</li>   
-                                                <li>Animações otimizadas em CSS3 e Vanilla JS.</li>                 
-                                                <li>Arquitetura modular para fácil atualização.</li>                    
-                                                <li>Foco em performance e carregamento fluido.</li>                 
-                                            </ul>             
-                                        </div>        
-                                    </div>        
-                                    <div class="result-bar">      
-                                        <strong><i class="fa-solid fa-wand-magic-sparkles"></i> DIFERENCIAL:</strong>        
-                                        Um portfólio que não apenas lista projetos, mas é uma prova viva de capacidade técnica em automação e front-end.        
-                                    </div>     
-                                </div> 
+                    </div>
+                    <!-- SLIDE 3 -->
+                    <div class="project-slide">
+                        <div class="project-card-center">
+                            <h3>SAAS EMAIL & REFINO DE COMUNICAÇÃO</h3>
+                            <div class="card-content">
+                                <div class="project-grid" style="margin-top: 0; margin-bottom: 20px;">
+                                    <div class="img-zoom-container" onclick="toggleZoom(this)">
+                                        <img src="frontIAmensagem.jpeg" alt="Interface de Usuário" class="project-img">
+                                        <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                                    </div>
+                                    <div class="img-zoom-container" onclick="toggleZoom(this)">
+                                        <img src="IAmensagem.jpeg" alt="Processamento de IA" class="project-img">
+                                        <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                                    </div>
+                                </div>
+                                <div class="project-grid">
+                                    <div class="grid-item">
+                                        <h4><i class="fa-solid fa-i-cursor"></i> O PROBLEMA</h4>
+                                        <ul>
+                                            <li>Uso excessivo de macros engessadas.</li>
+                                            <li>Tempo gasto revisando tons de voz.</li>
+                                            <li>Comunicações corporativas impessoais.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="grid-item">
+                                        <h4><i class="fa-solid fa-wand-magic-sparkles"></i> A SOLUÇÃO</h4>
+                                        <ul>
+                                            <li>Interface <strong>Neo-Vintage</strong> minimalista.</li>
+                                            <li>IA integrada para ajuste de tom e clareza.</li>
+                                            <li>Transformação de rascunhos em textos profissionais.</li>
+                                            <li>Redução drástica no tempo de resposta.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="result-bar">
+                                    <strong><i class="fa-solid fa-envelope-circle-check"></i> OBJETIVO:</strong>
+                                    Padronizar a excelência na comunicação corporativa.
+                                </div>
                             </div>
-                        </div>         
-                    </div>   
-                </div>     
-                <button class="arrow" onclick="moveSlide(1)">&#10095;</button>
-            </div>        
-        </section>
-
-        <section class="projects-screen" id="gamesScreen">
-            <button class="btn-back-top" onclick="closeGames()">VOLTAR AO INÍCIO</button>
-            <div class="slider-container">
-                <div class="project-viewport">           
-                    <div class="project-track" style="display: flex; justify-content: center; gap: 40px; padding: 20px; width: 100%;">                           
-                        <a href="https://mmatheusllsilva.github.io/Drakkar-game/" target="_blank" style="text-decoration: none;">               
-                            <div class="game-card">                        
-                                <img src="capajogo1.png" alt="Drakkar Mar do Norte" onerror="this.src='https://via.placeholder.com/300x400?text=Drakkar+Image'">                       
-                                <div class="game-info">                           
-                                    <h3>DRAKKAR</h3>                           
-                                    <p>Mar do Norte</p>                       
-                                </div>                   
-                            </div>               
-                        </a>               
-                        <a href="https://mmatheusllsilva.github.io/Grakkar-Village/" target="_blank" style="text-decoration: none;">                 
-                            <div class="game-card">                       
-                                <img src="capajogo2.png" alt="Valhalla Gate" onerror="this.src='https://via.placeholder.com/300x400?text=Valhalla+Image'">                       
-                                <div class="game-info">                         
-                                    <h3>VALHALLA GATE</h3>                      
-                                    <p>Exploração</p>                     
-                                </div>                   
-                            </div>            
-                        </a>         
-                    </div>       
-                </div>   
+                        </div>
+                    </div>
+                    <!-- SLIDE 4 -->
+                    <div class="project-slide">
+                        <div class="project-card-center">
+                            <h3>PROJETO PORTFÓLIO & UX</h3>
+                            <div class="card-content">
+                                <div class="img-zoom-container" onclick="toggleZoom(this)">
+                                    <img src="projetoportfolio.jpeg" alt="Visão Geral do Portfólio" class="project-img">
+                                    <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                                </div>
+                                <div class="project-grid">
+                                    <div class="grid-item">
+                                        <h4><i class="fa-solid fa-palette"></i> DESIGN</h4>
+                                        <ul>
+                                            <li>Estética <strong>Neo-Vintage</strong> (2027 vibes).</li>
+                                            <li>Interface imersiva com efeito <strong>Parallax</strong>.</li>
+                                            <li>Efeito "Portal" usando máscaras radiais dinâmicas.</li>
+                                            <li>Dark mode nativo e Glassmorphism.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="grid-item">
+                                        <h4><i class="fa-solid fa-code"></i> ENGINE</h4>
+                                        <ul>
+                                            <li>Assistente de IA integrado via API (n8n backend).</li>
+                                            <li>Animações otimizadas em CSS3 e Vanilla JS.</li>
+                                            <li>Arquitetura modular para fácil atualização.</li>
+                                            <li>Foco em performance e carregamento fluido.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="result-bar">
+                                    <strong><i class="fa-solid fa-wand-magic-sparkles"></i> DIFERENCIAL:</strong>
+                                    Um portfólio que não apenas lista projetos, mas é uma prova viva de capacidade técnica.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>       
-    
-        <!-- OVERLAY DE ZOOM GLOBAL (fora de qualquer container com backdrop-filter) -->         
-        <div id="zoomOverlay" onclick="closeZoom()" style="display: none;position: fixed;inset: 0;z-index: 99999;background: rgba(0,0,0,0.95);align-items: center;justify-content: center;cursor: zoom-out;">
-            <img id="zoomImg" src="" style="max-width: 95vw; max-height: 90vh;object-fit: contain;border-radius: 10px;box-shadow: 0 0 60px rgba(0, 209, 255, 0.25);">
+            <button class="arrow" onclick="moveSlide(1)">&#10095;</button>
         </div>
-        
-        <script>
-            
-            // Seleção de Elementos Principais
-            const roboLayer = document.getElementById('roboLayer');    
-            const viking = document.getElementById('viking');    
-            const projectsScreen = document.getElementById('projectsScreen');    
-            const gamesScreen = document.getElementById('gamesScreen');    
-            const chatAi = document.getElementById('chatAi');    
-            const projectTrack = document.getElementById('projectTrack');    
-            const userInput = document.getElementById('userInput');    
-            const sendBtn = document.getElementById('sendBtn');    
-            const chatMessages = document.getElementById('chatMessages');
-    
-            // Seleção de Botões   
-            const btnProjetosTopo = document.getElementById('btn-projetos');   
-            const btnProjetosSide = document.getElementById('btn-projetos-side');  
-            const btnGameTopo = document.querySelector('nav ul li a[href*="Drakkar-game"]'); 
-            const btnGameSide = document.querySelector('.icon-wrapper[data-tooltip="MINI GAME"]');
+    </section>
 
-            // --- EVENT LISTENERS DE NAVEGAÇÃO ---
-            if (btnGameTopo) btnGameTopo.addEventListener('click', (e) => { e.preventDefault(); openGames(); }); 
-            if (btnGameSide) {btnGameSide.parentElement.addEventListener('click',(e) => {e.preventDefault();openGames();});}
-            if (btnProjetosTopo) btnProjetosTopo.addEventListener('click', (e) => { e.preventDefault(); openProjects(); });   
-            if (btnProjetosSide) btnProjetosSide.addEventListener('click', (e) => { e.preventDefault(); openProjects(); });
-   
-            // --- FUNÇÕES DE TRANSIÇÃO (PORTAL) ---
-  
-            function openGames() {roboLayer.classList.add('portal-active'); chatAi.style.opacity = '0';chatAi.style.pointerEvents = 'none';setTimeout(() => { gamesScreen.classList.add('active'); }, 600); }
-            function closeGames() { gamesScreen.classList.remove('active'); setTimeout(() => { roboLayer.classList.remove('portal-active'); chatAi.style.opacity = '1';chatAi.style.pointerEvents = 'auto'; }, 500);}
-            function openProjects() {roboLayer.classList.add('portal-active');chatAi.style.opacity = '0'; chatAi.style.pointerEvents = 'none';setTimeout(() => { projectsScreen.classList.add('active'); }, 600); }
-            function closeProjects() { projectsScreen.classList.remove('active'); setTimeout(() => { roboLayer.classList.remove('portal-active'); chatAi.style.opacity = '1';  chatAi.style.pointerEvents = 'auto';}, 500); }
+    <!-- GAMES SCREEN -->
+    <section class="projects-screen" id="gamesScreen">
+        <button class="btn-back-top" onclick="closeGames()">VOLTAR AO INÍCIO</button>
+        <div class="slider-container">
+            <div class="project-viewport">
+                <div class="project-track" style="display: flex; justify-content: center; gap: 40px; padding: 20px; width: 100%;">
+                    <a href="https://mmatheusllsilva.github.io/Drakkar-game/" target="_blank" style="text-decoration: none;">
+                        <div class="game-card">
+                            <img src="capajogo1.png" alt="Drakkar Mar do Norte" onerror="this.src='https://via.placeholder.com/300x400/0a0f14/00d1ff?text=DRAKKAR'">
+                            <div class="game-info"><h3>DRAKKAR</h3><p>Mar do Norte</p></div>
+                        </div>
+                    </a>
+                    <a href="https://mmatheusllsilva.github.io/Grakkar-Village/" target="_blank" style="text-decoration: none;">
+                        <div class="game-card">
+                            <img src="capajogo2.png" alt="Valhalla Gate" onerror="this.src='https://via.placeholder.com/300x400/0a0f14/00d1ff?text=VALHALLA'">
+                            <div class="game-info"><h3>VALHALLA GATE</h3><p>Exploração</p></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            // --- ZOOM DE IMAGENS ---
-            function toggleZoom(element) {   
-                const img = element.querySelector('img');
-                const overlay = document.getElementById('zoomOverlay');
-                const zoomImg = document.getElementById('zoomImg');
-                if (img && overlay && zoomImg) {
-                    zoomImg.src = img.src;             
-                    overlay.style.display = 'flex'; }}
+    <!-- OVERLAY DE ZOOM GLOBAL -->
+    <div id="zoomOverlay" onclick="closeZoom()" style="display: none; position: fixed; inset: 0; z-index: 99999; background: rgba(0,0,0,0.95); align-items: center; justify-content: center; cursor: zoom-out;">
+        <img id="zoomImg" src="" style="max-width: 95vw; max-height: 90vh; object-fit: contain; border-radius: 10px; box-shadow: 0 0 60px rgba(0, 209, 255, 0.25);">
+    </div>
 
-            function closeZoom() {
-                const overlay = document.getElementById('zoomOverlay');
-                if (overlay) overlay.style.display = 'none'; } document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {closeZoom(); closeProjects(); closeGames();}});
+    <script>
+    // ═══════════════════════════════════════════════════════
+    //  NAVIGATION CORE
+    // ═══════════════════════════════════════════════════════
+    const roboLayer   = document.getElementById('roboLayer');
+    const viking      = document.getElementById('viking');
+    const projectsScreen = document.getElementById('projectsScreen');
+    const gamesScreen    = document.getElementById('gamesScreen');
+    const chatAi      = document.getElementById('chatAi');
+    const projectTrack   = document.getElementById('projectTrack');
+    const userInput   = document.getElementById('userInput');
+    const sendBtn     = document.getElementById('sendBtn');
+    const chatMessages   = document.getElementById('chatMessages');
 
-    
-            // --- CARROSSEL DE PROJETOS ---
-            let currentSlide = 0;
-            function moveSlide(direction) {
-                const slides = document.querySelectorAll('.project-slide');
-                if (slides.length === 0) return; currentSlide = (currentSlide + direction + slides.length) % slides.length;
-                const slideWidth = slides[0].getBoundingClientRect().width; projectTrack.style.transform = `translateX(${-currentSlide * slideWidth}px)`;}
-            
-            // --- PARALLAX & EFEITO MÁSCARA ---
-            window.addEventListener('mousemove', (e) => {     
-                const x = e.clientX;    
-                const y = e.clientY;   
-                if (!roboLayer.classList.contains('portal-active')) {
-                    const mask = `radial-gradient(circle 220px at ${x}px ${y}px, black 0%, transparent 100%)`; roboLayer.style.webkitMaskImage = mask; roboLayer.style.maskImage = mask; }
-        
-                // Suaviza o movimento do Viking
-                const moveX = (x - window.innerWidth / 2) / 60;
-                const moveY = (y - window.innerHeight / 2) / 60; viking.style.transform = `translate(${moveX}px, ${moveY}px)`; });
-           
-            // --- LÓGICA DO CHAT AI --- 
-            async function sendMessage() {
-                const msg = userInput.value.trim();
-                if (!msg) return; chatMessages.innerHTML += `<div class="msg user">${msg}</div>`; userInput.value = ''; chatMessages.scrollTop = chatMessages.scrollHeight;
+    const btnProjetosTopo = document.getElementById('btn-projetos');
+    const btnProjetosSide = document.getElementById('btn-projetos-side');
+    const btnGameNav      = document.getElementById('btn-game-nav');
+    const btnGameSide     = document.getElementById('btn-game-side');
+    const linkGameSide    = document.getElementById('link-game-side');
 
-                try { 
-                    const response = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: msg })});
-                    const data = await response.json(); chatMessages.innerHTML += `<div class="msg bot">${data.response}</div>`;
-                } catch (e) { chatMessages.innerHTML += `<div class="msg bot" style="color: #ff4b4b;">O sinal falhou, mas Matheus foi notificado!</div>`;} chatMessages.scrollTop = chatMessages.scrollHeight; }         
-            if (sendBtn) sendBtn.addEventListener('click', sendMessage);          
-            if (userInput) userInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
+    if (btnProjetosTopo) btnProjetosTopo.addEventListener('click', e => { e.preventDefault(); openProjects(); });
+    if (btnProjetosSide) btnProjetosSide.addEventListener('click', e => { e.preventDefault(); openProjects(); });
+    if (btnGameNav)      btnGameNav.addEventListener('click', e => { e.preventDefault(); openGames(); });
+    if (linkGameSide)    linkGameSide.addEventListener('click', e => { e.preventDefault(); openGames(); });
 
-        </script>
-    </body>
+    function openProjects() {
+        roboLayer.classList.add('portal-active');
+        chatAi.style.opacity = '0'; chatAi.style.pointerEvents = 'none';
+        setTimeout(() => projectsScreen.classList.add('active'), 600);
+    }
+    function closeProjects() {
+        projectsScreen.classList.remove('active');
+        setTimeout(() => { roboLayer.classList.remove('portal-active'); chatAi.style.opacity = '1'; chatAi.style.pointerEvents = 'auto'; }, 500);
+    }
+    function openGames() {
+        roboLayer.classList.add('portal-active');
+        chatAi.style.opacity = '0'; chatAi.style.pointerEvents = 'none';
+        setTimeout(() => gamesScreen.classList.add('active'), 600);
+    }
+    function closeGames() {
+        gamesScreen.classList.remove('active');
+        setTimeout(() => { roboLayer.classList.remove('portal-active'); chatAi.style.opacity = '1'; chatAi.style.pointerEvents = 'auto'; }, 500);
+    }
+
+    // Zoom
+    function toggleZoom(element) {
+        const img = element.querySelector('img');
+        const overlay = document.getElementById('zoomOverlay');
+        const zoomImg = document.getElementById('zoomImg');
+        if (img && overlay && zoomImg) { zoomImg.src = img.src; overlay.style.display = 'flex'; }
+    }
+    function closeZoom() { document.getElementById('zoomOverlay').style.display = 'none'; }
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') { closeZoom(); if (!tutorialActive) { closeProjects(); closeGames(); } }
+    });
+
+    // Carousel
+    let currentSlide = 0;
+    function moveSlide(direction) {
+        const slides = document.querySelectorAll('.project-slide');
+        if (!slides.length) return;
+        currentSlide = (currentSlide + direction + slides.length) % slides.length;
+        projectTrack.style.transform = `translateX(${-currentSlide * slides[0].getBoundingClientRect().width}px)`;
+    }
+
+    // Parallax
+    window.addEventListener('mousemove', e => {
+        if (!roboLayer.classList.contains('portal-active')) {
+            roboLayer.style.webkitMaskImage = `radial-gradient(circle 220px at ${e.clientX}px ${e.clientY}px, black 0%, transparent 100%)`;
+            roboLayer.style.maskImage = roboLayer.style.webkitMaskImage;
+        }
+        viking.style.transform = `translate(${(e.clientX - window.innerWidth/2)/60}px, ${(e.clientY - window.innerHeight/2)/60}px)`;
+    });
+
+    // Chat
+    async function sendMessage() {
+        const msg = userInput.value.trim();
+        if (!msg) return;
+        chatMessages.innerHTML += `<div class="msg user">${msg}</div>`;
+        userInput.value = ''; chatMessages.scrollTop = chatMessages.scrollHeight;
+        try {
+            const res = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: msg }) });
+            const data = await res.json();
+            chatMessages.innerHTML += `<div class="msg bot">${data.response}</div>`;
+        } catch { chatMessages.innerHTML += `<div class="msg bot" style="color:#ff4b4b;">O sinal falhou, mas Matheus foi notificado!</div>`; }
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    if (sendBtn) sendBtn.addEventListener('click', sendMessage);
+    if (userInput) userInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
+
+
+    // ═══════════════════════════════════════════════════════
+    //  TUTORIAL ENGINE
+    // ═══════════════════════════════════════════════════════
+    let tutorialActive = false;
+    let currentStep = 0;
+    let prevSpotlightEl = null;
+
+    // Each step: { targetId, title, icon, text, cardPos: {top,left,right,bottom}, arrow, action, actionAfter }
+    const STEPS = [
+        {
+            targetId: null,
+            icon: '🌊',
+            title: 'O Fundo Parallax',
+            text: 'Veja o fundo: temos duas imagens sobrepostas. Mova o mouse pela tela e observe como a imagem do fundo Viking se desloca criando profundidade. É um efeito <strong>parallax</strong> em tempo real!',
+            cardPos: { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' },
+            arrow: 'none',
+            action: null,
+        },
+        {
+            targetId: 'roboLayer',
+            icon: '✨',
+            title: 'Efeito Portal',
+            text: 'Essa segunda camada é controlada por uma <strong>máscara radial</strong> que segue o cursor — criando uma "janela" que revela uma imagem diferente conforme você move o mouse. É Vanilla JS puro!',
+            cardPos: { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' },
+            arrow: 'none',
+            action: null,
+        },
+        {
+            targetId: 'chatAi',
+            icon: '🤖',
+            title: 'Assistente de IA',
+            text: 'Este é o <strong>Matheus.AI</strong> — um assistente conectado via webhook ao n8n. Você pode fazer perguntas sobre os projetos, habilidades ou qualquer coisa. O backend processa e responde em tempo real.',
+            cardPos: { bottom: '230px', right: '400px' },
+            arrow: 'right',
+            action: null,
+        },
+        {
+            targetId: 'main-nav',
+            icon: '🧭',
+            title: 'Menu Superior',
+            text: 'O menu superior tem acesso rápido às seções principais. Clique em <strong>Projetos</strong> para ver os cases de automação, ou em <strong>Mini Game</strong> para acessar os jogos viking que o Matheus desenvolveu!',
+            cardPos: { top: '100px', left: '50%', transform: 'translateX(-50%)' },
+            arrow: 'top',
+            action: null,
+        },
+        {
+            targetId: 'side-panel',
+            icon: '⚡',
+            title: 'Menu Lateral',
+            text: 'Este dock lateral é uma navegação alternativa — ideal para quem não percebe o menu superior. Passe o mouse nos ícones e veja os tooltips aparecerem. O <strong>ponto verde</strong> no ícone de Projetos indica novidades!',
+            cardPos: { top: '50%', left: '130px', transform: 'translateY(-50%)' },
+            arrow: 'left',
+            action: null,
+        },
+        {
+            targetId: 'btn-projetos-side',
+            icon: '📁',
+            title: 'Acessando Projetos',
+            text: 'Clique aqui (ou no menu superior) para entrar na galeria de projetos. Dentro há um <strong>carrossel com 4 cases reais</strong> de automação e IA, cada um com prints clicáveis para ampliar em tela cheia.',
+            cardPos: { top: '50%', left: '130px', transform: 'translateY(-50%)' },
+            arrow: 'left',
+            action: () => { openProjects(); },
+            actionAfter: true,
+        },
+        {
+            targetId: null,
+            icon: '🎮',
+            title: 'Os Mini Games',
+            text: 'O portfólio tem <strong>dois jogos</strong> desenvolvidos do zero: o <em>Drakkar — Mar do Norte</em> (ação naval) e o <em>Valhalla Gate</em> (exploração 3D em Three.js). Cada jogo é um projeto técnico real!',
+            cardPos: { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' },
+            arrow: 'none',
+            action: () => { closeProjects(); setTimeout(() => openGames(), 700); },
+            actionAfter: true,
+        },
+        {
+            targetId: null,
+            icon: '🏆',
+            title: 'Tudo pronto!',
+            text: 'Você chegou ao fim do tour. Agora explore à vontade: leia os projetos, converse com a IA, jogue os games. Este portfólio inteiro foi construído com <strong>HTML, CSS e JS puro</strong> — sem frameworks!',
+            cardPos: { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' },
+            arrow: 'none',
+            action: () => { closeGames(); },
+            isLast: true,
+        },
+    ];
+
+    function startTutorial() {
+        document.getElementById('tut-welcome').classList.add('hidden');
+        tutorialActive = true;
+        currentStep = 0;
+        renderStep();
+    }
+
+    function skipTutorial() {
+        document.getElementById('tut-welcome').classList.add('hidden');
+        endTutorial();
+    }
+
+    function endTutorial() {
+        tutorialActive = false;
+        document.getElementById('tut-curtain').classList.add('hidden');
+        document.getElementById('tut-card').classList.add('hidden');
+        document.getElementById('tut-pointer').classList.add('hidden');
+        document.getElementById('tut-finish').classList.add('hidden');
+        removeSpotlight();
+        closeProjects();
+        closeGames();
+    }
+
+    function removeSpotlight() {
+        if (prevSpotlightEl) {
+            prevSpotlightEl.classList.remove('tut-spotlight', 'tut-spotlight-nav');
+            prevSpotlightEl.style.zIndex = '';
+            prevSpotlightEl = null;
+        }
+    }
+
+    function applySpotlight(el) {
+        removeSpotlight();
+        if (!el) return;
+        el.classList.add('tut-spotlight');
+        prevSpotlightEl = el;
+    }
+
+    function positionCard(step) {
+        const card = document.getElementById('tut-card');
+        // Reset
+        card.style.top = card.style.left = card.style.right = card.style.bottom = card.style.transform = '';
+        card.className = card.className.replace(/arrow-\w+/g, '').trim();
+
+        Object.entries(step.cardPos).forEach(([k, v]) => card.style[k] = v);
+        card.classList.add('arrow-' + (step.arrow || 'none'));
+    }
+
+    function buildProgress() {
+        const container = document.getElementById('tut-progress');
+        container.innerHTML = '';
+        STEPS.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = 'tut-dot' + (i === currentStep ? ' active' : (i < currentStep ? ' done' : ''));
+            container.appendChild(dot);
+        });
+    }
+
+    function renderStep() {
+        const step = STEPS[currentStep];
+        const card = document.getElementById('tut-card');
+        const curtain = document.getElementById('tut-curtain');
+
+        // Run any action associated with entering this step
+        if (step.action && !step.actionAfter) step.action();
+
+        // Spotlight
+        const targetEl = step.targetId ? document.getElementById(step.targetId) : null;
+        applySpotlight(targetEl);
+
+        // Show/hide curtain
+        if (targetEl || step.targetId === null) {
+            curtain.classList.remove('hidden');
+        } else {
+            curtain.classList.add('hidden');
+        }
+
+        // Card content
+        document.getElementById('tut-step-label').textContent = `PASSO ${currentStep + 1} DE ${STEPS.length}`;
+        document.getElementById('tut-card-icon').textContent = step.icon;
+        document.getElementById('tut-title').textContent = step.title;
+        document.getElementById('tut-text').innerHTML = step.text;
+
+        positionCard(step);
+        buildProgress();
+
+        // Prev button
+        const prevBtn = document.getElementById('tut-prev');
+        prevBtn.style.visibility = currentStep === 0 ? 'hidden' : 'visible';
+
+        // Next button label
+        const nextBtn = document.getElementById('tut-next');
+        nextBtn.textContent = step.isLast ? 'Finalizar ✓' : 'Próximo →';
+
+        card.classList.remove('hidden');
+
+        // Run action AFTER rendering (for transitions that need time)
+        if (step.action && step.actionAfter) {
+            setTimeout(() => step.action(), 200);
+        }
+    }
+
+    function nextStep() {
+        const step = STEPS[currentStep];
+        if (step.isLast) {
+            showFinish();
+            return;
+        }
+        removeSpotlight();
+        currentStep++;
+        renderStep();
+    }
+
+    function prevStep() {
+        if (currentStep === 0) return;
+        // Undo navigation side effects roughly
+        const prevStepData = STEPS[currentStep];
+        if (prevStepData.action && prevStepData.actionAfter) {
+            closeProjects(); closeGames();
+        }
+        removeSpotlight();
+        currentStep--;
+        renderStep();
+    }
+
+    function advanceTutorial() {
+        // clicking curtain advances
+        if (tutorialActive) nextStep();
+    }
+
+    function showFinish() {
+        document.getElementById('tut-curtain').classList.add('hidden');
+        document.getElementById('tut-card').classList.add('hidden');
+        document.getElementById('tut-pointer').classList.add('hidden');
+        removeSpotlight();
+        closeProjects(); closeGames();
+        setTimeout(() => document.getElementById('tut-finish').classList.remove('hidden'), 400);
+    }
+    </script>
+</body>
 </html>
