@@ -431,18 +431,6 @@
         .card-content::-webkit-scrollbar { width: 4px; }
         .card-content::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
 
-        .arrow {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 3rem;
-            cursor: pointer;
-            opacity: 0.3;
-            transition: 0.3s;
-            user-select: none;
-        }
-        .arrow:hover { opacity: 1; color: var(--accent); transform: scale(1.1); }
-
         @media (max-width: 768px) {
             .project-viewport, .project-slide { min-width: 90vw; width: 90vw; }
             .chat-ai { width: calc(100% - 40px); right: 20px; bottom: 20px; }
@@ -640,7 +628,7 @@
     </div>
 </div>
  <!-- SLIDE 4 -->
-                    <div class="project-slide">
+<div class="project-slide">
     <div class="project-card-center">
         <h3>PROJETO PORTFÓLIO & UX</h3>
         <div class="card-content">
@@ -669,7 +657,6 @@
                     </ul>
                 </div>
             </div>
-
             <div class="result-bar">
                 <strong><i class="fa-solid fa-wand-magic-sparkles"></i> DIFERENCIAL:</strong>
                 Um portfólio que não apenas lista projetos, mas é uma prova viva de capacidade técnica em automação e front-end.
@@ -677,7 +664,12 @@
         </div>
     </div>
 </div>
-                    
+
+                </div> <!-- fecha project-track -->
+            </div>     <!-- fecha project-viewport -->
+
+            <button class="arrow" onclick="moveSlide(1)">&#10095;</button>
+        </div>         <!-- fecha slider-container -->
     </section>
 
     <!-- OVERLAY DE ZOOM GLOBAL (fora de qualquer container com backdrop-filter) -->
