@@ -340,174 +340,88 @@
             </div>
         </section>       
     
-        <!-- OVERLAY DE ZOOM GLOBAL (fora de qualquer container com backdrop-filter) -->
-        <div id="zoomOverlay" onclick="closeZoom()" style="
-        display: none;
-        position: fixed;
-        inset: 0;
-        z-index: 99999;
-        background: rgba(0,0,0,0.95);
-        align-items: center;
-        justify-content: center;
-        cursor: zoom-out;
-    ">
-        <img id="zoomImg" src="" style="
-            max-width: 95vw;
-            max-height: 90vh;
-            object-fit: contain;
-            border-radius: 10px;
-            box-shadow: 0 0 60px rgba(0, 209, 255, 0.25);
-        ">
-    </div>
-
-    <script>
-    // Seleção de Elementos Principais
-    const roboLayer = document.getElementById('roboLayer');
-    const viking = document.getElementById('viking');
-    const projectsScreen = document.getElementById('projectsScreen');
-    const gamesScreen = document.getElementById('gamesScreen');
-    const chatAi = document.getElementById('chatAi');
-    const projectTrack = document.getElementById('projectTrack');
-    const userInput = document.getElementById('userInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const chatMessages = document.getElementById('chatMessages');
-
-    // Seleção de Botões
-    const btnProjetosTopo = document.getElementById('btn-projetos');
-    const btnProjetosSide = document.getElementById('btn-projetos-side');
-    const btnGameTopo = document.querySelector('nav ul li a[href*="Drakkar-game"]');
-    const btnGameSide = document.querySelector('.icon-wrapper[data-tooltip="MINI GAME"]');
-
-    // --- EVENT LISTENERS DE NAVEGAÇÃO ---
-
-    if (btnGameTopo) btnGameTopo.addEventListener('click', (e) => { e.preventDefault(); openGames(); });
-    
-    if (btnGameSide) {
-        btnGameSide.parentElement.addEventListener('click', (e) => {
-            e.preventDefault();
-            openGames();
-        });
-    }
-
-    if (btnProjetosTopo) btnProjetosTopo.addEventListener('click', (e) => { e.preventDefault(); openProjects(); });
-    if (btnProjetosSide) btnProjetosSide.addEventListener('click', (e) => { e.preventDefault(); openProjects(); });
-
-    // --- FUNÇÕES DE TRANSIÇÃO (PORTAL) ---
-
-    function openGames() {
-        roboLayer.classList.add('portal-active');
-        chatAi.style.opacity = '0';
-        chatAi.style.pointerEvents = 'none';
-        setTimeout(() => { gamesScreen.classList.add('active'); }, 600);
-    }
-
-    function closeGames() {
-        gamesScreen.classList.remove('active');
-        setTimeout(() => {
-            roboLayer.classList.remove('portal-active');
-            chatAi.style.opacity = '1';
-            chatAi.style.pointerEvents = 'auto';
-        }, 500);
-    }
-
-    function openProjects() {
-        roboLayer.classList.add('portal-active');
-        chatAi.style.opacity = '0';
-        chatAi.style.pointerEvents = 'none';
-        setTimeout(() => { projectsScreen.classList.add('active'); }, 600);
-    }
-
-    function closeProjects() {
-        projectsScreen.classList.remove('active');
-        setTimeout(() => {
-            roboLayer.classList.remove('portal-active');
-            chatAi.style.opacity = '1';
-            chatAi.style.pointerEvents = 'auto';
-        }, 500);
-    }
-
-    // --- ZOOM DE IMAGENS ---
-
-    function toggleZoom(element) {
-        const img = element.querySelector('img');
-        const overlay = document.getElementById('zoomOverlay');
-        const zoomImg = document.getElementById('zoomImg');
-        if (img && overlay && zoomImg) {
-            zoomImg.src = img.src;
-            overlay.style.display = 'flex';
-        }
-    }
-
-    function closeZoom() {
-        const overlay = document.getElementById('zoomOverlay');
-        if (overlay) overlay.style.display = 'none';
-    }
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            closeZoom();
-            closeProjects();
-            closeGames();
-        }
-    });
-
-    // --- CARROSSEL DE PROJETOS ---
-
-    let currentSlide = 0;
-    function moveSlide(direction) {
-        const slides = document.querySelectorAll('.project-slide');
-        if (slides.length === 0) return;
+        <!-- OVERLAY DE ZOOM GLOBAL (fora de qualquer container com backdrop-filter) -->         
+        <div id="zoomOverlay" onclick="closeZoom()" style="display: none;position: fixed;inset: 0;z-index: 99999;background: rgba(0,0,0,0.95);align-items: center;justify-content: center;cursor: zoom-out;">
+            <img id="zoomImg" src="" style="max-width: 95vw; max-height: 90vh;object-fit: contain;border-radius: 10px;box-shadow: 0 0 60px rgba(0, 209, 255, 0.25);">
+        </div>
         
-        currentSlide = (currentSlide + direction + slides.length) % slides.length;
-        const slideWidth = slides[0].getBoundingClientRect().width;
-        projectTrack.style.transform = `translateX(${-currentSlide * slideWidth}px)`;
-    }
+        <script>
+            
+            // Seleção de Elementos Principais
+            const roboLayer = document.getElementById('roboLayer');    
+            const viking = document.getElementById('viking');    
+            const projectsScreen = document.getElementById('projectsScreen');    
+            const gamesScreen = document.getElementById('gamesScreen');    
+            const chatAi = document.getElementById('chatAi');    
+            const projectTrack = document.getElementById('projectTrack');    
+            const userInput = document.getElementById('userInput');    
+            const sendBtn = document.getElementById('sendBtn');    
+            const chatMessages = document.getElementById('chatMessages');
+    
+            // Seleção de Botões   
+            const btnProjetosTopo = document.getElementById('btn-projetos');   
+            const btnProjetosSide = document.getElementById('btn-projetos-side');  
+            const btnGameTopo = document.querySelector('nav ul li a[href*="Drakkar-game"]'); 
+            const btnGameSide = document.querySelector('.icon-wrapper[data-tooltip="MINI GAME"]');
 
-    // --- PARALLAX & EFEITO MÁSCARA ---
+            // --- EVENT LISTENERS DE NAVEGAÇÃO ---
+            if (btnGameTopo) btnGameTopo.addEventListener('click', (e) => { e.preventDefault(); openGames(); }); 
+            if (btnGameSide) {btnGameSide.parentElement.addEventListener('click',(e) => {e.preventDefault();openGames();});}
+            if (btnProjetosTopo) btnProjetosTopo.addEventListener('click', (e) => { e.preventDefault(); openProjects(); });   
+            if (btnProjetosSide) btnProjetosSide.addEventListener('click', (e) => { e.preventDefault(); openProjects(); });
+   
+            // --- FUNÇÕES DE TRANSIÇÃO (PORTAL) ---
+  
+            function openGames() {roboLayer.classList.add('portal-active'); chatAi.style.opacity = '0';chatAi.style.pointerEvents = 'none';setTimeout(() => { gamesScreen.classList.add('active'); }, 600); }
+            function closeGames() { gamesScreen.classList.remove('active'); setTimeout(() => { roboLayer.classList.remove('portal-active'); chatAi.style.opacity = '1';chatAi.style.pointerEvents = 'auto'; }, 500);}
+            function openProjects() {roboLayer.classList.add('portal-active');chatAi.style.opacity = '0'; chatAi.style.pointerEvents = 'none';setTimeout(() => { projectsScreen.classList.add('active'); }, 600); }
+            function closeProjects() { projectsScreen.classList.remove('active'); setTimeout(() => { roboLayer.classList.remove('portal-active'); chatAi.style.opacity = '1';  chatAi.style.pointerEvents = 'auto';}, 500); }
 
-    window.addEventListener('mousemove', (e) => {
-        const x = e.clientX;
-        const y = e.clientY;
+            // --- ZOOM DE IMAGENS ---
+            function toggleZoom(element) {   
+                const img = element.querySelector('img');
+                const overlay = document.getElementById('zoomOverlay');
+                const zoomImg = document.getElementById('zoomImg');
+                if (img && overlay && zoomImg) {
+                    zoomImg.src = img.src;             
+                    overlay.style.display = 'flex'; }}
 
-        if (!roboLayer.classList.contains('portal-active')) {
-            const mask = `radial-gradient(circle 220px at ${x}px ${y}px, black 0%, transparent 100%)`;
-            roboLayer.style.webkitMaskImage = mask;
-            roboLayer.style.maskImage = mask;
-        }
+            function closeZoom() {
+                const overlay = document.getElementById('zoomOverlay');
+                if (overlay) overlay.style.display = 'none'; } document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {closeZoom(); closeProjects(); closeGames();}});
 
-        // Suaviza o movimento do Viking
-        const moveX = (x - window.innerWidth / 2) / 60;
-        const moveY = (y - window.innerHeight / 2) / 60;
-        viking.style.transform = `translate(${moveX}px, ${moveY}px)`;
-    });
+    
+            // --- CARROSSEL DE PROJETOS ---
+            let currentSlide = 0;
+            function moveSlide(direction) {
+                const slides = document.querySelectorAll('.project-slide');
+                if (slides.length === 0) return; currentSlide = (currentSlide + direction + slides.length) % slides.length;
+                const slideWidth = slides[0].getBoundingClientRect().width; projectTrack.style.transform = `translateX(${-currentSlide * slideWidth}px)`;}
+            
+            // --- PARALLAX & EFEITO MÁSCARA ---
+            window.addEventListener('mousemove', (e) => {     
+                const x = e.clientX;    
+                const y = e.clientY;   
+                if (!roboLayer.classList.contains('portal-active')) {
+                    const mask = `radial-gradient(circle 220px at ${x}px ${y}px, black 0%, transparent 100%)`; roboLayer.style.webkitMaskImage = mask; roboLayer.style.maskImage = mask; }
+        
+                // Suaviza o movimento do Viking
+                const moveX = (x - window.innerWidth / 2) / 60;
+                const moveY = (y - window.innerHeight / 2) / 60; viking.style.transform = `translate(${moveX}px, ${moveY}px)`; });
+           
+            // --- LÓGICA DO CHAT AI --- 
+            async function sendMessage() {
+                const msg = userInput.value.trim();
+                if (!msg) return; chatMessages.innerHTML += `<div class="msg user">${msg}</div>`; userInput.value = ''; chatMessages.scrollTop = chatMessages.scrollHeight;
 
-    // --- LÓGICA DO CHAT AI ---
+                try { 
+                    const response = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: msg })});
+                    const data = await response.json(); chatMessages.innerHTML += `<div class="msg bot">${data.response}</div>`;
+                } catch (e) { chatMessages.innerHTML += `<div class="msg bot" style="color: #ff4b4b;">O sinal falhou, mas Matheus foi notificado!</div>`;} chatMessages.scrollTop = chatMessages.scrollHeight; }         
+            if (sendBtn) sendBtn.addEventListener('click', sendMessage);          
+            if (userInput) userInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
 
-    async function sendMessage() {
-        const msg = userInput.value.trim();
-        if (!msg) return;
-
-        chatMessages.innerHTML += `<div class="msg user">${msg}</div>`;
-        userInput.value = '';
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-
-        try {
-            const response = await fetch('/api/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: msg })
-            });
-            const data = await response.json();
-            chatMessages.innerHTML += `<div class="msg bot">${data.response}</div>`;
-        } catch (e) {
-            chatMessages.innerHTML += `<div class="msg bot" style="color: #ff4b4b;">O sinal falhou, mas Matheus foi notificado!</div>`;
-        }
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    if (sendBtn) sendBtn.addEventListener('click', sendMessage);
-    if (userInput) userInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
-
-</script>
-</body>
+        </script>
+    </body>
 </html>
